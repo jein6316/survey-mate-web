@@ -10,6 +10,7 @@ export const authConfig = {
   ],
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
+      debugger;
       let isLoggedIn = !!auth?.user;
       let isOnDashboard = nextUrl.pathname.startsWith('/protected');
 

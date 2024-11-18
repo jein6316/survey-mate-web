@@ -1,4 +1,4 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
+/*import { drizzle } from 'drizzle-orm/postgres-js';
 import { pgTable, serial, varchar } from 'drizzle-orm/pg-core';
 import { eq } from 'drizzle-orm';
 import postgres from 'postgres';
@@ -48,3 +48,4 @@ async function ensureTableExists() {
 
   return table;
 }
+*/
