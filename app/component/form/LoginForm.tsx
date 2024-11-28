@@ -1,9 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { loginSubmit } from 'app/api/auth/auth';
+import { urlConstants } from '@/app/utils/urlConstants';
+import { LoginFormData } from '@/app/types/apiTypes';
+
+
 export function LoginForm({
   action,
   children,
@@ -12,17 +16,18 @@ export function LoginForm({
   children: React.ReactNode;
 }) {
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<LoginFormData>({
     userId: '',
     password: ''
   });
 
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter(); // useRouter 훅 사용
- 
+
 
   // 폼 입력 값 변경 처리
-  const handleChange = (e : any) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -30,40 +35,25 @@ export function LoginForm({
     }));
   };
 
-  
-
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();  // 폼 제출 시 새로 고침을 막음
-    try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,  // 엔드포인트 URL
-        formData,  // FormData 객체를 전송
-        {
-            headers: {
-                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_LOGIN_TOKEN}`,  // Authorization 헤더에 Bearer 토큰 포함                
-                'Content-Type': 'multipart/form-data',  // 요청 헤더에 Content-Type 설정
-            }
-        }
-    );
-      // 로그인 성공 처리
-      const data = res.data;
-      console.log('로그인 성공:', data);
-      // 로그인 성공 후 추가 작업 (예: 토큰 저장, 페이지 이동 등)
-      localStorage.setItem('accessToken', data.accessToken);
-      localStorage.setItem('refreshToken', data.refreshToken);
+    setIsLoading(true);
+    setError(''); // 에러 초기화
+    const result = await loginSubmit({ e, formData });
+    setIsLoading(false);
 
-      router.push('/main');
-
-    } catch (error:any) {
-        if (error.response) {
-            // 서버에서 반환한 에러 응답
-            const errorData = error.response.data;
-            setError(errorData.error || '로그인 실패');
-        } else {
-            // 네트워크 오류나 기타 에러
-            setError('로그인 요청 실패');
-        }
+    if (result.success) {
+      router.push(urlConstants.pages.LOGIN);
+    } else {
+      if (result.error.response) {
+        // 서버에서 반환한 에러 응답
+        setError(result.error.response.error || '로그인 실패');
+      } else {
+        // 네트워크 오류나 기타 에러
+        setError('로그인 요청 실패');
+      }
+      //TODO 팝업
     }
+
   };
 
   return (

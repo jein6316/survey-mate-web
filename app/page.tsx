@@ -1,14 +1,13 @@
 'use client';
 import Link from 'next/link';
-import { LoginForm } from '@/app/component/form/LoginForm';
-import { redirect } from 'next/navigation';
+import { RegisterForm } from '@/app/component/form/RegisterForm';
+import { urlConstants } from '@/app/utils/urlConstants';
 //import { createUser, getUser } from 'app/db';
 import { SubmitButton } from '@/app/component/button/Submit-button';
 
 export default function Login() {
   
   async function register(formData: FormData) {
-    'use server';
     let email = formData.get('email') as string;
     let password = formData.get('password') as string;
     //let user = await getUser(email);
@@ -30,16 +29,16 @@ export default function Login() {
             Create an account with your email and password
           </p>
         </div>
-        <LoginForm action={register}>
+        <RegisterForm >
           <SubmitButton>Sign Up</SubmitButton>
           <p className="text-center text-sm text-gray-600">
             {'Already have an account? '}
-            <Link href="/login" className="font-semibold text-gray-800">
+            <Link href={urlConstants.pages.LOGIN} className="font-semibold text-gray-800">
               Sign in
             </Link>
             {' instead.'}
           </p>
-        </LoginForm>
+        </RegisterForm>
       </div>
     </div>
   );

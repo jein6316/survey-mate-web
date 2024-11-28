@@ -1,20 +1,33 @@
-"use client"
 import Link from 'next/link';
 import { LoginForm } from '@/app/component/form/LoginForm';
+import { urlConstants } from '@/app/utils/urlConstants';
 import { signIn } from 'app/auth';
 import { SubmitButton } from '@/app/component/button/Submit-button';
-import { useState } from 'react';
-import loginHandler from 'app/api/auth/login';
 import axios from 'axios';
 
 export default function Login() { 
 
-  return (
+  
+
+ return (
     <div className="flex h-screen w-screen items-center justify-center bg-gray-50">
       <div className="z-10 w-full max-w-md overflow-hidden rounded-2xl border border-gray-100 shadow-xl">
         <div className="flex flex-col items-center justify-center space-y-3 border-b border-gray-200 bg-white px-4 py-6 pt-8 text-center sm:px-16">
-          <h3 className="text-xl font-semibold">메인화면</h3>         
+          <h3 className="text-xl font-semibold">Sign In</h3>
+          <p className="text-sm text-gray-500">
+            Use your email and password to sign in
+          </p>
         </div>
+        <LoginForm>
+          <SubmitButton>Sign in</SubmitButton>
+          <p className="text-center text-sm text-gray-600">
+            {"Don't have an account? "}
+            <Link href={urlConstants.pages.REGISTER} className="font-semibold text-gray-800">
+              Sign up
+            </Link>
+            {' for free.'}
+          </p>
+        </LoginForm>
       </div>
     </div>
   );
