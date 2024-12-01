@@ -4,7 +4,6 @@ import { LoginForm } from '@/app/component/form/LoginForm';
 import { signIn } from 'app/auth';
 import { SubmitButton } from '@/app/component/button/Submit-button';
 import { useState } from 'react';
-import axios from 'axios';
 
 export default function Login() { 
 
