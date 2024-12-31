@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { RegisterForm } from '@/app/component/form/RegisterForm';
-import { urlConstants } from '@/app/utils/urlConstants';
 import { redirect } from 'next/navigation';
 import { SubmitButton } from '@/app/component/button/Submit-button';
 

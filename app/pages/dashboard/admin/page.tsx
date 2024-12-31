@@ -1,4 +1,4 @@
-export default function user() { 
+export default function Admin() { 
 
     return (
       <div className="flex h-screen w-screen items-center justify-center bg-gray-50">
