@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { LoginForm } from '@/app/component/form/LoginForm';
-import { urlConstants } from '@/app/utils/urlConstants';
 import { signIn } from 'app/auth';
 import { SubmitButton } from '@/app/component/button/Submit-button';
 import axios from 'axios';

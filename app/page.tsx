@@ -4,7 +4,6 @@ import { LoginForm } from '@/app/component/form/LoginForm';
 import { SubmitButton } from '@/app/component/button/Submit-button';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
-import { urlConstants } from '@/app/utils/urlConstants';
 
 export default function App() {
   
