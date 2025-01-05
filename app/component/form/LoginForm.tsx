@@ -50,6 +50,10 @@ export function LoginForm({
           alert("로그인 실패하였습니다.");
           return;
         }
+        /*expirationDate.setSeconds(expirationDate.getSeconds() + 10);
+        refreshExpirationDate.setSeconds(
+          refreshExpirationDate.getSeconds() + 20
+        );*/
 
         // JWT를 쿠키에 저장
         Cookies.set("accessToken", accessToken, {
@@ -67,7 +71,7 @@ export function LoginForm({
 
         // 로그인 성공 후 리다이렉트 (예: 대시보드 페이지로 이동)
         const userId = "user01";
-        router.push(urlConstants.pages.USERDASHBOARD(userId)); // 로그인 후 대시보드 페이지로 이동
+        router.push(urlConstants.pages.USERDASHBOARD); // 로그인 후 대시보드 페이지로 이동
       },
       onError: (error: Error) => {
         // 로그인 실패 시 처리할 로직
@@ -82,6 +86,11 @@ export function LoginForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     mutate(formData); // useLogin 훅을 통해 로그인 요청
+  };
+  // Google OAuth 로그인 처리
+  const handleGoogleLogin = () => {
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=24831698320-vvlj7h93mdlen8ot8tbv6t5m931eh34e.apps.googleusercontent.com&redirect_uri=http://localhost:3000/google-callback&response_type=token&scope=email profile`;
+    window.location.href = googleAuthUrl; // Google 인증 페이지로 리디렉션
   };
 
   return (
@@ -114,7 +123,7 @@ export function LoginForm({
           htmlFor="password"
           className="block text-xs text-gray-600 uppercase"
         >
-          Password
+          비밀번호
         </label>
         <input
           id="password"
@@ -127,6 +136,13 @@ export function LoginForm({
         />
       </div>
       {children}
+      <button
+        type="button"
+        onClick={handleGoogleLogin}
+        className="w-full bg-blue-500 text-white py-2 rounded-md"
+      >
+        Login with Google
+      </button>
     </form>
   );
 }

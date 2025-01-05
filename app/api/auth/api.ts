@@ -1,5 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 /**************************
 토큰 검증
 ***************************/
@@ -15,8 +16,8 @@ let refreshSubscribers: ((newToken: any) => void)[] = []; // 실패한 요청을
 // 모든 요청에 Authorization 헤더 추가
 api.interceptors.request.use(
   (config) => {
-    debugger;
     const accessToken = Cookies.get("accessToken"); // 쿠키에서 토큰 읽기
+    console.log(">>>>>>>accessToken :", accessToken);
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -29,35 +30,55 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response, // 성공 응답은 그대로 반환
   async (error) => {
-    debugger;
     const originalRequest = error.config;
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    console.log(">>>>>>>error.response?.status :", error.response?.status);
+    if (error.response?.status === 403 && !originalRequest._retry) {
       originalRequest._retry = true; // 중복 요청 방지 플래그
-
+      console.log(">>>>>>>isRefreshing :", isRefreshing);
       if (!isRefreshing) {
         isRefreshing = true;
 
         try {
           // 리프레시 토큰으로 새 액세스 토큰 발급 요청
-          const { data } = await axios.get(
+          const { data } = await axios.post(
             `${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh`,
             {
               withCredentials: true, // 쿠키 자동 전송
             }
           );
+          const accessToken = data.data.accessToken;
+          const refreshToken = data.data.refreshToken;
+          const decodedAccess = jwtDecode(accessToken);
+          const decodedRefresh = jwtDecode(refreshToken);
+          let expirationDate = new Date();
+          let refreshExpirationDate = new Date();
+
+          if (decodedAccess.exp && decodedRefresh.exp) {
+            expirationDate = new Date(decodedAccess.exp * 1000);
+            refreshExpirationDate = new Date(decodedRefresh.exp * 1000);
+            console.log("토큰 만료 시간:", expirationDate);
+          } else {
+            console.error("토큰에 만료 시간(exp)이 포함되지 않았습니다.");
+            alert("로그인 실패하였습니다.");
+            return;
+          }
+          /*expirationDate.setSeconds(expirationDate.getSeconds() + 10);
+          refreshExpirationDate.setSeconds(
+            refreshExpirationDate.getSeconds() + 20
+          );*/
 
           const newAccessToken = data.accessToken;
           Cookies.set("accessToken", data.accessToken, {
             httpOnly: false, // 클라이언트에서 접근 가능 (httpOnly는 서버에서만 설정 가능)
             secure: true, // HTTPS 환경에서만 전송
             sameSite: "Strict", // CSRF 방어
-            expires: 1, // 1일 동안 유효
+            expires: expirationDate, // 유효시간
           });
           Cookies.set("refreshToken", data.refreshToken, {
             httpOnly: false, // 클라이언트에서 접근 가능 (httpOnly는 서버에서만 설정 가능)
             secure: true, // HTTPS 환경에서만 전송
             sameSite: "Strict", // CSRF 방어
-            expires: 1, // 1일 동안 유효
+            expires: refreshExpirationDate, // 유효 시간
           });
 
           // 대기 중인 요청에 새로운 토큰 적용
@@ -66,13 +87,14 @@ api.interceptors.response.use(
           isRefreshing = false;
 
           // 실패한 요청 재시도
+          console.log("!!!!실패한 요청 재시도");
           return api(originalRequest);
         } catch (refreshError) {
           // 리프레시 토큰도 만료되었을 경우 처리 (예: 로그아웃)
           console.error("Refresh token expired:", refreshError);
           Cookies.remove("accessToken");
           Cookies.remove("refreshToken");
-          window.location.href = "/login"; // 로그인 페이지로 리다이렉트
+          window.location.href = "/"; // 로그인 페이지로 리다이렉트
           return Promise.reject(refreshError);
         }
       }

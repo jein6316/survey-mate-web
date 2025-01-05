@@ -3,8 +3,11 @@ type UrlConstantsType = {
     HOME: string;
     LOGIN: string;
     REGISTER: string;
-    USERDASHBOARD: (userId: string) => string;
+    USERDASHBOARD: string;
     MODIFYUSER: string;
+    FINDIDBYEMAIL: string;
+    CHANGEPASSWORD: string;
+    RESETPASSWORD: string;
   };
 };
 
@@ -13,8 +16,11 @@ export const urlConstants: UrlConstantsType = {
     HOME: "/",
     LOGIN: "/pages/auth/login",
     REGISTER: "/pages/auth/register",
-    USERDASHBOARD: (userId: string) => `/pages/dashboard/user`,
+    USERDASHBOARD: "/pages/dashboard/user",
     MODIFYUSER: "/pages/dashboard/user/modify",
+    FINDIDBYEMAIL: "/pages/main/findIdByEmail",
+    RESETPASSWORD: "/pages/main/resetPassword",
+    CHANGEPASSWORD: "/pages/dashboard/user/changePassword",
   },
 };
 

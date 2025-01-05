@@ -15,7 +15,7 @@ export const {
   providers: [
     Credentials({
       async authorize({ email, password }: any) {
-        debugger;
+      ;
         /*let user = await getUser(email);
         if (user.length === 0) return null;
         let passwordsMatch = await compare(password, user[0].password!);
@@ -26,10 +26,9 @@ export const {
         const response : any = await axios.post('https://localhost:8080/api/auth/login', {
           email,
           password
-        });
-        debugger;
+        }
         const data : any = response.data;
-        debugger;
+
         if (data) {
           // 유저 정보와 토큰을 NextAuth.js 세션에 저장합니다.
           return {
@@ -39,7 +38,7 @@ export const {
           };
         } else {
           // 로그인 실패 시 null을 반환합니다.4
-          debugger;
+ 
           return null;
         }
       },
