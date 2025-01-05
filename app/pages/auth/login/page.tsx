@@ -1,28 +1,62 @@
-import Link from 'next/link';
-import { LoginForm } from '@/app/component/form/LoginForm';
-import { signIn } from 'app/auth';
-import { SubmitButton } from '@/app/component/button/Submit-button';
-import axios from 'axios';
+import Link from "next/link";
+import { LoginForm } from "@/app/component/form/LoginForm";
+import { signIn } from "app/auth";
+import { SubmitButton } from "@/app/component/button/Submit-button";
+import axios from "axios";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
-export default function Login() { 
+export default function Login() {
+  const handleGoogleLogin = async () => {
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=24831698320-vvlj7h93mdlen8ot8tbv6t5m931eh34e.apps.googleusercontent.com&redirect_uri=http://localhost:3000/google-callback&response_type=token&scope=email profile`;
+    window.location.href = googleAuthUrl;
+  };
+  const router = useRouter();
 
- return (
+  useEffect(() => {
+    const handleGoogleCallback = async () => {
+      const hash = window.location.hash;
+      const token = new URLSearchParams(hash.substring(1)).get("id_token");
+
+      if (token) {
+        try {
+          const response = await axios.post(
+            "http://localhost:8080/auth/oauth/google",
+            { token }
+          );
+          console.log("Token:", response.data.token);
+          alert("Google login successful!");
+        } catch (error: any) {
+          console.error("Google login failed:", error.response.data);
+        }
+      } else {
+        console.error("No token found in the callback URL.");
+      }
+    };
+
+    handleGoogleCallback();
+  }, []);
+
+  return (
     <div className="flex h-screen w-screen items-center justify-center bg-gray-50">
       <div className="z-10 w-full max-w-md overflow-hidden rounded-2xl border border-gray-100 shadow-xl">
         <div className="flex flex-col items-center justify-center space-y-3 border-b border-gray-200 bg-white px-4 py-6 pt-8 text-center sm:px-16">
           <h3 className="text-xl font-semibold">Sign In</h3>
           <p className="text-sm text-gray-500">
-            Use your email and password to sign in
+            Use your email and password to sign in!!!
           </p>
         </div>
         <LoginForm>
           <SubmitButton>Sign in</SubmitButton>
           <p className="text-center text-sm text-gray-600">
             {"Don't have an account? "}
-            <Link href={urlConstants.pages.REGISTER} className="font-semibold text-gray-800">
+            <Link
+              href={urlConstants.pages.REGISTER}
+              className="font-semibold text-gray-800"
+            >
               Sign up
             </Link>
-            {' for free.'}
+            {" for free."}
           </p>
         </LoginForm>
       </div>

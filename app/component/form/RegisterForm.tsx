@@ -86,7 +86,6 @@ export function RegisterForm({
       );
     },
     onError: (error: Error) => {
-      debugger;
       console.error("아이디 중복 체크 실패:", error.message);
       alert("아이디 중복 체크 중 문제가 발생했습니다.");
     },
@@ -139,7 +138,6 @@ export function RegisterForm({
     mutationFn: checkUserEmailAPI, // mutationFn 속성에 checkDuplicateId 함수를 할당
     onSuccess: (data: APIResponse) => {
       alert("이메일로 인증번호가 전송되었습니다.");
-      debugger;
       setResVerCode(data.data);
     },
     onError: (error: Error) => {
@@ -200,17 +198,19 @@ export function RegisterForm({
   };
   return (
     <form
-      action={action}
-      autoComplete="off"
       onSubmit={handleSubmit}
-      className="flex flex-col space-y-4 bg-gray-50 px-4 py-8 sm:px-16"
+      autoComplete="off"
+      className="flex flex-col space-y-4 bg-white shadow-md rounded-md p-8 max-w-lg mx-auto"
     >
+      <h2 className="text-lg font-bold text-gray-700">회원가입</h2>
+
+      {/* User ID */}
       <div>
         <label
           htmlFor="userId"
-          className="block text-xs text-gray-600 uppercase"
+          className="block text-xs text-gray-600 uppercase mb-1"
         >
-          userId
+          User ID
         </label>
         <input
           id="userId"
@@ -219,64 +219,78 @@ export function RegisterForm({
           placeholder="userId"
           onChange={handleChange}
           value={formData.userId}
-          autoComplete="off"
           required
-          className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+          className="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 sm:text-sm"
         />
+        <button
+          type="button"
+          onClick={handleDuplicateId}
+          className="mt-2 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+        >
+          아이디 체크 버튼
+        </button>
+        {errorId && <p className="mt-1 text-sm text-red-600">{errorId}</p>}
       </div>
-      <button type="button" onClick={handleDuplicateId}>
-        아이디 체크 버튼
-      </button>
-      {errorId && <p className="mt-1 text-sm text-red-600">{errorId}</p>}{" "}
-      {/* 아이디 에러 */}
+
+      {/* Email */}
       <div>
         <label
-          htmlFor="userId"
-          className="block text-xs text-gray-600 uppercase"
+          htmlFor="userEmail"
+          className="block text-xs text-gray-600 uppercase mb-1"
         >
           이메일
         </label>
         <input
           id="userEmail"
           name="userEmail"
-          type="text"
+          type="email"
           placeholder="userEmail"
           onChange={handleChange}
           value={formData.userEmail}
-          autoComplete="off"
           required
-          className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+          className="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 sm:text-sm"
         />
+        <button
+          type="button"
+          onClick={handleCheckEmail}
+          className="mt-2 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+        >
+          이메일 체크 버튼
+        </button>
       </div>
-      <button type="button" onClick={handleCheckEmail}>
-        이메일 체크 버튼
-      </button>
+
+      {/* Verification Code */}
       <div>
         <label
-          htmlFor="userId"
-          className="block text-xs text-gray-600 uppercase"
+          htmlFor="verCode"
+          className="block text-xs text-gray-600 uppercase mb-1"
         >
-          이메일인증확인
+          이메일 인증 확인
         </label>
         <input
           id="verCode"
           name="verCode"
           type="text"
-          placeholder="verCode"
+          placeholder="인증 코드"
           onChange={handleChangeVerCode}
           value={verCode}
-          autoComplete="off"
           required
-          className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+          className="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 sm:text-sm"
         />
+        <button
+          type="button"
+          onClick={checkVerCode}
+          className="mt-2 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600"
+        >
+          이메일 인증확인 버튼
+        </button>
       </div>
-      <button type="button" onClick={checkVerCode}>
-        이메일 인증확인 버튼
-      </button>
+
+      {/* Password */}
       <div>
         <label
           htmlFor="password"
-          className="block text-xs text-gray-600 uppercase"
+          className="block text-xs text-gray-600 uppercase mb-1"
         >
           Password
         </label>
@@ -284,17 +298,19 @@ export function RegisterForm({
           id="password"
           name="password"
           type="password"
+          placeholder="비밀번호"
           onChange={handleChange}
           value={formData.password}
           required
-          autoComplete="new-password"
-          className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+          className="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 sm:text-sm"
         />
       </div>
+
+      {/* Password Check */}
       <div>
         <label
           htmlFor="passwordCheck"
-          className="block text-xs text-gray-600 uppercase"
+          className="block text-xs text-gray-600 uppercase mb-1"
         >
           Password Check
         </label>
@@ -302,22 +318,24 @@ export function RegisterForm({
           id="passwordCheck"
           name="passwordCheck"
           type="password"
+          placeholder="비밀번호 확인"
           onChange={handleChange}
           value={formData.passwordCheck}
           required
-          autoComplete="off"
-          className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+          className="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 sm:text-sm"
         />
         {errorPasswordCheck && (
           <p className="mt-1 text-sm text-red-600">{errorPasswordCheck}</p>
         )}
       </div>
+
+      {/* User Name */}
       <div>
         <label
           htmlFor="userName"
-          className="block text-xs text-gray-600 uppercase"
+          className="block text-xs text-gray-600 uppercase mb-1"
         >
-          userName
+          User Name
         </label>
         <input
           id="userName"
@@ -326,15 +344,16 @@ export function RegisterForm({
           placeholder="userName"
           onChange={handleChange}
           value={formData.userName}
-          autoComplete="off"
           required
-          className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
+          className="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 sm:text-sm"
         />
       </div>
+
+      {/* Profile Image */}
       <div>
         <label
           htmlFor="profileImage"
-          className="block text-xs text-gray-600 uppercase"
+          className="block text-xs text-gray-600 uppercase mb-1"
         >
           Profile Image
         </label>
@@ -344,9 +363,11 @@ export function RegisterForm({
           type="file"
           accept="image/*"
           onChange={handleFileChange}
-          className="mt-1 block w-full text-gray-600"
+          className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
         />
       </div>
+
+      {/* Children */}
       {children}
     </form>
   );
