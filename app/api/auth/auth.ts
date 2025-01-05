@@ -67,3 +67,16 @@ export const checkUserEmailAPI = async (email: string) => {
   );
   return response.data; // 서버에서 성공 여부 반환 (boolean)
 };
+
+// 아이디 찾기
+export const findIdByEmailAPI = async (email: string) => {
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/auth/findIdByEmail`,
+    {
+      params: { email }, // GET 요청의 쿼리 파라미터로 전달
+    }
+  );
+  return response.data; // 서버에서 성공 여부 반환 (boolean)
+};
+
+//비밀번호 수정

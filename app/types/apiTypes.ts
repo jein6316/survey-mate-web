@@ -39,6 +39,10 @@ export interface verCodeResponseData {
   message: string;
 }
 
+export interface changePasswordResData {
+  oldPassword: String;
+  newPassword: String;
+}
 // API 공통 응답 형식
 export interface APIResponse {
   result?: boolean; // 성공 여부
