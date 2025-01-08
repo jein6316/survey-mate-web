@@ -1,11 +1,11 @@
-import NextAuth from 'next-auth';
-import Credentials from 'next-auth/providers/credentials';
-import { compare } from 'bcrypt-ts';
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import { compare } from "bcrypt-ts";
 //import { getUser } from 'app/db';
-import { authConfig } from 'app/auth.config';
-import axios from 'axios';
+import { authConfig } from "app/auth.config";
+import axios from "axios";
 
-export const {
+/*export const {
   handlers: { GET, POST },
   auth,
   signIn,
@@ -16,10 +16,6 @@ export const {
     Credentials({
       async authorize({ email, password }: any) {
       ;
-        /*let user = await getUser(email);
-        if (user.length === 0) return null;
-        let passwordsMatch = await compare(password, user[0].password!);
-        if (passwordsMatch) return user[0] as any;*/
 
 
         // 외부 서버와의 통신을 통해 유저 정보와 토큰을 가져옵니다.
@@ -45,3 +41,4 @@ export const {
     }),
   ],
 });
+*/
