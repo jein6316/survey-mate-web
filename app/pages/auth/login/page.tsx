@@ -1,19 +1,14 @@
 import Link from "next/link";
 import { LoginForm } from "@/app/component/form/LoginForm";
-import { signIn } from "app/auth";
 import { SubmitButton } from "@/app/component/button/Submit-button";
 import axios from "axios";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 export default function Login() {
-  const handleGoogleLogin = async () => {
-    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=24831698320-vvlj7h93mdlen8ot8tbv6t5m931eh34e.apps.googleusercontent.com&redirect_uri=http://localhost:3000/google-callback&response_type=token&scope=email profile`;
-    window.location.href = googleAuthUrl;
-  };
   const router = useRouter();
 
-  useEffect(() => {
+  /*useEffect(() => {
     const handleGoogleCallback = async () => {
       const hash = window.location.hash;
       const token = new URLSearchParams(hash.substring(1)).get("id_token");
@@ -35,7 +30,7 @@ export default function Login() {
     };
 
     handleGoogleCallback();
-  }, []);
+  }, []);*/
 
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-gray-50">
