@@ -14,6 +14,7 @@ export default function GoogleCallback() {
         try {
           const response = await axios.post(
             "http://localhost:8080/api/auth/oauth/google",
+            {}, // 요청 본문 데이터가 필요 없으면 빈 객체를 전달
             {
               headers: {
                 Authorization: token, // 헤더에 토큰 추가
