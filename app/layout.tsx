@@ -34,7 +34,11 @@ export default function RootLayout({
         <body className={GeistSans.variable}>
           {/* Sidebar */}
           {isLoggedIn && <Sidebar />}
-          <main className="flex-1 ml-64 bg-gray-50 p-8">{children}</main>
+          <main
+            className={`flex-1 bg-gray-50 p-8 ${isLoggedIn ? "ml-64" : ""}`}
+          >
+            {children}
+          </main>
         </body>
       </Providers>
     </html>
