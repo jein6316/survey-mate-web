@@ -61,6 +61,7 @@ api.interceptors.response.use(
           }
 
           const newAccessToken = data.accessToken;
+
           Cookies.set("accessToken", data.accessToken, {
             httpOnly: false, // 클라이언트에서 접근 가능 (httpOnly는 서버에서만 설정 가능)
             secure: true, // HTTPS 환경에서만 전송

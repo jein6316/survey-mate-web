@@ -20,7 +20,7 @@ const useMutationLogin = <TData = any, TVariables = any>(
         // 토큰 디코딩
         const decodedAccess = jwt.decode(accessToken) as JwtPayload | null;
         const decodedRefresh = jwt.decode(refreshToken) as JwtPayload | null;
-
+        debugger;
         if (
           !decodedAccess ||
           !decodedAccess.exp ||
@@ -36,6 +36,9 @@ const useMutationLogin = <TData = any, TVariables = any>(
         const expirationDate = new Date(decodedAccess.exp * 1000);
         const refreshExpirationDate = new Date(decodedRefresh.exp * 1000);
 
+        //권한
+        const user_role = decodedAccess.roles[0];
+
         // 쿠키에 저장
         Cookies.set("accessToken", accessToken, {
           secure: true,
@@ -46,6 +49,11 @@ const useMutationLogin = <TData = any, TVariables = any>(
           secure: true,
           sameSite: "Strict",
           expires: refreshExpirationDate,
+        });
+        Cookies.set("user_role", user_role, {
+          secure: true,
+          sameSite: "Strict",
+          expires: expirationDate,
         });
 
         // 성공적으로 처리 후 리다이렉트
