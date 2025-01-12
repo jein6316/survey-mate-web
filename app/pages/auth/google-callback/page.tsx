@@ -1,38 +1,34 @@
 "use client";
-import { useEffect } from "react";
+
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import useMutationLogin from "@/app/hooks/useMutationLogin"; // 커스텀 훅 가져오기
+import { loginGoogleAPI } from "@/app/api/auth/auth";
+import { APIResponse } from "@/app/types/apiTypes";
 
 export default function GoogleCallback() {
   const router = useRouter();
+  const isCalled = useRef(false); // Ref로 호출 여부 관리
+
+  // useMutationHandler 사용
+  const { mutate } = useMutationLogin<APIResponse, string>(loginGoogleAPI, {});
 
   useEffect(() => {
     const handleGoogleCallback = async () => {
       const hash = window.location.hash;
       const token = new URLSearchParams(hash.substring(1)).get("access_token");
-      if (token) {
-        try {
-          const response = await axios.post(
-            "http://localhost:8080/api/auth/oauth/google",
-            {}, // 요청 본문 데이터가 필요 없으면 빈 객체를 전달
-            {
-              headers: {
-                Authorization: `Bearer ${token}`, // 헤더에 토큰 추가
-              },
-            }
-          );
-          console.log("Token:", response.data.token);
-          alert("Google login successful!");
-        } catch (error: any) {
-          console.error("Google login failed:", error.response.data);
-        }
+      if (token !== null) {
+        mutate(token); // 토큰 전달하여 로그인 API 호출
       } else {
-        console.error("No token found in the callback URL.");
+        console.error("Access token is not found.");
       }
     };
 
-    handleGoogleCallback();
-  }, []);
+    if (!isCalled.current) {
+      handleGoogleCallback();
+      isCalled.current = true; // 호출 여부 업데이트
+    }
+  }, [mutate]);
 
   return <div>Processing Google Login...</div>;
 }

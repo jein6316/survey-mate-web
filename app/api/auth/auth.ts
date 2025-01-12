@@ -79,4 +79,26 @@ export const findIdByEmailAPI = async (email: string) => {
   return response.data; // 서버에서 성공 여부 반환 (boolean)
 };
 
-//비밀번호 수정
+//비밀번호 리셋
+export const restPasswordAPI = async (email: string) => {
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/auth/findIdByEmail`,
+    {
+      params: { email }, // GET 요청의 쿼리 파라미터로 전달
+    }
+  );
+  return response.data; // 서버에서 성공 여부 반환 (boolean)
+};
+//구글 로그인
+export const loginGoogleAPI = async (token: string) => {
+  const response = await axios.post(
+    "http://localhost:8080/api/auth/oauth/google",
+    {}, // 요청 본문 데이터가 필요 없으면 빈 객체를 전달
+    {
+      headers: {
+        Authorization: `Bearer ${token}`, // 헤더에 토큰 추가
+      },
+    }
+  );
+  return response.data; // 서버에서 성공 여부 반환 (boolean)
+};
