@@ -8,30 +8,6 @@ import { useRouter } from "next/router";
 export default function Login() {
   const router = useRouter();
 
-  /*useEffect(() => {
-    const handleGoogleCallback = async () => {
-      const hash = window.location.hash;
-      const token = new URLSearchParams(hash.substring(1)).get("id_token");
-
-      if (token) {
-        try {
-          const response = await axios.post(
-            "http://localhost:8080/auth/oauth/google",
-            { token }
-          );
-          console.log("Token:", response.data.token);
-          alert("Google login successful!");
-        } catch (error: any) {
-          console.error("Google login failed:", error.response.data);
-        }
-      } else {
-        console.error("No token found in the callback URL.");
-      }
-    };
-
-    handleGoogleCallback();
-  }, []);*/
-
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-gray-50">
       <div className="z-10 w-full max-w-md overflow-hidden rounded-2xl border border-gray-100 shadow-xl">

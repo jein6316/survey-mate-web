@@ -17,7 +17,6 @@ let refreshSubscribers: ((newToken: any) => void)[] = []; // 실패한 요청을
 api.interceptors.request.use(
   (config) => {
     const accessToken = Cookies.get("accessToken"); // 쿠키에서 토큰 읽기
-    console.log(">>>>>>>accessToken :", accessToken);
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -31,10 +30,8 @@ api.interceptors.response.use(
   (response) => response, // 성공 응답은 그대로 반환
   async (error) => {
     const originalRequest = error.config;
-    console.log(">>>>>>>error.response?.status :", error.response?.status);
     if (error.response?.status === 403 && !originalRequest._retry) {
       originalRequest._retry = true; // 중복 요청 방지 플래그
-      console.log(">>>>>>>isRefreshing :", isRefreshing);
       if (!isRefreshing) {
         isRefreshing = true;
 
@@ -62,10 +59,6 @@ api.interceptors.response.use(
             alert("로그인 실패하였습니다.");
             return;
           }
-          /*expirationDate.setSeconds(expirationDate.getSeconds() + 10);
-          refreshExpirationDate.setSeconds(
-            refreshExpirationDate.getSeconds() + 20
-          );*/
 
           const newAccessToken = data.accessToken;
           Cookies.set("accessToken", data.accessToken, {
@@ -87,7 +80,6 @@ api.interceptors.response.use(
           isRefreshing = false;
 
           // 실패한 요청 재시도
-          console.log("!!!!실패한 요청 재시도");
           return api(originalRequest);
         } catch (refreshError) {
           // 리프레시 토큰도 만료되었을 경우 처리 (예: 로그아웃)

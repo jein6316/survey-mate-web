@@ -81,19 +81,17 @@ export default function User() {
         <span className="font-bold">Membership Status:</span>{" "}
         {userData.memStatus}
       </h1>
-      <div className="mt-4">
+      {/*}<div className="mt-4">
         {userData.profileImageUri ? (
-          <Image
-            src={`/${userData.profileImageUri}`}
+          <img
+            src={userData.profileImageUri}
             alt="Profile Image"
-            width={500}
-            height={300}
-            className="rounded-md"
+            className="rounded-md w-full"
           />
         ) : (
           <p className="text-gray-500">프로필 이미지가 없습니다.</p>
         )}
-      </div>
+      </div>*/}
       <button
         onClick={handleEditClick}
         className="mt-4 w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600"
@@ -106,7 +104,6 @@ export default function User() {
       >
         비밀번호수정버튼
       </button>
-      <LogoutButton></LogoutButton>
     </div>
   );
 }
