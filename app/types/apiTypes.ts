@@ -49,3 +49,12 @@ export interface APIResponse {
   data?: any; // 성공 시 반환될 데이터 (optional)
   message?: string; // 성공/실패 시 메시지 (optional)
 }
+
+
+export interface AlertModalProps {
+  isOpen: boolean;
+  title: string;
+  message: string;
+  onClose: () => void;
+  type: 'error' | 'warning' | 'info'; // 모달 유형
+}
