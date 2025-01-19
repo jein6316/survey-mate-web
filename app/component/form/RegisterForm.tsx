@@ -9,9 +9,11 @@ import {
   checkUserEmailAPI,
   checkDuplicateIdAPI,
 } from "app/api/auth/auth";
-import { RegisterFormData } from "@/app/types/apiTypes";
+import {AlertModalProps, RegisterFormData} from "@/app/types/apiTypes";
 import { getCurrentDate } from "@/app/utils/formatter";
 import { LoginFormData, APIResponse } from "@/app/types/apiTypes";
+import AlertModal from "@/app/component/common/modal/AlertModal";
+import {data} from "autoprefixer";
 
 export function RegisterForm({
   action,
@@ -45,6 +47,32 @@ export function RegisterForm({
   ); // 비밀번호 확인 에러
   const [errorRegister, setErrorRegister] = useState<string | null>(null); //회원가입 에러
   const router = useRouter(); // useRouter 훅 사용
+
+
+
+  const [modalState, setModalState] = useState<AlertModalProps>({
+    isOpen: false,
+    title: "",
+    message: "",
+    onClose: ()=>{},
+    type: data as "error" | "warning" | "info"
+  });
+
+  function openModal(title: string, message: string, type: "error" | "warning" | "info"): void {
+    setModalState({
+      isOpen: true,
+      title,
+      message,
+      onClose: closeModal,
+      type,
+    });
+  }
+
+  function closeModal(){
+    setModalState((prev) => ({ ...prev, isOpen: false }));
+  }
+
+
 
   // 폼 입력 값 변경 처리
   const handleChange = (e: any) => {
@@ -81,13 +109,16 @@ export function RegisterForm({
   } = useMutation<APIResponse, Error, string>({
     mutationFn: checkDuplicateIdAPI, // mutationFn 속성에 checkDuplicateId 함수를 할당
     onSuccess: (data: APIResponse) => {
-      alert(
-        data ? "사용 가능한 아이디입니다." : "이미 사용 중인 아이디입니다."
-      );
+        data.result ? openModal("아이디 사용 가능", data.message? data.message : "사용 가능한 아이디 입니다.", "info")
+            : openModal("아이디 사용 불가", data.message? data.message : "이미 사용중인 아이디가 있습니다.", "warning")
     },
     onError: (error: Error) => {
       console.error("아이디 중복 체크 실패:", error.message);
-      alert("아이디 중복 체크 중 문제가 발생했습니다.");
+      let message = error.response?.data?.message;
+      if(!message){
+        message = error.message;
+      }
+      openModal("아이디 중복 체크 실패", message, "error");
     },
   });
 
@@ -137,11 +168,11 @@ export function RegisterForm({
   const { mutate: mutateCheckEmail } = useMutation<APIResponse, Error, string>({
     mutationFn: checkUserEmailAPI, // mutationFn 속성에 checkDuplicateId 함수를 할당
     onSuccess: (data: APIResponse) => {
-      alert("이메일로 인증번호가 전송되었습니다.");
+      openModal("이메일 인증", "이메일로 인증번호가 전송되었습니다.", "info");
       setResVerCode(data.data);
     },
     onError: (error: Error) => {
-      alert("이메일 인증 실패하였습니다.");
+      openModal("이메일 인증 실패", "이메일 인증 실패하였습니다.", "error");
       setResVerCode("");
     },
   });
@@ -151,14 +182,14 @@ export function RegisterForm({
   // 이메일 인증번호 체크
   const checkVerCode = async () => {
     if (verCode == null || verCode == "") {
-      alert("인증번호");
+      openModal("이메일 인증", "인증번호를 입력해 주세요.", "error");
       setIsCheckedVerCode(false);
     }
-    if (verCode != resVerCode) {
-      alert("인증번호가 일치하지 않습니다.");
+    else if (verCode != resVerCode) {
+      openModal("이메일 인증 실패", "인증번호가 일치하지 않습니다.", "error");
       setIsCheckedVerCode(false);
     } else {
-      alert("인증번호가 일치합니다.");
+      openModal("이메일 인증 성공", "인증번호가 일치합니다.", "info");
       setIsCheckedVerCode(true);
     }
   };
@@ -177,12 +208,11 @@ export function RegisterForm({
   } = useMutation<APIResponse, Error, RegisterFormData>({
     mutationFn: registerSubmit, // mutationFn 속성에 checkDuplicateId 함수를 할당
     onSuccess: (data: any) => {
-      alert("회원가입 성공!");
+      openModal("회원가입 성공!", "회원가입 되었습니다.", "info");
       console.log("회원가입 성공 데이터:", data);
     },
     onError: (error: Error) => {
-      // 로그인 실패 시 처리할 로직
-      alert("회원가입 실패!");
+      openModal("회원가입 실패!", "회원가입에 실패했습니다.", "error");
       console.error("Login failed:", error.message);
     },
   });
@@ -191,7 +221,7 @@ export function RegisterForm({
     e.preventDefault();
     //이메일인증 확인
     if (!isCheckedVerCode) {
-      alert("이메일 인증확인이 되지 않았습니다");
+      openModal("이메일 인증", "이메일 인증 확인이 되지 않았습니다.", "error");
       return;
     }
 
@@ -206,6 +236,15 @@ export function RegisterForm({
       autoComplete="off"
       className="flex flex-col space-y-6 bg-white shadow-lg rounded-lg p-8 max-w-lg mx-auto"
     >
+
+      <AlertModal
+          isOpen={modalState.isOpen}
+          title={modalState.title}
+          message={modalState.message}
+          onClose={modalState.onClose}
+          type={modalState.type}
+      />
+
       <h2 className="text-2xl font-bold text-gray-800 text-center">회원가입</h2>
 
       {/* User ID */}
