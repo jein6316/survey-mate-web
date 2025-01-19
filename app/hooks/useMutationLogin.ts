@@ -20,7 +20,6 @@ const useMutationLogin = <TData = any, TVariables = any>(
         // 토큰 디코딩
         const decodedAccess = jwt.decode(accessToken) as JwtPayload | null;
         const decodedRefresh = jwt.decode(refreshToken) as JwtPayload | null;
-        debugger;
         if (
           !decodedAccess ||
           !decodedAccess.exp ||
@@ -39,6 +38,9 @@ const useMutationLogin = <TData = any, TVariables = any>(
         //권한
         const user_role = decodedAccess.roles[0];
 
+        //로그인 타입
+        const social = decodedAccess.social; //0:홈페이지, 1:구글
+
         // 쿠키에 저장
         Cookies.set("accessToken", accessToken, {
           secure: true,
@@ -51,6 +53,11 @@ const useMutationLogin = <TData = any, TVariables = any>(
           expires: refreshExpirationDate,
         });
         Cookies.set("user_role", user_role, {
+          secure: true,
+          sameSite: "Strict",
+          expires: expirationDate,
+        });
+        Cookies.set("social", social, {
           secure: true,
           sameSite: "Strict",
           expires: expirationDate,

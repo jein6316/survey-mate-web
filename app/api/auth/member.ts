@@ -28,7 +28,6 @@ export const getMemberInfoAPI = async () => {
 
 //비밀번호수정
 export const changePassword = async (formData: changePasswordResData) => {
-  debugger;
   const response = await api.patch("/api/member/change-password", formData);
   return response.data;
 };
