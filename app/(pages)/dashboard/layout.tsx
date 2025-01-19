@@ -3,16 +3,20 @@
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 
-const Sidebar: React.FC = () => {
+interface LayoutProps {
+  children: React.ReactNode;
+}
+
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isOpen, setIsOpen] = useState(true); // 사이드바 열림/닫힘 상태 관리
 
   const toggleMenu = () => setIsOpen(!isOpen); // 메뉴 열기/닫기 토글
 
   return (
-    <div>
+    <div className="relative min-h-screen">
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full bg-white shadow-lg transition-transform ${
+        className={`fixed top-0 left-0 h-full bg-white shadow-lg transition-transform z-50 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } w-64`}
       >
@@ -42,6 +46,14 @@ const Sidebar: React.FC = () => {
         </nav>
       </div>
 
+      {/* Main content */}
+      <div
+        className={`transition-all ${isOpen ? "ml-64" : "ml-0"}`}
+        style={{ minHeight: "100vh", position: "relative" }}
+      >
+        <div className="p-4">{children}</div>
+      </div>
+
       {/* 숨기기 버튼 (사이드바 외부) */}
       {!isOpen && (
         <button
@@ -55,4 +67,4 @@ const Sidebar: React.FC = () => {
   );
 };
 
-export default Sidebar;
+export default Layout;
