@@ -2,9 +2,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
-import api from "@/app/api/auth/api";
+
 // API URL: Access Token 재발행을 위한 API 엔드포인트
 const REFRESH_TOKEN_API = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh`;
 
@@ -32,7 +31,16 @@ export async function middleware(request: NextRequest) {
     console.log(
       "2. Access Token이 없고 Refresh Token이 없으면 홈으로 리다이렉트"
     );
-    return NextResponse.redirect(new URL("/", request.url));
+    // 로그아웃 처리 및 메인 페이지로 리다이렉트
+    const response = NextResponse.redirect(new URL("/", request.url));
+
+    // 쿠키 삭제
+    response.cookies.delete("accessToken");
+    response.cookies.delete("refreshToken");
+    response.cookies.delete("social");
+    response.cookies.delete("user_role");
+
+    return response;
   }
 
   // 3. Refresh Token이 있는 경우 Access Token 재발행 시도

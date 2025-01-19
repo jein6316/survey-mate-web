@@ -40,7 +40,7 @@ export function LoginForm({
   };
   // Google OAuth 로그인 처리
   const handleGoogleLogin = () => {
-    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=24831698320-vvlj7h93mdlen8ot8tbv6t5m931eh34e.apps.googleusercontent.com&redirect_uri=http://localhost:3000/pages/auth/google-callback&response_type=token&scope=email profile`;
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=24831698320-vvlj7h93mdlen8ot8tbv6t5m931eh34e.apps.googleusercontent.com&redirect_uri=http://localhost:3000/auth/google-callback&response_type=token&scope=email profile`;
     window.location.href = googleAuthUrl; // Google 인증 페이지로 리디렉션
   };
 

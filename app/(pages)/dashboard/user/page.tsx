@@ -104,6 +104,7 @@ export default function User() {
       >
         비밀번호수정버튼
       </button>
+      <LogoutButton></LogoutButton>
     </div>
   );
 }
