@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
+import { logout } from "@/app/utils/logout";
 
 export function LogoutButton() {
   const [isPending, setIsPending] = useState(false);
@@ -10,17 +10,12 @@ export function LogoutButton() {
 
   const handleLogout = async () => {
     setIsPending(true);
-
     try {
-      // 쿠키에서 토큰 삭제
-      Cookies.remove("accessToken"); // authToken은 삭제할 토큰의 쿠키 이름
-      Cookies.remove("refreshToken");
-      // 메인 페이지로 리다이렉트
-      router.push("/");
+      logout();
     } catch (error) {
       console.error("로그아웃 중 오류 발생:", error);
     } finally {
-      setIsPending(false);
+      setIsPending(false); // 로딩 상태 비활성화
     }
   };
 

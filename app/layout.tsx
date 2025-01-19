@@ -1,8 +1,6 @@
 import "./globals.css";
 import { GeistSans } from "geist/font/sans";
 import { Providers } from "./providers";
-import Sidebar from "./component/layout/SideBar";
-import { cookies } from "next/headers";
 
 let title = "Next.js + Postgres Auth Starter";
 let description =
@@ -24,21 +22,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = cookies();
-  const isLoggedIn = cookieStore.get("accessToken")?.value;
-  console.log(">>>>>>>>>>>>>>");
-  console.log(isLoggedIn);
   return (
     <html lang="en">
       <Providers>
         <body className={GeistSans.variable}>
-          {/* Sidebar */}
-          {isLoggedIn && <Sidebar />}
-          <main
-            className={`flex-1 bg-gray-50 p-8 ${isLoggedIn ? "ml-64" : ""}`}
-          >
-            {children}
-          </main>
+          <main className={`flex-1 bg-gray-50 p-8`}>{children}</main>
         </body>
       </Providers>
     </html>

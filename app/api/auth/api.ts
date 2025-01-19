@@ -1,3 +1,4 @@
+import { logout } from "@/app/utils/logout";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
@@ -83,11 +84,8 @@ api.interceptors.response.use(
           // 실패한 요청 재시도
           return api(originalRequest);
         } catch (refreshError) {
-          // 리프레시 토큰도 만료되었을 경우 처리 (예: 로그아웃)
-          console.error("Refresh token expired:", refreshError);
-          Cookies.remove("accessToken");
-          Cookies.remove("refreshToken");
-          window.location.href = "/"; // 로그인 페이지로 리다이렉트
+          // 리프레시 토큰도 만료되었을 경우 로그아웃 처리
+          logout();
           return Promise.reject(refreshError);
         }
       }
