@@ -58,3 +58,12 @@ export interface AlertModalProps {
   onClose: () => void;
   type: 'error' | 'warning' | 'info'; // 모달 유형
 }
+
+export interface ResponseError {
+  response?: {
+    data: {
+      message: string;
+    };
+  };
+  message: string;
+}
