@@ -1,20 +1,29 @@
-import React, {useEffect} from 'react';
+"use client";
+
+import React from 'react';
 import '../../../styles/modal/AlertModal.css';
-import {AlertModalProps} from "@/app/types/apiTypes";
+import {alertModalState} from "@/app/recoil/atoms/alertModalAtom";
+import {useRecoilState} from "recoil";
 
 
 
-const AlertModal = ({ isOpen, title, message, onClose, type }:AlertModalProps) => {
+const AlertModal = () => {
 
-    if (!isOpen) return null;
+    const [modalState, setModalState] = useRecoilState(alertModalState);
+
+    const handleClose = () => {
+        setModalState((prev) => ({ ...prev, isOpen: false }));
+    };
+
+    if (!modalState.isOpen) return null;
 
     return (
         <div className="modal-overlay">
-            <div className={`modal-content modal-${type}`}>
-                <h2 className="modal-title">{title}</h2>
-                <p className="modal-message">{message}</p>
+            <div className={`modal-content modal-${modalState.type}`}>
+                <h2 className="modal-title">{modalState.title}</h2>
+                <p className="modal-message">{modalState.message}</p>
                 <div className="modal-actions">
-                    <button className="modal-button-close" onClick={onClose}>
+                    <button className="modal-button-close" onClick={handleClose}>
                         닫기
                     </button>
                 </div>
