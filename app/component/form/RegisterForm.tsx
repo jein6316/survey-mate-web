@@ -9,7 +9,7 @@ import {
   checkUserEmailAPI,
   checkDuplicateIdAPI,
 } from "app/api/auth/auth";
-import {AlertModalProps, RegisterFormData} from "@/app/types/apiTypes";
+import {AlertModalProps, RegisterFormData, ResponseError} from "@/app/types/apiTypes";
 import { getCurrentDate } from "@/app/utils/formatter";
 import { LoginFormData, APIResponse } from "@/app/types/apiTypes";
 import AlertModal from "@/app/component/common/modal/AlertModal";
@@ -93,7 +93,7 @@ export function RegisterForm({
         data.result ? openAlert("아이디 사용 가능", data.message? data.message : "사용 가능한 아이디 입니다.", "info")
             : openAlert("아이디 사용 불가", data.message? data.message : "이미 사용중인 아이디가 있습니다.", "warning")
     },
-    onError: (error: Error) => {
+    onError: (error: ResponseError) => {
       console.error("아이디 중복 체크 실패:", error.message);
       let message = error.response?.data?.message;
       if(!message){
@@ -152,7 +152,7 @@ export function RegisterForm({
       openAlert("이메일 인증", "이메일로 인증번호가 전송되었습니다.", "info");
       setResVerCode(data.data);
     },
-    onError: (error: Error) => {
+    onError: (error: ResponseError) => {
       openAlert("이메일 인증 실패", "이메일 인증 실패하였습니다.", "error");
       setResVerCode("");
     },
@@ -192,7 +192,7 @@ export function RegisterForm({
       openAlert("회원가입 성공!", "회원가입 되었습니다.", "info");
       console.log("회원가입 성공 데이터:", data);
     },
-    onError: (error: Error) => {
+    onError: (error: ResponseError) => {
       openAlert("회원가입 실패!", "회원가입에 실패했습니다.", "error");
       console.error("Login failed:", error.message);
     },
