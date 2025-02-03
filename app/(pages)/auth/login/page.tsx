@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { LoginForm } from "@/app/component/form/LoginForm";
-import { SubmitButton } from "@/app/component/button/Submit-button";
+import { SubmitButton } from "@/app/component/button/SubmitButton";
 import axios from "axios";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
