@@ -6,7 +6,7 @@ import { loginSubmit } from "@/app/api/auth/auth";
 import useMutationLogin from "@/app/hooks/useMutationLogin";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { SubmitButton } from "@/app/component/button/Submit-button";
+import { SubmitButton } from "@/app/component/button/SubmitButton";
 export function LoginForm({
   action,
   children,
