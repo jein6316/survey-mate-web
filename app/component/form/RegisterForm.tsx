@@ -101,17 +101,19 @@ export function RegisterForm({
   } = useMutation<APIResponse, Error, string>({
     mutationFn: checkDuplicateIdAPI, // mutationFn 속성에 checkDuplicateId 함수를 할당
     onSuccess: (data: APIResponse) => {
-      data.result
-        ? openAlert(
-            "아이디 사용 가능",
-            data.message ? data.message : "사용 가능한 아이디 입니다.",
-            "info"
-          )
-        : openAlert(
-            "아이디 사용 불가",
-            data.message ? data.message : "이미 사용중인 아이디가 있습니다.",
-            "warning"
-          );
+      if (!data.data) {
+        openAlert(
+          "아이디 사용 가능",
+          data.message ? data.message : "사용 가능한 아이디 입니다.",
+          "info"
+        );
+      } else {
+        openAlert(
+          "아이디 사용 불가",
+          data.message ? data.message : "이미 사용중인 아이디가 있습니다.",
+          "warning"
+        );
+      }
     },
     onError: (error: ResponseError) => {
       console.error("아이디 중복 체크 실패:", error.message);
@@ -219,9 +221,9 @@ export function RegisterForm({
   } = useMutation<APIResponse, Error, RegisterFormData>({
     mutationFn: registerSubmit, // mutationFn 속성에 checkDuplicateId 함수를 할당
     onSuccess: (data: any) => {
-      openAlert("회원가입 성공!", "회원가입 되었습니다.", "info");
-      console.log("회원가입 성공 데이터:", data);
-      router.replace("/");
+      openAlert("회원가입 성공!", "회원가입 되었습니다.", "info", () => {
+        router.replace("/");
+      });
     },
     onError: (error: ResponseError) => {
       openAlert("회원가입 실패!", "회원가입에 실패했습니다.", "error");
