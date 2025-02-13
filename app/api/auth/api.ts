@@ -1,4 +1,4 @@
-import { logout } from "@/app/utils/logout";
+import logout from "@/app/hooks/useLogout";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";

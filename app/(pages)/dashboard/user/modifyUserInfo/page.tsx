@@ -6,13 +6,14 @@ import { modifyMemberAPI } from "@/app/api/auth/member";
 import { modifyMemberPayload } from "@/app/types/apiTypes";
 import { useMutation } from "@tanstack/react-query";
 import { LoginFormData, APIResponse } from "@/app/types/apiTypes";
-import api from "@/app/api/auth/api";
 import { WithdrawalButton } from "@/app/component/button/WithdrawalButton";
+import useAlert from "@/app/recoil/hooks/useAlert";
 
 export default function ModifyUser({ params }: { params: { id: string } }) {
   const router = useRouter();
   const [userName, setUserName] = useState("");
   const [profileImageUuid, setProfileImageUuid] = useState<File | null>(null);
+  const openAlert = useAlert();
 
   const {
     mutate: mutateModifyMember,
@@ -22,7 +23,7 @@ export default function ModifyUser({ params }: { params: { id: string } }) {
   } = useMutation<APIResponse, Error, modifyMemberPayload>({
     mutationFn: modifyMemberAPI,
     onSuccess: (data) => {
-      alert("회원정보가 성공적으로 수정되었습니다.");
+      openAlert("회원정보가 성공적으로 수정되었습니다.", "info");
     },
     onError: (error) => {
       console.error("회원정보 수정 실패:", error);

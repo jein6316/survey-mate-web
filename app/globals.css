@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html,
+body {
+  margin: 0; /* 기본 여백 제거 */
+  padding: 0; /* 기본 패딩 제거 */
+  width: 100vw; /* 가로 크기를 뷰포트에 맞춤 */
+  height: 100vh; /* 세로 크기를 뷰포트에 맞춤 */
+  overflow: hidden; /* 스크롤바 제거 */
+}
