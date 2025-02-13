@@ -1,12 +1,10 @@
-"use client"
-import Link from 'next/link';
-import { LoginForm } from '@/app/component/form/LoginForm';
-import { signIn } from 'app/auth';
-import { SubmitButton } from '@/app/component/button/SubmitButton';
-import { useState } from 'react';
+"use client";
+import Link from "next/link";
+import { LoginForm } from "@/app/component/form/LoginForm";
+import { SubmitButton } from "@/app/component/button/SubmitButton";
+import { useState } from "react";
 
 export default function Login() {
-
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-gray-50">
       <div className="z-10 w-full max-w-md overflow-hidden rounded-2xl border border-gray-100 shadow-xl">
