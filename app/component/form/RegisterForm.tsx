@@ -10,12 +10,12 @@ import {
 import { RegisterFormData, ResponseError } from "@/app/types/apiTypes";
 import { getCurrentDate } from "@/app/utils/formatter";
 import { APIResponse } from "@/app/types/apiTypes";
-import useAlert from "@/app/hooks/useAlert";
+import useAlert from "@/app/recoil/hooks/useAlert";
 import "../../styles/common/Forms.css";
 import "../../styles/common/Buttons.css";
 import "../../styles/common/Common.css";
 import { useRouter } from "next/navigation";
-import useLoading from "@/app/hooks/useLoading";
+import useLoading from "@/app/recoil/hooks/useLoading";
 
 export function RegisterForm({
   action,
@@ -179,7 +179,7 @@ export function RegisterForm({
       clearLoadingState();
       openAlert(
         "이메일 인증 실패",
-        error.response?.data?.message || "Unknown error",
+        error.response?.data?.message || error.message || "Unknown error",
         "error"
       );
       setResVerCode("");

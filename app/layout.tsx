@@ -3,6 +3,7 @@ import { GeistSans } from "geist/font/sans";
 import { Providers } from "./providers";
 import AlertModal from "@/app/component/common/modal/AlertModal";
 import LoadingBar from "@/app/component/common/modal/LoadingBar";
+import HeaderRight from "@/app/component/common/header/HeaderRight";
 
 let title = "Next.js + Postgres Auth Starter";
 let description =
@@ -30,6 +31,10 @@ export default function RootLayout({
         <body className={GeistSans.variable}>
           <LoadingBar />
           <AlertModal />
+          {/* Header */}
+          <header className="flex justify-end items-center p-4 bg-white shadow-md">
+            <HeaderRight />
+          </header>
           <main className={`flex-1 bg-gray-50 p-8`}>{children}</main>
         </body>
       </Providers>
