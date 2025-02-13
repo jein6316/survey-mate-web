@@ -2,11 +2,11 @@
 
 import React from "react";
 import "../../../styles/modal/AlertModal.css";
-import { alertModalState } from "@/app/recoil/atoms/alertModalAtom";
+import { alertModalAtom } from "@/app/recoil/atoms/alertModalAtom";
 import { useRecoilState } from "recoil";
 
 const AlertModal = () => {
-  const [modalState, setModalState] = useRecoilState(alertModalState);
+  const [modalState, setModalState] = useRecoilState(alertModalAtom);
 
   const handleClose = () => {
     setModalState((prev) => ({ ...prev, isOpen: false }));

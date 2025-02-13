@@ -2,11 +2,11 @@
 
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { loadingState } from "@/app/recoil/atoms/loadingAtom";
+import { loadingAtom } from "@/app/recoil/atoms/loadingAtom";
 import "../../../styles/modal/LoadingBar.css";
 
 const LoadingBar = () => {
-  const { isLoading, loadingText } = useRecoilValue(loadingState);
+  const { isLoading, loadingText } = useRecoilValue(loadingAtom);
 
   if (!isLoading) return null;
 

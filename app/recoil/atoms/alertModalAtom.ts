@@ -8,7 +8,7 @@ export interface AlertModalState {
   onClose?: () => void; // 콜백 함수 추가
 }
 
-export const alertModalState = atom<AlertModalState>({
+export const alertModalAtom = atom<AlertModalState>({
   key: "alertModalState", // 고유 key (필수)
   default: {
     isOpen: false,
