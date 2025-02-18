@@ -1,6 +1,6 @@
 "use client";
 
-import { LoginForm } from "@/app/component/form/LoginForm";
+import LoginForm from "@/app/component/form/LoginForm";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 
