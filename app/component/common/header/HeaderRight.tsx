@@ -5,11 +5,13 @@ import { AiOutlineGlobal } from "react-icons/ai";
 import { userAtom } from "@/app/recoil/atoms/userAtom";
 import useLogout from "@/app/hooks/useLogout";
 import { useRecoilValue } from "recoil";
+import { useTranslation } from "react-i18next";
 
 const HeaderRight = () => {
-  const [language, setLanguage] = useState("kr"); // 기본 언어 설정
+  const [language, setLanguage] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const user = useRecoilValue(userAtom);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const savedLanguage = document.cookie
@@ -19,7 +21,9 @@ const HeaderRight = () => {
 
     if (savedLanguage) {
       console.log(`Using language from cookie: ${savedLanguage}`);
-      setLanguage(savedLanguage); // 쿠키 값이 있으면 사용
+      if (savedLanguage === "ko" || savedLanguage === "en") {
+        selectLanguage(savedLanguage); // 쿠키 값이 있으면 사용
+      }
       return; // 위치 정보 가져오지 않음
     }
 
@@ -38,31 +42,32 @@ const HeaderRight = () => {
           )
             .then((response) => response.json())
             .then((data) => {
-              const countryCode = data.address?.country_code || "en"; // "kr", "us", 등
+              const countryCode = data.address?.country_code || "en"; // "ko", "us", 등
               console.log(`Country code: ${countryCode}`);
-              setLanguage(countryCode === "kr" ? "kr" : "en"); // 한국이면 "kr", 그 외는 "en"
+              setLanguage(countryCode === "ko" ? "ko" : "en"); // 한국이면 "ko", 그 외는 "en"
             })
             .catch((error) => {
               console.error("Error fetching location data:", error);
               // 오류 발생 시 브라우저 언어로 기본 설정
-              setLanguage(browserLanguage.startsWith("kr") ? "kr" : "en");
+              setLanguage(browserLanguage.startsWith("ko") ? "ko" : "en");
             });
         },
         (error) => {
           console.error("Error getting location:", error);
           // 위치 권한 거부 시 브라우저 언어로 기본 설정
-          setLanguage(browserLanguage.startsWith("kr") ? "kr" : "en");
+          selectLanguage(browserLanguage.startsWith("ko") ? "ko" : "en");
         }
       );
     } else {
       // Geolocation API를 사용할 수 없는 경우 브라우저 언어로 설정
-      setLanguage(browserLanguage.startsWith("kr") ? "kr" : "en");
+      selectLanguage(browserLanguage.startsWith("ko") ? "ko" : "en");
     }
-  }, [setLanguage]);
+  }, [language]);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
-  const selectLanguage = (lang: "kr" | "en") => {
+  const selectLanguage = (lang: "ko" | "en") => {
     setLanguage(lang);
+    i18n.changeLanguage(lang);
     document.cookie = `language=${lang}; path=/; max-age=31536000`; // 1년 동안 저장
     setIsOpen(false);
   };
@@ -86,7 +91,7 @@ const HeaderRight = () => {
           className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none"
         >
           <AiOutlineGlobal size={20} />
-          <span>{language === "kr" ? "한국어" : "English"}</span>
+          <span>{language === "ko" ? "한국어" : "English"}</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-4 w-4"
@@ -111,7 +116,7 @@ const HeaderRight = () => {
               English
             </li>
             <li
-              onClick={() => selectLanguage("kr")}
+              onClick={() => selectLanguage("ko")}
               className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
             >
               한국어

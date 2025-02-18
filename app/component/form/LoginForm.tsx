@@ -7,7 +7,9 @@ import useMutationLogin from "@/app/hooks/useMutationLogin";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SubmitButton } from "@/app/component/button/SubmitButton";
-export function LoginForm({
+import { useTranslation } from "react-i18next";
+
+export default function LoginForm({
   action,
   children,
 }: {
@@ -15,6 +17,8 @@ export function LoginForm({
   children?: React.ReactNode;
 }) {
   const router = useRouter(); // useRouter 훅 사용
+  const { t } = useTranslation();
+
   //로그인 폼데이터
   const [formData, setFormData] = useState<LoginFormData>({
     userId: "",
@@ -63,7 +67,7 @@ export function LoginForm({
               htmlFor="userId"
               className="block text-xs text-gray-600 uppercase"
             >
-              User ID
+              ID
             </label>
             <input
               id="userId"
@@ -95,7 +99,7 @@ export function LoginForm({
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm"
             />
           </div>
-          <SubmitButton>Log In</SubmitButton>
+          <SubmitButton>{t("AUTH.LOGIN")}</SubmitButton>
           <button
             type="button"
             onClick={handleGoogleLogin}
@@ -110,13 +114,13 @@ export function LoginForm({
               onClick={() => router.push(urlConstants.pages.FINDIDBYEMAIL)}
               className="text-sm font-semibold text-blue-500 hover:text-blue-600 focus:outline-none focus:underline"
             >
-              Find ID
+              {t("AUTH.FIND_ID")}
             </button>
             <button
               onClick={() => router.push(urlConstants.pages.RESETPASSWORD)}
               className="text-sm font-semibold text-blue-500 hover:text-blue-600 focus:outline-none focus:underline"
             >
-              Reset Password
+              {t("AUTH.RESET_PASSWORD")}
             </button>
             <p className="text-sm text-gray-600">
               Don’t have an account?{" "}
@@ -124,7 +128,7 @@ export function LoginForm({
                 href={urlConstants.pages.REGISTER}
                 className="font-semibold text-blue-500 hover:text-blue-600 focus:outline-none focus:underline"
               >
-                Sign Up
+                {t("AUTH.SIGN_UP")}
               </Link>
             </p>
           </div>
