@@ -1,11 +1,11 @@
 import "./globals.css";
 import { GeistSans } from "geist/font/sans";
-import { Providers } from "./providers";
+import Providers from "./providers";
 import AlertModal from "@/app/component/common/modal/AlertModal";
 import LoadingBar from "@/app/component/common/modal/LoadingBar";
 import HeaderRight from "@/app/component/common/header/HeaderRight";
 
-let title = "Next.js + Postgres Auth Starter";
+let title = "Survey Mate";
 let description =
   "This is a Next.js starter kit that uses NextAuth.js for simple email + password login and a Postgres database to persist the data.";
 
