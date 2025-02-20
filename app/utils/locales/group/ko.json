@@ -1,19 +1,21 @@
 {
-  "LOGIN": "로그인",
-  "LOGOUT": "로그아웃",
-  "FIND_ID": "아이디 찾기",
-  "SIGN_UP": "회원가입",
-  "RESET_PASSWORD": "비밀번호 재설정",
-  "SIGNIN_COMPLETED": "로그인이 완료되었습니다.",
-  "SIGNIN_FAILED": "로그인에 실패했습니다. 입력한 정보를 확인해주세요.",
-  "SIGNOUT_COMPLETED": "로그아웃되었습니다.",
-  "SIGNUP_SUCCESS": "회원가입이 완료되었습니다.",
-  "SIGNUP_FAILED": "회원가입에 실패했습니다. 다시 시도해주세요.",
-  "EMAIL_VERIFICATION_SUCCESS": "이메일 인증이 완료되었습니다.",
-  "EMAIL_VERIFICATION_FAILED": "이메일 인증에 실패했습니다.",
-  "PASSWORD_RESET_REQUESTED": "비밀번호 재설정 요청이 전송되었습니다.",
-  "PASSWORD_RESET_SUCCESS": "비밀번호가 성공적으로 변경되었습니다.",
-  "PASSWORD_RESET_FAILED": "비밀번호 변경에 실패했습니다.",
-  "TOKEN_EXPIRED": "세션이 만료되었습니다. 다시 로그인해주세요.",
-  "UNAUTHORIZED_ACCESS": "접근 권한이 없습니다. 로그인해주세요."
+  "GROUP": {
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "FIND_ID": "Find ID",
+    "SIGN_UP": "Sign Up",
+    "RESET_PASSWORD": "Reset Password",
+    "SIGNIN_COMPLETED": "Sign-in completed.",
+    "SIGNIN_FAILED": "Sign-in failed. Please check your credentials.",
+    "SIGNOUT_COMPLETED": "You have been signed out.",
+    "SIGNUP_SUCCESS": "Sign-up completed successfully.",
+    "SIGNUP_FAILED": "Sign-up failed. Please try again.",
+    "EMAIL_VERIFICATION_SUCCESS": "Email verification completed successfully.",
+    "EMAIL_VERIFICATION_FAILED": "Email verification failed.",
+    "PASSWORD_RESET_REQUESTED": "Password reset request has been sent.",
+    "PASSWORD_RESET_SUCCESS": "Your password has been reset successfully.",
+    "PASSWORD_RESET_FAILED": "Failed to reset password.",
+    "TOKEN_EXPIRED": "Your session has expired. Please sign in again.",
+    "UNAUTHORIZED_ACCESS": "Unauthorized access. Please log in."
+  }
 }
