@@ -1,18 +1,19 @@
 import Link from "next/link";
-import { RegisterForm } from "@/app/component/form/RegisterForm";
+import { RegisterForm } from "@/app/component/form/auth/RegisterForm";
 import { SubmitButton } from "@/app/component/button/SubmitButton";
+import "@/app/styles/common/Page.css";
 
 export default function Register() {
   return (
-    <div className="flex h-screen w-screen items-center justify-center bg-gray-50">
-      <div className="z-10 w-full max-w-md overflow-hidden rounded-2xl border border-gray-100 shadow-xl">
+    <div className="page-background">
+      <div className="page-container">
         <RegisterForm>
           <SubmitButton>Sign Up</SubmitButton>
-          <p className="text-center text-sm text-gray-600">
+          <p className="page-description">
             {"Already have an account? "}
             <Link
               href={urlConstants.pages.LOGIN}
-              className="font-semibold text-gray-800"
+              className="page-emphasis"
             >
               Sign in
             </Link>

@@ -1,0 +1,17 @@
+{
+  "COMMON": {
+    "SUCCESS": "Success!",
+    "FAILED": "Something went wrong. Please try again.",
+    "LOADING": "Loading...",
+    "CONFIRM": "Are you sure?",
+    "CANCEL": "Cancel",
+    "SAVE": "Save",
+    "DELETE": "Delete"
+  },
+  "ERROR": {
+    "NOT_FOUND": "Requested resource not found.",
+    "INTERNAL_SERVER_ERROR": "An unexpected server error occurred.",
+    "BAD_REQUEST": "Invalid request.",
+    "FORBIDDEN": "You do not have permission to access this resource."
+  }
+}

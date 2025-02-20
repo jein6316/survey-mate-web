@@ -1,0 +1,15 @@
+.page-background {
+    @apply flex h-screen w-screen items-center justify-center bg-gray-50;
+}
+
+.page-container {
+    @apply z-10 w-full max-w-md overflow-hidden rounded-2xl border border-gray-100 shadow-xl;
+}
+
+.page-description {
+    @apply text-center text-sm text-gray-600;
+}
+
+.page-emphasis {
+    @apply font-semibold text-gray-800;
+}
