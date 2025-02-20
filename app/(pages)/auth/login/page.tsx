@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LoginForm } from "@/app/component/form/LoginForm";
+import { LoginForm } from "@/app/component/form/auth/LoginForm";
 import { SubmitButton } from "@/app/component/button/SubmitButton";
 import axios from "axios";
 import { useEffect } from "react";

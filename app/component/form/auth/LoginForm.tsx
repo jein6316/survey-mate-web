@@ -9,7 +9,7 @@ import Link from "next/link";
 import { SubmitButton } from "@/app/component/button/SubmitButton";
 import { useTranslation } from "react-i18next";
 
-export default function LoginForm({
+export function LoginForm({
   action,
   children,
 }: {
