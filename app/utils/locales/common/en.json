@@ -1,6 +1,7 @@
 {
   "AUTH": {
     "LOGIN": "Login",
+    "LOGOUT": "Logout",
     "FIND_ID": "Find ID",
     "SIGN_UP": "Sign Up",
     "RESET_PASSWORD": "Reset Password",

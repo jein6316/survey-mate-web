@@ -42,14 +42,14 @@ const HeaderRight = () => {
           )
             .then((response) => response.json())
             .then((data) => {
-              const countryCode = data.address?.country_code || "en"; // "ko", "us", 등
+              const countryCode = data.address?.country_code || "kr"; // "ko", "us", 등
               console.log(`Country code: ${countryCode}`);
-              setLanguage(countryCode === "ko" ? "ko" : "en"); // 한국이면 "ko", 그 외는 "en"
+              selectLanguage(countryCode === "kr" ? "ko" : "en"); // 한국이면 "ko", 그 외는 "en"
             })
             .catch((error) => {
               console.error("Error fetching location data:", error);
               // 오류 발생 시 브라우저 언어로 기본 설정
-              setLanguage(browserLanguage.startsWith("ko") ? "ko" : "en");
+              selectLanguage(browserLanguage.startsWith("ko") ? "ko" : "en");
             });
         },
         (error) => {
@@ -82,7 +82,7 @@ const HeaderRight = () => {
           className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded"
           onClick={handleLogout}
         >
-          Logout
+            {t("AUTH.LOGOUT")}
         </button>
       )}
       <div className="relative">
@@ -91,7 +91,7 @@ const HeaderRight = () => {
           className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none"
         >
           <AiOutlineGlobal size={20} />
-          <span>{language === "ko" ? "한국어" : "English"}</span>
+          <span>{language === "en" ? "English" : "한국어"}</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-4 w-4"
