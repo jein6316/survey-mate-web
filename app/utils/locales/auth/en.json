@@ -16,6 +16,7 @@
     "PASSWORD_RESET_SUCCESS": "Your password has been reset successfully.",
     "PASSWORD_RESET_FAILED": "Failed to reset password.",
     "TOKEN_EXPIRED": "Your session has expired. Please sign in again.",
-    "UNAUTHORIZED_ACCESS": "Unauthorized access. Please log in."
+    "UNAUTHORIZED_ACCESS": "Unauthorized access. Please log in.",
+    "USER_NOT_FOUND" : "User not found."
   }
 }
