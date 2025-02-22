@@ -30,3 +30,11 @@
 .form-button-group {
     @apply flex justify-end space-x-2 mt-4;
 }
+
+.form-info-read {
+    @apply mt-1 p-2 border border-gray-300 bg-white rounded-md text-gray-600 text-sm;
+}
+
+.form-readonly {
+    @apply mt-1 p-2 border border-gray-300 bg-gray-50 rounded-md text-gray-600 text-sm;
+}
