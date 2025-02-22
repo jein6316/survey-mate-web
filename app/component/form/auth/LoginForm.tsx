@@ -17,7 +17,7 @@ export function LoginForm({
   children?: React.ReactNode;
 }) {
   const router = useRouter(); // useRouter 훅 사용
-  const { t } = useTranslation();
+  const { t } = useTranslation("auth");
 
   //로그인 폼데이터
   const [formData, setFormData] = useState<LoginFormData>({
