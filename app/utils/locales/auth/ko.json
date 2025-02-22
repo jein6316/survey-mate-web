@@ -16,6 +16,7 @@
     "PASSWORD_RESET_SUCCESS": "비밀번호가 성공적으로 변경되었습니다.",
     "PASSWORD_RESET_FAILED": "비밀번호 변경에 실패했습니다.",
     "TOKEN_EXPIRED": "세션이 만료되었습니다. 다시 로그인해주세요.",
-    "UNAUTHORIZED_ACCESS": "접근 권한이 없습니다. 로그인해주세요."
+    "UNAUTHORIZED_ACCESS": "접근 권한이 없습니다. 로그인해주세요.",
+    "USER_NOT_FOUND" : "회원 정보를 찾을 수 없습니다. 다시 로그인해 주세요."
   }
 }
