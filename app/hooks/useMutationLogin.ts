@@ -3,12 +3,14 @@ import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { APIResponse } from "../types/apiTypes";
+import useUser from "../recoil/hooks/useUser";
 
 const useMutationLogin = <TData = any, TVariables = any>(
   mutationFn: (variables: TVariables) => Promise<TData>,
   options?: UseMutationOptions<TData, Error, TVariables>
 ) => {
   const router = useRouter();
+  const { setUserFromToken } = useUser();
 
   return useMutation<TData, Error, TVariables>({
     mutationFn,
@@ -52,16 +54,18 @@ const useMutationLogin = <TData = any, TVariables = any>(
           sameSite: "Strict",
           expires: refreshExpirationDate,
         });
-        Cookies.set("user_role", user_role, {
-          secure: true,
-          sameSite: "Strict",
-          expires: expirationDate,
-        });
-        Cookies.set("social", social, {
-          secure: true,
-          sameSite: "Strict",
-          expires: expirationDate,
-        });
+
+        setUserFromToken(); // 로그인 상태 반영
+        // Cookies.set("user_role", user_role, {
+        //   secure: true,
+        //   sameSite: "Strict",
+        //   expires: expirationDate,
+        // });
+        // Cookies.set("social", social, {
+        //   secure: true,
+        //   sameSite: "Strict",
+        //   expires: expirationDate,
+        // });
 
         // 성공적으로 처리 후 리다이렉트
         router.push(urlConstants.pages.USERDASHBOARD); // 로그인 후 대시보드 페이지로 이동
