@@ -1,5 +1,4 @@
 {
-  "AUTH": {
     "LOGIN": "Login",
     "LOGOUT": "Logout",
     "FIND_ID": "Find ID",
@@ -18,5 +17,4 @@
     "TOKEN_EXPIRED": "Your session has expired. Please sign in again.",
     "UNAUTHORIZED_ACCESS": "Unauthorized access. Please log in.",
     "USER_NOT_FOUND" : "User not found."
-  }
 }
