@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { LoginForm } from "@/app/component/form/auth/LoginForm";
+import { LoginForm } from "@/app/component/features/auth/LoginForm";
 import { SubmitButton } from "@/app/component/button/SubmitButton";
 import { useState } from "react";
 
