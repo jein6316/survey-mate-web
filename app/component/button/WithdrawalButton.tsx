@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { logout } from "@/app/utils/logout";
-
+import { logout } from "@/app/hooks/useLogout";
 export function WithdrawalButton() {
   const [isPending, setIsPending] = useState(false);
+
   const router = useRouter();
 
   const handleWithdrawal = async () => {
