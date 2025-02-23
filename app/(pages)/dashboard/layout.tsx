@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
-import { getMenusByRole } from "@/app/api/menu/menuApi";
+import { getMenusByRole } from "@/app/api/menuApi";
 import { useMutation } from "@tanstack/react-query";
 import { APIResponse, MenuItem } from "@/app/types/apiTypes";
 import { useRouter } from "next/navigation";
