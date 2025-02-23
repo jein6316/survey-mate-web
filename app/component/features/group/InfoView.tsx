@@ -4,7 +4,7 @@
 import React from "react";
 import "@/app/styles/common/Form.css";
 
-export const InfoForm = ({
+export const InfoView = ({
                              children,
                          }: {
     children: React.ReactNode;

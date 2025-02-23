@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { RegisterForm } from "@/app/component/form/auth/RegisterForm";
+import { RegisterForm } from "@/app/component/features/auth/RegisterForm";
 import { SubmitButton } from "@/app/component/button/SubmitButton";
 import "@/app/styles/common/Page.css";
 

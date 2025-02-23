@@ -1,15 +1,21 @@
+"use client";
+
 import Link from "next/link";
 import "@/app/styles/common/Page.css";
-import { InfoForm } from "@/app/component/form/group/InfoForm";
+import {InfoView} from "@/app/component/features/group/InfoView";
 import {EditButton} from "@/app/component/button/EditButton";
+import {useTranslation} from "react-i18next";
 
 export default function Register() {
+
+    const {t} = useTranslation("common");
+
     return (
         <div className="page-background">
             <div className="page-container">
-                <InfoForm>
-                    <EditButton>수정</EditButton>
-                </InfoForm>
+                <InfoView>
+                    <EditButton>{t("EDIT")}</EditButton>
+                </InfoView>
             </div>
         </div>
     );
