@@ -118,5 +118,5 @@ export async function middleware(request: NextRequest) {
 
 // 미들웨어를 적용할 경로 설정
 export const config = {
-  matcher: ["/pages/dashboard/user/:path*"], // '/protected' 이하의 모든 경로에 미들웨어 적용
+  matcher: ["/pages/dashboard/:path*"], // '/protected' 이하의 모든 경로에 미들웨어 적용
 };
