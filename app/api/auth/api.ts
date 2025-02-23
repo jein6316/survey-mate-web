@@ -1,5 +1,4 @@
-
-import { logout } from "@/app/hooks/useLogout";
+import logout from "@/app/hooks/useLogout";
 import axios from "axios";
 import Cookies from "js-cookie";
 

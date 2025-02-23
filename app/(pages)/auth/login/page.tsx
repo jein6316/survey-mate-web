@@ -1,12 +1,8 @@
 import Link from "next/link";
-import { LoginForm } from "@/app/component/form/LoginForm";
-import { SubmitButton } from "@/app/component/button/Submit-button";
-import axios from "axios";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { LoginForm } from "@/app/component/form/auth/LoginForm";
+import { SubmitButton } from "@/app/component/button/SubmitButton";
 
 export default function Login() {
-  const router = useRouter();
 
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-gray-50">

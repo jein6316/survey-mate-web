@@ -1,0 +1,42 @@
+/* AlertModal.css */
+
+/* 공통 오버레이 스타일 */
+.modal-overlay {
+    @apply fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50;
+}
+
+/* 공통 모달 스타일 */
+.modal-content {
+    @apply w-full max-w-md p-6 bg-white rounded-lg shadow-lg border-l-4;
+}
+
+.modal-title {
+    @apply text-xl font-semibold;
+}
+
+.modal-message {
+    @apply mt-4 text-gray-600;
+}
+
+.modal-actions {
+    @apply mt-6 flex justify-end;
+}
+
+.modal-button-close {
+    @apply px-4 py-2 text-white bg-gray-700 rounded hover:bg-gray-800;
+}
+
+/* 에러 모달 스타일 */
+.modal-error {
+    @apply border-red-500 text-red-700;
+}
+
+/* 경고 모달 스타일 */
+.modal-warning {
+    @apply border-yellow-500 text-yellow-700;
+}
+
+/* 정보 모달 스타일 */
+.modal-info {
+    @apply border-blue-500 text-blue-700;
+}

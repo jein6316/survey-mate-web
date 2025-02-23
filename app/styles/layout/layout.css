@@ -1,0 +1,23 @@
+.layout-common {
+  @apply text-black h-12 flex px-4 z-50;
+}
+
+.layout-header {
+  @apply layout-common fixed top-0 left-0 w-full items-center justify-between;
+}
+
+.layout-toogle {
+  @apply layout-common cursor-pointer focus:outline-none;
+}
+
+.layout-header-right {
+  @apply layout-common flex items-center space-x-4 cursor-pointer;
+}
+
+.layout-header-right > select {
+  @apply border-none focus:outline-none bg-transparent text-white appearance-none;
+}
+
+.layout-header-right > button {
+  @apply px-3 py-1;
+}

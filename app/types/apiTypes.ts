@@ -24,6 +24,10 @@ export interface RegisterFormData {
   passwordCheck: string; // 비밀번호확인
   userName: string; // 사용자 이름
   profileImage: File | null; // 파일 첨부 (이미지 등)
+  groupOption: string;
+  groupName: string;
+  groupCode: string;
+  groupAuthCode: string;
   joinDate: string; // 가입 날짜 (예: "20241120")
 }
 
@@ -66,6 +70,7 @@ export interface ResponseError {
   message: string;
 }
 
+
 //메뉴
 export interface MenuItem {
   menuNo: string;
@@ -79,4 +84,5 @@ export interface MenuItem {
   useYn: string;
   subMenus: MenuItem[];
 }
+
 
