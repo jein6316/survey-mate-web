@@ -9,6 +9,7 @@ export interface UserState {
   username: string;
   role: string;
   social: string;
+  groupCode: string;
   email: string;
   exp: number;
 }
@@ -21,6 +22,7 @@ export const userAtom = atom<UserState>({
     username: "",
     role: "guest",
     social: "homepage",
+    groupCode: "",
     email: "",
     exp: 0,
   },
