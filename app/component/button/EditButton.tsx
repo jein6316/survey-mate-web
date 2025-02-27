@@ -1,9 +1,16 @@
 "use client";
 
 import { useFormStatus } from "react-dom";
+import {useTranslation} from "react-i18next";
 
-export function EditButton({ children }: { children: React.ReactNode }) {
+interface EditButtonProps {
+  children?: React.ReactNode; // children을 선택적(`optional`)으로 변경
+}
+
+export function EditButton({ children }: EditButtonProps) {
   const { pending } = useFormStatus();
+
+  const { t } = useTranslation("common");
 
   return (
     <button
@@ -11,7 +18,7 @@ export function EditButton({ children }: { children: React.ReactNode }) {
       aria-disabled={pending}
       className="w-1/4 mx-auto rounded-md bg-[#528cff] py-2 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:outline-none"
     >
-      {children}
+      {children ?? t("EDIT")}
       {pending && (
         <svg
           className="animate-spin ml-2 h-4 w-4 text-black"
