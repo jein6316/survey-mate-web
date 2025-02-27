@@ -43,22 +43,27 @@ export const InfoView = ({ children }: { children: React.ReactNode }) => {
   }, [data]);
 
   return (
-    <div className="view-container">
-      <div className="view-title">그룹 정보</div>
-      <div className="view-field">
-        <span className="view-bold">그룹 코드</span>
-        <span className="view-bold">{groupData.groupCode}</span>
-      </div>
+      <div className="view-container">
+        <div className="view-title">그룹 정보</div>
 
-      <div className="view-field">
-        <span className="view-bold">그룹 이름</span>
-        <span className="view-bold">{groupData.groupName}</span>
-      </div>
+        <div className="view-field">
+          <span className="view-bold">그룹 코드</span>
+          <span className="view-bold">{groupData.groupCode}</span>
+        </div>
 
-      <div className="view-field">
-        <span className="view-bold">그룹 코드</span>
-        <span className="view-bold">{groupData.groupAuthCode}</span>
+        <div className="view-field">
+          <span className="view-bold">그룹 이름</span>
+          <span className="view-bold">{groupData.groupName}</span>
+        </div>
+
+        <div className="view-field">
+          <span className="view-bold">그룹 코드</span>
+          <span className="view-bold">{groupData.groupAuthCode}</span>
+        </div>
+
+        <div className="view-button-middle">
+          {children}
+        </div>
       </div>
-    </div>
   );
 };
