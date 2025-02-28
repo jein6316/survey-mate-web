@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import useLoading from "../recoil/hooks/useLoading";
 import { useRecoilValue } from "recoil";
-import useUser from "../recoil/hooks/useUser";
+import useUser from "@/app/recoil/hooks/useUser";
 import { userAtom } from "@/app/recoil/atoms/userAtom";
 import { useCallback } from "react";
 import Cookies from "js-cookie";

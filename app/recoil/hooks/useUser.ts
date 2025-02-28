@@ -17,7 +17,7 @@ export const getUserFromToken = (): UserState => {
         username: decoded.username || "",
         role: decoded.role || "guest",
         social: decoded.social === 0 ? "homepage" : "google",
-        groupCode: decoded.groupCode,
+        groupId: decoded.groupId,
         email: decoded.email || "",
         exp: decoded.exp || 0,
       };
@@ -32,7 +32,7 @@ export const getUserFromToken = (): UserState => {
     username: "",
     role: "guest",
     social: "homepage",
-    groupCode:"",
+    groupId:"",
     email: "",
     exp: 0,
   };

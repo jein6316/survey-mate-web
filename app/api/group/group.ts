@@ -1,7 +1,7 @@
 import api from "@/app/api/auth/api";
 
+export const fetchGroupInfo = async (groupId: string) => {
 
-export const getGroupInfoAPI = async () => {
-    const response = await api.get("/api/group/getGroupInfo");
+    const response = await api.get(`/api/group/${groupId}`);
     return response.data;
 };
