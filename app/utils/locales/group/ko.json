@@ -1,3 +1,7 @@
 {
-  "GROUP_NOT_FOUND":"그룹을 찾을 수 없습니다."
+  "GROUP_NOT_FOUND": "요청한 그룹을 찾을 수 없습니다.",
+  "GROUP_INFO": "그룹 정보",
+  "GROUP_CODE": "그룹 코드",
+  "GROUP_NAME": "그룹 이름",
+  "GROUP_AUTH_NUMBER": "그룹 인증번호"
 }

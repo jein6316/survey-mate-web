@@ -1,3 +1,7 @@
 {
-  "GROUP_NOT_FOUND": "The requested group could not be found."
+  "GROUP_NOT_FOUND": "The requested group could not be found.",
+  "GROUP_INFO": "Group Information",
+  "GROUP_CODE": "Group Code",
+  "GROUP_NAME": "Group Name",
+  "GROUP_AUTH_NUMBER": "Group Authentication Number"
 }
