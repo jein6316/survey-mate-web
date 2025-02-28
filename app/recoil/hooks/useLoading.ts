@@ -6,7 +6,7 @@ import { loadingAtom, LoadingState } from "../atoms/loadingAtom";
 const useLoading = () => {
   const setLoading = useSetRecoilState<LoadingState>(loadingAtom);
 
-  const setLoadingState = (text: string) => {
+  const setLoadingState = (text: string = "Loading...") => {
     setLoading({
       isLoading: true,
       loadingText: text,
