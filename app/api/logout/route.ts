@@ -1,19 +1,9 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-<<<<<<< Updated upstream
-import { useRouter } from "next/navigation";
-import useLoading from "../recoil/hooks/useLoading";
-import { useRecoilValue } from "recoil";
-import useUser from "@/app/recoil/hooks/useUser";
-import { userAtom } from "@/app/recoil/atoms/userAtom";
-import { useCallback } from "react";
-import Cookies from "js-cookie";
-=======
 // ✅ 서버사이드 로그아웃 처리
 export async function GET(req: NextRequest) {
   console.log("🚀 서버에서 로그아웃 처리 중...");
->>>>>>> Stashed changes
 
   const res = NextResponse.redirect(new URL("/", req.url)); // 기본적으로 홈(`/`)으로 이동
 
@@ -23,7 +13,7 @@ export async function GET(req: NextRequest) {
   // ✅ 모든 쿠키 삭제 (액세스 토큰, 리프레시 토큰, 소셜 타입)
   res.cookies.delete("accessToken");
   res.cookies.delete("refreshToken");
-  res.cookies.delete("social");
+  res.cookies.delete("language");
 
   // ✅ 구글 로그인 사용자의 경우 구글 로그아웃 URL로 리디렉트
   if (socialType === "google") {
