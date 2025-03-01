@@ -5,10 +5,8 @@ import { FiMenu, FiX, FiChevronDown, FiChevronRight } from "react-icons/fi";
 import { getMenusByRole } from "@/app/api/menuApi";
 import { useMutation } from "@tanstack/react-query";
 import { APIResponse, MenuItem } from "@/app/types/apiTypes";
-import { useRouter } from "next/navigation";
 import { useRecoilValue } from "recoil";
-import useUser from "@/app/recoil/hooks/useUser";
-import LoadingBar from "@/app/component/common/modal/LoadingBar";
+import Cookies from "js-cookie";
 import { userAtom } from "@/app/recoil/atoms/userAtom";
 
 interface MenuLayoutProps {
@@ -20,6 +18,7 @@ const MenuLayout: React.FC<MenuLayoutProps> = ({ children }) => {
   const [menuData, setMenuData] = useState<MenuItem[]>([]);
   const [expandedKeys, setExpandedKeys] = useState<string[]>([]);
   const user = useRecoilValue(userAtom);
+  const [lang, setLang] = useState(Cookies.get("language"));
 
   // API 호출 로직
   const { data, error, isError, isPending, mutate } = useMutation<
@@ -29,7 +28,6 @@ const MenuLayout: React.FC<MenuLayoutProps> = ({ children }) => {
   >({
     mutationFn: getMenusByRole,
     onSuccess: (data: any) => {
-      debugger;
       setMenuData(data.data || []); // 데이터를 상태에 저장
     },
     onError: (error: Error) => {
@@ -38,9 +36,25 @@ const MenuLayout: React.FC<MenuLayoutProps> = ({ children }) => {
   });
 
   useEffect(() => {
-    mutate("ROLE_USER");
-  }, [mutate]);
+    if (user.isLoggedIn) {
+      mutate("ROLE_USER");
+    }
+  }, [user.isLoggedIn, mutate]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const currentLang = Cookies.get("language");
+      if (currentLang !== lang) {
+        setLang(currentLang || "en"); // 업데이트
+      }
+    }, 500); // 0.5초마다 확인 (적절한 시간 조정 가능)
+
+    return () => clearInterval(interval); // 컴포넌트 언마운트 시 정리
+  }, [lang]);
+
+  useEffect(() => {
+    renderMenu(menuData);
+  }, [lang, menuData]);
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const toggleExpand = (key: string) => {
@@ -61,10 +75,12 @@ const MenuLayout: React.FC<MenuLayoutProps> = ({ children }) => {
           >
             {item.menuPath ? (
               <a href={item.menuPath} className="flex-1">
-                {item.menuKorName}
+                {lang == "ko" ? item.menuKorName : item.menuEngName}
               </a>
             ) : (
-              <span className="flex-1">{item.menuKorName}</span>
+              <span className="flex-1">
+                {lang == "ko" ? item.menuKorName : item.menuEngName}
+              </span>
             )}
             {item.subMenus && item.subMenus.length > 0 && (
               <span className="transition-transform duration-200">
