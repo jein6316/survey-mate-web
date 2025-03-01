@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { FiMenu, FiX, FiChevronDown, FiChevronRight } from "react-icons/fi";
-import { getMenusByRole } from "@/app/api/menuApi";
+import { getMenusByRole } from "@/app/api/menu/menuApi";
 import { useMutation } from "@tanstack/react-query";
 import { APIResponse, MenuItem } from "@/app/types/apiTypes";
 import { useRecoilValue } from "recoil";
@@ -55,6 +55,7 @@ const MenuLayout: React.FC<MenuLayoutProps> = ({ children }) => {
   useEffect(() => {
     renderMenu(menuData);
   }, [lang, menuData]);
+
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const toggleExpand = (key: string) => {

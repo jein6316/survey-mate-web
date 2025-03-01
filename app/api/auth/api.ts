@@ -1,4 +1,3 @@
-import logout from "@/app/hooks/useLogout";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -9,6 +8,12 @@ const api = axios.create({
 
 let isRefreshing = false;
 let refreshSubscribers: ((newToken: string) => void)[] = [];
+
+const redirectToLogout = () => {
+  if (typeof window !== "undefined") {
+    window.location.href = "/api/logout"; // 🚀 서버에서 로그아웃 처리
+  }
+};
 
 api.interceptors.request.use(
   async (config) => {
@@ -48,7 +53,7 @@ api.interceptors.request.use(
           "🚨 리프레시 토큰 갱신 실패! 로그아웃 실행",
           refreshError
         );
-        logout();
+        redirectToLogout(); // 🚀 `/api/logout`으로 이동하여 서버에서 로그아웃 처리
         return Promise.reject(refreshError);
       }
     }
@@ -111,7 +116,7 @@ api.interceptors.response.use(
             "🚨 리프레시 토큰 갱신 실패! 로그아웃 실행",
             refreshError
           );
-          logout();
+          redirectToLogout(); // 🚀 `/api/logout`으로 이동하여 서버에서 로그아웃 처리
           return Promise.reject(refreshError);
         }
       }
@@ -127,7 +132,7 @@ api.interceptors.response.use(
     // ✅ 리프레시 토큰도 만료된 경우 (401 Unauthorized)
     if (error.response?.status === 401) {
       console.error("🚨 리프레시 토큰 만료됨! 로그아웃 실행");
-      logout();
+      redirectToLogout(); // 🚀 `/api/logout`으로 이동하여 서버에서 로그아웃 처리
       return Promise.reject(error);
     }
 
