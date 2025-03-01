@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { AiOutlineGlobal } from "react-icons/ai";
 import { userAtom } from "@/app/recoil/atoms/userAtom";
-import useLogout from "@/app/hooks/useLogout";
 import { useRecoilValue } from "recoil";
 import { useTranslation } from "react-i18next";
 
@@ -24,10 +23,10 @@ const HeaderRight = () => {
       if (savedLanguage === "ko" || savedLanguage === "en") {
         selectLanguage(savedLanguage); // 쿠키 값이 있으면 사용
       }
-      return; // 위치 정보 가져오지 않음
+      return;
     }
 
-    const browserLanguage = navigator.language; // ex: "en-US", "ko-KR"
+    const browserLanguage = navigator.language;
     console.log(`Browser language: ${browserLanguage}`);
 
     if (navigator.geolocation) {
@@ -36,30 +35,26 @@ const HeaderRight = () => {
           const { latitude, longitude } = position.coords;
           console.log(`User's location: lat=${latitude}, lng=${longitude}`);
 
-          // 예: OpenStreetMap Nominatim API 사용
           fetch(
             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
           )
             .then((response) => response.json())
             .then((data) => {
-              const countryCode = data.address?.country_code || "kr"; // "ko", "us", 등
+              const countryCode = data.address?.country_code || "kr";
               console.log(`Country code: ${countryCode}`);
-              selectLanguage(countryCode === "kr" ? "ko" : "en"); // 한국이면 "ko", 그 외는 "en"
+              selectLanguage(countryCode === "kr" ? "ko" : "en");
             })
             .catch((error) => {
               console.error("Error fetching location data:", error);
-              // 오류 발생 시 브라우저 언어로 기본 설정
               selectLanguage(browserLanguage.startsWith("ko") ? "ko" : "en");
             });
         },
         (error) => {
           console.error("Error getting location:", error);
-          // 위치 권한 거부 시 브라우저 언어로 기본 설정
           selectLanguage(browserLanguage.startsWith("ko") ? "ko" : "en");
         }
       );
     } else {
-      // Geolocation API를 사용할 수 없는 경우 브라우저 언어로 설정
       selectLanguage(browserLanguage.startsWith("ko") ? "ko" : "en");
     }
   }, [language]);
@@ -72,7 +67,12 @@ const HeaderRight = () => {
     setIsOpen(false);
   };
 
-  const handleLogout = useLogout();
+  // ✅ 로그아웃 핸들러 (서버에서 처리)
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      window.location.href = "/api/logout"; // 🚀 서버에서 로그아웃 처리
+    }
+  };
 
   return (
     <div className="relative flex items-center space-x-4">
@@ -82,7 +82,11 @@ const HeaderRight = () => {
           className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded"
           onClick={handleLogout}
         >
+<<<<<<< Updated upstream
             {t("AUTH.LOGOUT")}
+=======
+          {t("LOGOUT")}
+>>>>>>> Stashed changes
         </button>
       )}
       <div className="relative">
