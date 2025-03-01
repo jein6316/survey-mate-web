@@ -10,7 +10,7 @@ const HeaderRight = () => {
   const [language, setLanguage] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const user = useRecoilValue(userAtom);
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation("auth");
 
   useEffect(() => {
     const savedLanguage = document.cookie
@@ -82,11 +82,7 @@ const HeaderRight = () => {
           className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded"
           onClick={handleLogout}
         >
-<<<<<<< Updated upstream
-            {t("AUTH.LOGOUT")}
-=======
           {t("LOGOUT")}
->>>>>>> Stashed changes
         </button>
       )}
       <div className="relative">

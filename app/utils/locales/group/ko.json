@@ -1,21 +1,7 @@
 {
-  "GROUP": {
-    "LOGIN": "Login",
-    "LOGOUT": "Logout",
-    "FIND_ID": "Find ID",
-    "SIGN_UP": "Sign Up",
-    "RESET_PASSWORD": "Reset Password",
-    "SIGNIN_COMPLETED": "Sign-in completed.",
-    "SIGNIN_FAILED": "Sign-in failed. Please check your credentials.",
-    "SIGNOUT_COMPLETED": "You have been signed out.",
-    "SIGNUP_SUCCESS": "Sign-up completed successfully.",
-    "SIGNUP_FAILED": "Sign-up failed. Please try again.",
-    "EMAIL_VERIFICATION_SUCCESS": "Email verification completed successfully.",
-    "EMAIL_VERIFICATION_FAILED": "Email verification failed.",
-    "PASSWORD_RESET_REQUESTED": "Password reset request has been sent.",
-    "PASSWORD_RESET_SUCCESS": "Your password has been reset successfully.",
-    "PASSWORD_RESET_FAILED": "Failed to reset password.",
-    "TOKEN_EXPIRED": "Your session has expired. Please sign in again.",
-    "UNAUTHORIZED_ACCESS": "Unauthorized access. Please log in."
-  }
+  "GROUP_NOT_FOUND": "요청한 그룹을 찾을 수 없습니다.",
+  "GROUP_INFO": "그룹 정보",
+  "GROUP_CODE": "그룹 코드",
+  "GROUP_NAME": "그룹 이름",
+  "GROUP_AUTH_NUMBER": "그룹 인증번호"
 }

@@ -1,6 +1,4 @@
 import { atom, selector } from "recoil";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
 
 // 사용자 정보 타입 정의
 export interface UserState {
@@ -9,6 +7,7 @@ export interface UserState {
   username: string;
   role: string;
   social: string;
+  groupId: string;
   email: string;
   exp: number;
 }
@@ -21,6 +20,7 @@ export const userAtom = atom<UserState>({
     username: "",
     role: "guest",
     social: "homepage",
+    groupId: "",
     email: "",
     exp: 0,
   },
