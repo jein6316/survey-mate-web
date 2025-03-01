@@ -4,6 +4,7 @@ import Providers from "./providers";
 import AlertModal from "@/app/component/common/modal/AlertModal";
 import LoadingBar from "@/app/component/common/modal/LoadingBar";
 import HeaderRight from "@/app/component/common/header/HeaderRight";
+import MenuLayout from "./component/common/layout/MenuLayout";
 
 let title = "Survey Mate";
 let description =
@@ -35,7 +36,7 @@ export default function RootLayout({
           <header className="flex justify-end items-center p-4 bg-white shadow-md">
             <HeaderRight />
           </header>
-          <main className={`flex-1 bg-gray-50 p-8`}>{children}</main>
+          <MenuLayout>{children}</MenuLayout>
         </body>
       </Providers>
     </html>
