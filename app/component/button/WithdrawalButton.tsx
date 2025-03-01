@@ -1,18 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { logout } from "@/app/hooks/useLogout";
+
 export function WithdrawalButton() {
   const [isPending, setIsPending] = useState(false);
-
-  const router = useRouter();
 
   const handleWithdrawal = async () => {
     setIsPending(true);
 
     try {
-      logout();
+      if (typeof window !== "undefined") {
+        window.location.href = "/api/logout"; // 🚀 서버에서 로그아웃 처리
+      }
     } catch (error) {
       console.error("회원 탈퇴 처리 중 오류 발생:", error);
     } finally {
@@ -23,8 +22,8 @@ export function WithdrawalButton() {
   return (
     <button
       onClick={handleWithdrawal}
-      aria-disabled={isPending}
-      className="flex h-10 w-full items-center justify-center rounded-md border bg-red-500 text-white text-sm transition-all hover:bg-red-600 focus:outline-none"
+      disabled={isPending}
+      className="flex h-10 w-full items-center justify-center rounded-md border bg-red-500 text-white text-sm transition-all hover:bg-red-600 focus:outline-none disabled:bg-red-300"
     >
       {isPending ? (
         <>
