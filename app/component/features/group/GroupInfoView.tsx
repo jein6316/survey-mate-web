@@ -9,12 +9,15 @@ import {useTranslation} from "react-i18next";
 import {ResponseError} from "@/app/types/apiTypes";
 import {getUserFromToken} from "@/app/recoil/hooks/useUser";
 import useLoading from "@/app/recoil/hooks/useLoading";
+import {useRouter} from "next/navigation";
+import {urlConstants} from "@/app/constants/urls/group/urlConstants";
 
-export const InfoView = ({children}: { children: React.ReactNode }) => {
+export const GroupInfoView = ({children}: { children: React.ReactNode }) => {
     const {t} = useTranslation("group");
     const openAlert = useAlert();
     const {groupId} = getUserFromToken();
     const {setLoadingState, clearLoadingState} = useLoading();
+    const router = useRouter();
 
 
     const [groupData, setGroupData] = useState({
@@ -48,6 +51,11 @@ export const InfoView = ({children}: { children: React.ReactNode }) => {
         openAlert(t(msg), "error");
     }
 
+    const handleEdit = () => {
+        const queryString = new URLSearchParams(groupData).toString();
+        router.push(`${urlConstants.GROUP.EDIT}?${queryString}`);
+    }
+
     useEffect(() => {
         if (data) {
             const result = data.data; // API 응답 데이터
@@ -79,7 +87,8 @@ export const InfoView = ({children}: { children: React.ReactNode }) => {
             </div>
 
             <div className="view-button-middle">
-                {children}
+                {/*{children}*/}
+                {React.cloneElement(children as React.ReactElement, { onClick: handleEdit })}
             </div>
         </div>
     );
