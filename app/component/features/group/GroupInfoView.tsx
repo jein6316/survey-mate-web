@@ -86,7 +86,7 @@ export const GroupInfoView = ({children}: { children: React.ReactNode }) => {
                 <span className="view-bold">{groupData.groupAuthCode}</span>
             </div>
 
-            <div className="view-button-middle">
+            <div className="view-button-one">
                 {/*{children}*/}
                 {React.cloneElement(children as React.ReactElement, { onClick: handleEdit })}
             </div>
