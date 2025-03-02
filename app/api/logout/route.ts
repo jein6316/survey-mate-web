@@ -13,7 +13,6 @@ export async function GET(req: NextRequest) {
   // ✅ 모든 쿠키 삭제 (액세스 토큰, 리프레시 토큰, 소셜 타입)
   res.cookies.delete("accessToken");
   res.cookies.delete("refreshToken");
-  res.cookies.delete("language");
 
   // ✅ 구글 로그인 사용자의 경우 구글 로그아웃 URL로 리디렉트
   if (socialType === "google") {
