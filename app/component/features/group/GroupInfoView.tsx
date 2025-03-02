@@ -3,10 +3,10 @@
 import React, {useEffect, useState} from "react";
 import "@/app/styles/common/View.css";
 import {useQuery} from "@tanstack/react-query";
-import {fetchGroupInfo} from "@/app/api/group/group";
+import {getGroupInfo} from "@/app/api/group/group";
 import useAlert from "@/app/recoil/hooks/useAlert";
 import {useTranslation} from "react-i18next";
-import {ResponseError} from "@/app/types/apiTypes";
+import {GroupData, ResponseError} from "@/app/types/apiTypes";
 import {getUserFromToken} from "@/app/recoil/hooks/useUser";
 import useLoading from "@/app/recoil/hooks/useLoading";
 import {useRouter} from "next/navigation";
@@ -20,7 +20,8 @@ export const GroupInfoView = ({children}: { children: React.ReactNode }) => {
     const router = useRouter();
 
 
-    const [groupData, setGroupData] = useState({
+    const [groupData, setGroupData] = useState<GroupData>({
+        groupId: groupId || "",
         groupCode: "",
         groupName: "",
         groupAuthCode: "",
@@ -31,28 +32,34 @@ export const GroupInfoView = ({children}: { children: React.ReactNode }) => {
         queryFn: () => {
             if (!groupId) {
                 openAlert(t("GROUP_NOT_FOUND"), "error");
-                throw new Error("GROUP_NOT_FOUND");
+                return;
             }
-            return fetchGroupInfo(groupId)
-        }
+            return getGroupInfo(groupId)
+        },
+        enabled: !!groupId
     });
 
-    if(isLoading){
-        setLoadingState();
-    }else{
-        clearLoadingState();
-    }
-
-    if (error) {
-        let msg = (error as ResponseError).message;
-        if ((error as ResponseError).response) {
-            msg = (error as ResponseError).response?.data?.message || msg;
+    useEffect(() => {
+        if (isLoading) {
+            setLoadingState();
+        } else {
+            clearLoadingState();
         }
-        openAlert(t(msg), "error");
-    }
+    }, [isLoading]);
+
+    useEffect(() => {
+        if (error) {
+            let msg = (error as ResponseError).message;
+            if ((error as ResponseError).response) {
+                msg = (error as ResponseError).response?.data?.message || msg;
+            }
+            openAlert(t(msg), "error");
+        }
+    }, [error]);
+
 
     const handleEdit = () => {
-        const queryString = new URLSearchParams(groupData).toString();
+        const queryString = new URLSearchParams(Object.fromEntries(Object.entries(groupData))).toString();
         router.push(`${urlConstants.GROUP.EDIT}?${queryString}`);
     }
 
@@ -60,6 +67,7 @@ export const GroupInfoView = ({children}: { children: React.ReactNode }) => {
         if (data) {
             const result = data.data; // API 응답 데이터
             setGroupData({
+                groupId: groupId || "",
                 groupCode: result.groupCode || "",
                 groupName: result.groupName || "",
                 groupAuthCode: result.groupAuthCode || "",

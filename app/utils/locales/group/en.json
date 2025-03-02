@@ -4,5 +4,8 @@
   "GROUP_CODE": "Group Code",
   "GROUP_NAME": "Group Name",
   "GROUP_AUTH_NUMBER": "Group Authentication Number",
-  "GROUP_EDIT_SUBJECT" : "Group Information Edit"
+  "GROUP_EDIT_SUBJECT" : "Group Information Edit",
+  "GROUP_CREATE_SUBJECT": "Group Create",
+  "GROUP_NAME_REQUIRED": "Please enter the group name.",
+  "GROUP_AUTH_CODE_REQUIRED": "Please enter the group authentication code."
 }
