@@ -31,10 +31,14 @@
     @apply flex justify-end space-x-2 mt-4;
 }
 
+.form-button-center {
+    @apply flex space-x-2 mt-4 justify-center;
+}
+
 .form-info-read {
     @apply mt-1 p-2 border border-gray-300 bg-white rounded-md text-gray-600 text-sm;
 }
 
 .form-readonly {
-    @apply mt-1 p-2 border border-gray-300 bg-gray-50 rounded-md text-gray-600 text-sm;
+    @apply mt-1 p-2 border border-gray-300 bg-gray-100 rounded-md text-gray-600 text-sm w-full;
 }
