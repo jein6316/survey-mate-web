@@ -19,6 +19,6 @@
     @apply font-bold;
 }
 
-.view-button-middle {
+.view-button-one {
     @apply flex justify-center mt-4;
 }

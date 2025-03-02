@@ -31,7 +31,7 @@
     @apply flex justify-end space-x-2 mt-4;
 }
 
-.form-button-center {
+.form-button-two {
     @apply flex space-x-2 mt-4 justify-center;
 }
 

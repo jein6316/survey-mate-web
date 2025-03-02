@@ -43,19 +43,39 @@ const GroupEditForm = ({children}: { children: React.ReactNode }) => {
 
     const updateGroup = async ({ groupId, groupData }: { groupId: string; groupData: any }) => {
         const response = await fetch(`/api/group/${groupId}`, {
-            method: "PUT", // ✅ PUT 방식 사용
+            method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(groupData),
         });
 
-        if (!response.ok) throw new Error("그룹 수정 실패");
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw { status: response.status, message: errorData.message };
+        }
 
-        return response.json();
+        const data = await response.json();
+        return { message: data.message, groupId };
     };
 
     // const { mutate, isPending, isError, isSuccess } = useMutation(updateGroup);
 
-
+    // const { mutate, isPending, isError, isSuccess, data } = useMutation<
+    //     { message: string; groupId: string }, // ✅ TData: 성공 시 반환 타입
+    //     { status: number; message: string },  // ✅ TError: 실패 시 반환 타입
+    //     { groupId: string; groupData: any },  // ✅ TVariables: mutate()에 전달할 데이터 타입
+    //     { previousGroupData?: any }           // ✅ TContext: onMutate에서 사용할 컨텍스트 타입
+    // >(updateGroup, {
+    //     onSuccess: (data) => {
+    //         console.log("그룹 수정 완료:", data);
+    //     },
+    //     onError: (error) => {
+    //         console.error("수정 실패:", error);
+    //     },
+    //     onMutate: (variables) => {
+    //         console.log("API 요청 직전 실행, 기존 데이터:", variables);
+    //         return { previousGroupData: variables }; // 기존 데이터를 context로 저장
+    //     },
+    // });
 
     return (
         <div className="form-container">
@@ -103,7 +123,7 @@ const GroupEditForm = ({children}: { children: React.ReactNode }) => {
                     className="form-input-full"
                 />
             </div>
-            <div className="form-button-center">
+            <div className="form-button-two">
                 {React.Children.map(children, (child, index) => {
                     if (!React.isValidElement<{ onClick?: () => void }>(child)) return child;
 
