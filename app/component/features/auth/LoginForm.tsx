@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LoginFormData, APIResponse } from "@/app/types/apiTypes";
 import { loginSubmit } from "@/app/api/auth/auth";
 import useMutationLogin from "@/app/hooks/useMutationLogin";
@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { SubmitButton } from "@/app/component/button/SubmitButton";
 import { useTranslation } from "react-i18next";
+import { userAtom } from "@/app/recoil/atoms/userAtom";
+import { useRecoilValue } from "recoil";
 
 export function LoginForm({
   action,
@@ -18,12 +20,15 @@ export function LoginForm({
 }) {
   const router = useRouter(); // useRouter 훅 사용
   const { t } = useTranslation("auth");
+  const user = useRecoilValue(userAtom);
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
   //로그인 폼데이터
   const [formData, setFormData] = useState<LoginFormData>({
     userId: "",
     password: "",
   });
+
   // 폼 입력 값 변경 처리
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -42,11 +47,24 @@ export function LoginForm({
     e.preventDefault();
     mutate(formData); // useLogin 훅을 통해 로그인 요청
   };
+
   // Google OAuth 로그인 처리
   const handleGoogleLogin = () => {
     const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=24831698320-vvlj7h93mdlen8ot8tbv6t5m931eh34e.apps.googleusercontent.com&redirect_uri=http://localhost:3000/auth/google-callback&response_type=token&scope=email profile`;
     window.location.href = googleAuthUrl; // Google 인증 페이지로 리디렉션
   };
+
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      router.push(urlConstants.pages.USERDASHBOARD); // 로그인 상태라면 대시보드로 리디렉션
+    } else {
+      setLoading(false); // 로그인되지 않았다면 폼을 렌더링
+    }
+  }, [user.isLoggedIn, router]);
+
+  if (loading) {
+    return null; // 로그인 상태 확인 중에는 아무것도 렌더링하지 않음
+  }
 
   return (
     <div className="flex min-h-screen w-screen items-center justify-center bg-gray-50 px-4">
