@@ -85,4 +85,10 @@ export interface MenuItem {
   subMenus: MenuItem[];
 }
 
-
+//그룹
+export interface GroupData {
+  groupId: string,
+  groupCode: string,
+  groupName: string,
+  groupAuthCode: string,
+}

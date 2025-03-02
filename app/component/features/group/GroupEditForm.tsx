@@ -1,27 +1,72 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import {useParams, useSearchParams} from "next/navigation";
+import React, {useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
 import { urlConstants } from "@/app/constants/urls/group/urlConstants";
 import "@/app/styles/common/Form.css";
 import {useTranslation} from "react-i18next";
-import {useMutation} from "@tanstack/react-query";
+import {useMutation, useQuery} from "@tanstack/react-query";
+import {APIResponse, GroupData, ResponseError} from "@/app/types/apiTypes";
+import {getGroupInfo, saveOrupdateGroupData} from "@/app/api/group/group";
+import useAlert from "@/app/recoil/hooks/useAlert";
+import {getUserFromToken} from "@/app/recoil/hooks/useUser";
+import {useRecoilValue, useSetRecoilState} from "recoil";
+import {userAtom} from "@/app/recoil/atoms/userAtom";
 
 
 
 const GroupEditForm = ({children}: { children: React.ReactNode }) => {
     const searchParams = useSearchParams();
     const router = useRouter();
-    const {t} = useTranslation("group");
+    const openAlert = useAlert();
+    const { groupId } = useRecoilValue(userAtom);
+    const setUser = useSetRecoilState(userAtom);
+    const { t: tGroup } = useTranslation("group");
+    const { t: tCommon } = useTranslation("common");
+    const [title, setTitle] = useState(tGroup("GROUP_CREATE_SUBJECT"));
 
 
-    // URL에서 데이터 가져오기
-    const [groupData, setGroupData] = useState({
-        groupCode: searchParams.get("groupCode") || "",
-        groupName: searchParams.get("groupName") || "",
-        groupAuthCode: searchParams.get("groupAuthCode") || "",
+
+    const { data: groupInfoData } = useQuery({
+        queryKey: ["groupInfo", searchParams.get("groupId") || ""],
+        queryFn: () => getGroupInfo(groupId),
+        enabled: !searchParams.has("groupId") && !!groupId
     });
+
+
+
+    const [groupData, setGroupData] = useState<GroupData>(() => {
+        if (searchParams.has("groupCode")) {
+            setTitle(tGroup("GROUP_EDIT_SUBJECT"));
+            return {
+                groupId: searchParams.get("groupId") || "",
+                groupCode: searchParams.get("groupCode") || "",
+                groupName: searchParams.get("groupName") || "",
+                groupAuthCode: searchParams.get("groupAuthCode") || "",
+            };
+        }
+        return {
+            groupId: "",
+            groupCode: "",
+            groupName: "",
+            groupAuthCode: "",
+        };
+    });
+
+    useEffect(()=>{
+        if (groupInfoData) {
+            const result = groupInfoData.data;
+            setGroupData(prev => ({
+                ...prev,
+                groupId: result.groupId || "",
+                groupCode: result.groupCode || "",
+                groupName: result.groupName || "",
+                groupAuthCode: result.groupAuthCode || "",
+            }));
+            setTitle(tGroup("GROUP_EDIT_SUBJECT"));
+        }
+    },[groupInfoData]);
 
     // 입력값 변경 핸들러
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,75 +77,72 @@ const GroupEditForm = ({children}: { children: React.ReactNode }) => {
     };
 
     const handleSave = () => {
-        debugger
-        // 수정 완료 후 다시 그룹 정보 페이지로 이동
-        router.push(urlConstants.GROUP.INFO);
+        if (!groupData.groupName.trim() ) {
+            openAlert(tGroup("GROUP_NAME_REQUIRED"),"error");
+            return;
+        }
+        if (!groupData.groupAuthCode.trim()) {
+            openAlert(tGroup("GROUP_AUTH_CODE_REQUIRED"),"error");
+            return;
+        }
+        mutate(groupData);
     };
 
     const handleCancel = () => {
+        openAlert(tCommon("CANCELED"))
         router.push(urlConstants.GROUP.INFO);
     };
 
-    const updateGroup = async ({ groupId, groupData }: { groupId: string; groupData: any }) => {
-        const response = await fetch(`/api/group/${groupId}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(groupData),
-        });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw { status: response.status, message: errorData.message };
-        }
 
-        const data = await response.json();
-        return { message: data.message, groupId };
-    };
 
-    // const { mutate, isPending, isError, isSuccess } = useMutation(updateGroup);
-
-    // const { mutate, isPending, isError, isSuccess, data } = useMutation<
-    //     { message: string; groupId: string }, // ✅ TData: 성공 시 반환 타입
-    //     { status: number; message: string },  // ✅ TError: 실패 시 반환 타입
-    //     { groupId: string; groupData: any },  // ✅ TVariables: mutate()에 전달할 데이터 타입
-    //     { previousGroupData?: any }           // ✅ TContext: onMutate에서 사용할 컨텍스트 타입
-    // >(updateGroup, {
-    //     onSuccess: (data) => {
-    //         console.log("그룹 수정 완료:", data);
-    //     },
-    //     onError: (error) => {
-    //         console.error("수정 실패:", error);
-    //     },
-    //     onMutate: (variables) => {
-    //         console.log("API 요청 직전 실행, 기존 데이터:", variables);
-    //         return { previousGroupData: variables }; // 기존 데이터를 context로 저장
-    //     },
-    // });
+    const { data, error, isError, isPending, mutate } = useMutation<
+        APIResponse,
+        ResponseError,
+        GroupData
+    >({
+        mutationFn: saveOrupdateGroupData,
+        onSuccess: (data: any) => {
+            setUser(prev => ({ ...prev, groupId: data.groupId }));
+            openAlert(tCommon("SAVED"))
+            router.push(urlConstants.GROUP.INFO);
+        },
+        onError: (error: ResponseError) => {
+            let errorMsg = error.message;
+            if(error.response){
+                errorMsg = error.response?.data.message;
+            }
+            console.log(tCommon(errorMsg));
+        },
+    });
 
     return (
         <div className="form-container">
-            <h2 className="form-title">{t("GROUP_EDIT_SUBJECT")}</h2>
+            <h2 className="form-title">
+                {title}
+            </h2>
 
-            <div>
-                <label htmlFor="groupCode" className="form-label">
-                    {t("GROUP_CODE")}
-                </label>
-                <div
-                    id="groupCode"
-                    className="form-readonly"
-                >{groupData.groupCode}
+            {groupData.groupCode &&
+                <div>
+                    <label htmlFor="groupCode" className="form-label">
+                        {tGroup("GROUP_CODE")}
+                    </label>
+                    <div
+                        id="groupCode"
+                        className="form-readonly"
+                    >{groupData.groupCode}
+                    </div>
                 </div>
-            </div>
-
+            }
             <div>
                 <label htmlFor="groupName" className="form-label">
-                    {t("GROUP_NAME")}
+                    {tGroup("GROUP_NAME")}
                 </label>
                 <input
                     id="groupName"
                     name="groupName"
                     type="text"
-                    placeholder="Enter your name"
+                    placeholder="Enter group name"
                     onChange={handleChange}
                     value={groupData.groupName}
                     required
@@ -110,13 +152,13 @@ const GroupEditForm = ({children}: { children: React.ReactNode }) => {
 
             <div>
                 <label htmlFor="groupAuthCode" className="form-label">
-                    {t("GROUP_AUTH_NUMBER")}
+                    {tGroup("GROUP_AUTH_NUMBER")}
                 </label>
                 <input
                     id="groupAuthCode"
                     name="groupAuthCode"
                     type="text"
-                    placeholder="Enter your name"
+                    placeholder="Enter group auth code"
                     onChange={handleChange}
                     value={groupData.groupAuthCode}
                     required
