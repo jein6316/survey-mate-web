@@ -3,5 +3,6 @@
   "GROUP_INFO": "그룹 정보",
   "GROUP_CODE": "그룹 코드",
   "GROUP_NAME": "그룹 이름",
-  "GROUP_AUTH_NUMBER": "그룹 인증번호"
+  "GROUP_AUTH_NUMBER": "그룹 인증번호",
+  "GROUP_EDIT_SUBJECT": "그룹 정보 수정"
 }

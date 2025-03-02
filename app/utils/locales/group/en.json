@@ -3,5 +3,6 @@
   "GROUP_INFO": "Group Information",
   "GROUP_CODE": "Group Code",
   "GROUP_NAME": "Group Name",
-  "GROUP_AUTH_NUMBER": "Group Authentication Number"
+  "GROUP_AUTH_NUMBER": "Group Authentication Number",
+  "GROUP_EDIT_SUBJECT" : "Group Information Edit"
 }

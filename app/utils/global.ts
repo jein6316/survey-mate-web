@@ -16,7 +16,7 @@
  */
 
 import { isNullOrEmpty, isInvalidFileType } from "./validators";
-import { urlConstants } from "./urlConstants";
+import { urlConstants } from "../constants/urls/auth/urlConstants";
 
 declare global {
   interface Window {
