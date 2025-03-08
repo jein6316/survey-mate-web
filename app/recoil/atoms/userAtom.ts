@@ -5,7 +5,7 @@ export interface UserState {
   isLoggedIn: boolean;
   userId: string;
   username: string;
-  role: string;
+  roles: string;
   social: string;
   groupId: string;
   email: string;
@@ -18,7 +18,7 @@ export const userAtom = atom<UserState>({
     isLoggedIn: false,
     userId: "",
     username: "",
-    role: "guest",
+    roles: "guest",
     social: "homepage",
     groupId: "",
     email: "",
