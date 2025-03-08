@@ -15,8 +15,15 @@ import {useStatusHandler} from "@/app/hooks/useStatusHandler";
 export const GroupInfoView = ({children}: { children: React.ReactNode }) => {
     const {t} = useTranslation("group");
     const openAlert = useAlert();
-    const {groupId} = getUserFromToken();
+    const {groupId, roles} = getUserFromToken();
     const router = useRouter();
+    const [isManager, setIsManager] = useState(false);
+
+    useEffect(() => {
+        const { roles } = getUserFromToken();
+        setIsManager(roles.includes("ROLE_MANAGER"));
+    }, []);
+
 
 
     const [groupData, setGroupData] = useState<GroupData>({
@@ -76,11 +83,12 @@ export const GroupInfoView = ({children}: { children: React.ReactNode }) => {
                 <span className="view-bold">{t("GROUP_AUTH_NUMBER")}</span>
                 <span className="view-bold">{groupData.groupAuthCode}</span>
             </div>
-
-            <div className="view-button-one">
-                {/*{children}*/}
-                {React.cloneElement(children as React.ReactElement, { onClick: handleEdit })}
-            </div>
+            {isManager &&
+                <div className="view-button-one">
+                    {/*{children}*/}
+                    {React.cloneElement(children as React.ReactElement, {onClick: handleEdit})}
+                </div>
+            }
         </div>
     );
 };
