@@ -40,7 +40,7 @@ const NestedMenu: React.FC = () => {
 
   useEffect(() => {
     mutate();
-  }, []);
+  }, [mutate]);
 
   // 메뉴 열기/닫기
   const toggleMenu = (menuNo: string) => {
