@@ -1,6 +1,6 @@
 
 import "@/app/styles/common/Page.css";
-import GroupEditForm from "@/app/component/features/group/GroupEditForm";
+import {GroupEditForm} from "@/app/component/features/group/GroupEditForm";
 import {SaveButton} from "@/app/component/button/SaveButton";
 import {CancelButton} from "@/app/component/button/CancelButton";
 
