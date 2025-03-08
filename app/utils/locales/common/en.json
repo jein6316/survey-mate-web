@@ -12,5 +12,11 @@
     "NOT_FOUND": "Requested resource not found.",
     "INTERNAL_SERVER_ERROR": "An unexpected server error occurred.",
     "BAD_REQUEST": "Invalid request.",
-    "FORBIDDEN": "You do not have permission to access this resource."
+    "FORBIDDEN": "You do not have permission to access this resource.",
+    "USER" : "USER",
+    "MANAGER" : "MANAGER",
+    "NAME" : "NAME",
+    "ROLE" : "ROLE",
+    "PREV" : "prev",
+    "NEXT" : "next"
 }

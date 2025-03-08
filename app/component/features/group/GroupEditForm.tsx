@@ -1,6 +1,6 @@
 "use client";
 
-import {useParams, useSearchParams} from "next/navigation";
+import {useSearchParams} from "next/navigation";
 import React, {useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
 import { urlConstants } from "@/app/constants/urls/group/urlConstants";
@@ -10,13 +10,12 @@ import {useMutation, useQuery} from "@tanstack/react-query";
 import {APIResponse, GroupData, ResponseError} from "@/app/types/apiTypes";
 import {getGroupInfo, saveOrupdateGroupData} from "@/app/api/group/group";
 import useAlert from "@/app/recoil/hooks/useAlert";
-import {getUserFromToken} from "@/app/recoil/hooks/useUser";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {userAtom} from "@/app/recoil/atoms/userAtom";
 
 
 
-const GroupEditForm = ({children}: { children: React.ReactNode }) => {
+export const GroupEditForm = ({children}: { children: React.ReactNode }) => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const openAlert = useAlert();
@@ -181,4 +180,3 @@ const GroupEditForm = ({children}: { children: React.ReactNode }) => {
     );
 };
 
-export default GroupEditForm;
