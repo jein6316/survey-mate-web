@@ -1,0 +1,39 @@
+/* TailwindCSS 예시 */
+.survey-form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.question-container {
+  margin-bottom: 20px;
+}
+
+.question-label {
+  font-weight: bold;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+}
+
+.option {
+  margin-bottom: 10px;
+}
+
+.btn-submit {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-questions button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  background-color: #ddd;
+  cursor: pointer;
+}
