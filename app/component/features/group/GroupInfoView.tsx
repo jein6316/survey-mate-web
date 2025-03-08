@@ -6,17 +6,16 @@ import {useQuery} from "@tanstack/react-query";
 import {getGroupInfo} from "@/app/api/group/group";
 import useAlert from "@/app/recoil/hooks/useAlert";
 import {useTranslation} from "react-i18next";
-import {GroupData, ResponseError} from "@/app/types/apiTypes";
+import {GroupData} from "@/app/types/apiTypes";
 import {getUserFromToken} from "@/app/recoil/hooks/useUser";
-import useLoading from "@/app/recoil/hooks/useLoading";
 import {useRouter} from "next/navigation";
 import {urlConstants} from "@/app/constants/urls/group/urlConstants";
+import {useStatusHandler} from "@/app/hooks/useStatusHandler";
 
 export const GroupInfoView = ({children}: { children: React.ReactNode }) => {
     const {t} = useTranslation("group");
     const openAlert = useAlert();
     const {groupId} = getUserFromToken();
-    const {setLoadingState, clearLoadingState} = useLoading();
     const router = useRouter();
 
 
@@ -39,23 +38,7 @@ export const GroupInfoView = ({children}: { children: React.ReactNode }) => {
         enabled: !!groupId
     });
 
-    useEffect(() => {
-        if (isLoading) {
-            setLoadingState();
-        } else {
-            clearLoadingState();
-        }
-    }, [isLoading]);
-
-    useEffect(() => {
-        if (error) {
-            let msg = (error as ResponseError).message;
-            if ((error as ResponseError).response) {
-                msg = (error as ResponseError).response?.data?.message || msg;
-            }
-            openAlert(t(msg), "error");
-        }
-    }, [error]);
+    useStatusHandler(isLoading, error, "group");
 
 
     const handleEdit = () => {

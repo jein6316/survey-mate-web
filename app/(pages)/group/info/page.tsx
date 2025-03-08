@@ -2,7 +2,6 @@
 import "@/app/styles/common/Page.css";
 import { GroupInfoView } from "@/app/component/features/group/GroupInfoView";
 import { EditButton } from "@/app/component/button/EditButton";
-import {urlConstants} from "@/app/constants/urls/group/urlConstants";
 
 export default function GroupInfo() {
 

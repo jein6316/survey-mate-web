@@ -1,0 +1,40 @@
+.list-container {
+    @apply bg-white p-8 shadow-md rounded-md max-w-2xl w-full;
+}
+
+.list-title {
+    @apply text-2xl font-bold text-gray-700 mb-4 w-full text-center;
+}
+
+.list-table {
+    @apply w-full border-collapse mb-4;
+}
+
+.list-container table {
+    @apply w-full table-fixed;
+}
+
+.list-container th,
+.list-container td {
+    @apply text-sm text-gray-600 leading-loose border-b py-1 text-center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.list-container th {
+    @apply font-bold;
+}
+
+.list-container td {
+    @apply font-normal;
+}
+
+.list-container tr {
+    @apply flex w-full;
+}
+
+.list-container th,
+.list-container td {
+    @apply flex-1;
+}

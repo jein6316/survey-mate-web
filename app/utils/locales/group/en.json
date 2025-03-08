@@ -7,5 +7,6 @@
   "GROUP_EDIT_SUBJECT" : "Group Information Edit",
   "GROUP_CREATE_SUBJECT": "Group Create",
   "GROUP_NAME_REQUIRED": "Please enter the group name.",
-  "GROUP_AUTH_CODE_REQUIRED": "Please enter the group authentication code."
+  "GROUP_AUTH_CODE_REQUIRED": "Please enter the group authentication code.",
+  "GROUP_USERS" : "Group Users"
 }
