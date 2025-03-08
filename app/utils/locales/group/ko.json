@@ -7,5 +7,6 @@
   "GROUP_EDIT_SUBJECT": "그룹 정보 수정",
   "GROUP_CREATE_SUBJECT": "그룹 생성",
   "GROUP_NAME_REQUIRED": "그룹 이름을 입력해 주세요.",
-  "GROUP_AUTH_CODE_REQUIRED": "그룹 인증 코드를 입력해 주세요."
+  "GROUP_AUTH_CODE_REQUIRED": "그룹 인증 코드를 입력해 주세요.",
+  "GROUP_USERS" : "그룹 사용자"
 }

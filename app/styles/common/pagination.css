@@ -1,0 +1,35 @@
+.pagination-container {
+    @apply flex justify-center items-center gap-4 mt-4;
+}
+
+.pagination-pages {
+    @apply flex;
+}
+
+.pagination-button {
+    @apply px-4 py-2 bg-blue-500 text-white font-bold rounded-md disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.pagination-page-button {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.pagination-page-button:hover {
+    background-color: #f0f0f0;
+}
+
+.pagination-page-button.active {
+    background-color: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+
+
+.pagination-info {
+    @apply text-gray-700 font-medium;
+}

@@ -3,7 +3,7 @@
 }
 
 .page-container {
-    @apply z-10 w-full max-w-md overflow-hidden rounded-2xl border border-gray-100 shadow-xl;
+    @apply z-10 w-full max-w-2xl overflow-hidden rounded-2xl border border-gray-100 shadow-xl;
 }
 
 .page-description {
