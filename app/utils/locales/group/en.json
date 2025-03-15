@@ -8,5 +8,6 @@
   "GROUP_CREATE_SUBJECT": "Group Create",
   "GROUP_NAME_REQUIRED": "Please enter the group name.",
   "GROUP_AUTH_CODE_REQUIRED": "Please enter the group authentication code.",
-  "GROUP_USERS" : "Group Users"
+  "GROUP_USERS" : "Group Users",
+  "GROUP_SAVE_FAILED": "Group save failed."
 }

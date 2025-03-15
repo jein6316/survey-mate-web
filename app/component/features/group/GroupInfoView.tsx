@@ -20,7 +20,6 @@ export const GroupInfoView = ({children}: { children: React.ReactNode }) => {
     const [isManager, setIsManager] = useState(false);
 
     useEffect(() => {
-        const { roles } = getUserFromToken();
         setIsManager(roles.includes("ROLE_MANAGER"));
     }, []);
 

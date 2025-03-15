@@ -111,7 +111,7 @@ export const GroupEditForm = ({children}: { children: React.ReactNode }) => {
             if(error.response){
                 errorMsg = error.response?.data.message;
             }
-            console.log(tCommon(errorMsg));
+            openAlert(tGroup("GROUP_SAVE_FAILED"),tCommon(errorMsg),"error");
         },
     });
 
