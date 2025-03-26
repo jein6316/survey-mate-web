@@ -1,0 +1,59 @@
+
+.survey-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.survey-form-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.survey-form-question {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* SurveyFormDtl.css */
+
+.survey-question-container {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.survey-question-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin: 10px;
+}
+
+.survey-option-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+.survey-option-container div {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.survey-option-container input {
+    margin-right: 10px;
+}
+
+.survey-option-container label {
+    font-size: 1rem;
+    color: #444;
+}
