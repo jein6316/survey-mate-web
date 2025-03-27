@@ -3,14 +3,18 @@
 import React, {useEffect, useState} from 'react';
 import "@/app/styles/survey/survey-form.css";
 import {SurveyFormDtl} from './SurveyFormDtl';
-import {useQuery} from "@tanstack/react-query";
-import {getSurveyForm} from "@/app/api/surveyResponse/SurveyResponseApi";
+import {useMutation, useQuery} from "@tanstack/react-query";
+import {getSurveyForm, saveSurveyResponse} from "@/app/api/surveyResponse/SurveyResponseApi";
 import {useStatusHandler} from "@/app/hooks/useStatusHandler";
 import {SurveySubmitButton} from "@/app/component/features/survey/button/SurveySubmitButton";
+import {APIResponse, GroupData, ResponseError} from "@/app/types/apiTypes";
+import useAlert from "@/app/recoil/hooks/useAlert";
 
 
 
 export const SurveyFormMst = () => {
+
+    const openAlert = useAlert();
 
     const [surveyData, setSurveyData] = useState<SurveyMstProps>({
         sqMstId: "",
@@ -21,49 +25,74 @@ export const SurveyFormMst = () => {
 
     const [responses, setResponses] = useState<SurveyResponse[]>([]);
 
-    const {data, isLoading, error} = useQuery({
+    const {data : queryData, isLoading, error : queryError} = useQuery({
         queryKey: ["surveyFormId", surveyData.sqMstId], // Query key
         queryFn: () => {
             return getSurveyForm("test012345")
         }
     });
 
-    useStatusHandler(isLoading, error, "survey");
+    useStatusHandler(isLoading, queryError, "survey");
     useEffect(() => {
-        if (data?.data) {
-            console.log(data.data.questions);
-            setSurveyData(data.data);
+        if (queryData?.data) {
+            const newResponses = queryData.data.questions.map((question: SurveyQuestionDtlResponse) => ({
+                questionId: question.questionDtlOrder,
+                answer: []
+            }));
+            setResponses(newResponses);
+            setSurveyData(queryData.data);
         }
-    }, [data]);
+    }, [queryData]);
 
     const handleResponseChange = (questionId: number, value: string, type: string, checked: boolean | null) => {
         setResponses((prevResponses) => {
+            let prevData = prevResponses.find((response) => response.questionId === questionId);
+            if(!prevData){
+                prevData = {questionId:questionId, answer:[]};
+            }
 
-            let response = prevResponses;
-            const updatedResponses = prevResponses.filter(
-                (response) => response.questionId !== questionId
-            );
             if(type === "checkbox"){
-                let prevCheckedList = response.find((response) => response.questionId === questionId);
-
-                if(prevCheckedList) {
-                    if (checked) {
-                        if (!prevCheckedList.answer.includes(value)) {
-                            prevCheckedList.answer.push(value);
-                        }
-                    } else {
-                        prevCheckedList.answer = prevCheckedList.answer.filter((item) => item !== value);
+                if (checked) {
+                    if(!prevData.answer.includes(value)) {
+                        prevData.answer.push(value);
                     }
-                }else if(checked){
-                    response.push({questionId, answer:[value]});
+                }else{
+                    prevData.answer = prevData.answer.filter((item) => item !== value);
                 }
             }else{
-                response = [...updatedResponses, {questionId, answer:[value]}];
+                prevData.answer = [value];
             }
-            console.log(response);
-            return response;
+            console.log(prevResponses);
+            return prevResponses;
         });
     };
+
+    const handleSave = () => {
+        const emptyResponse = responses.filter((item: SurveyResponse) => item.answer.length == 0);
+        if(emptyResponse && emptyResponse.length > 0) {
+            const ids = emptyResponse.map(item => item.questionId).join(',');
+            openAlert("응답하지 않은 항목이 있습니다. : "+ids);
+            return;
+        }
+        mutate({sqMstId:surveyData.sqMstId, surveyResponse:responses});
+    };
+
+    const { data, error , isError, isPending, mutate } = useMutation<
+        APIResponse,
+        ResponseError,
+        {sqMstId: string, surveyResponse:SurveyResponse[]}
+    >({
+        mutationFn: saveSurveyResponse,
+        onSuccess: (data: any) => {
+        },
+        onError: (error: ResponseError) => {
+            let errorMsg = error.message;
+            if(error.response){
+                errorMsg = error.response?.data.message;
+            }
+            openAlert("SAVE FAILED",errorMsg,"error");
+        },
+    });
 
     return (
         <div className="survey-form-container">
@@ -78,7 +107,7 @@ export const SurveyFormMst = () => {
                 <div>No response available.</div> // 질문이 없을 경우 처리
             )}
             <div className="flex justify-center">
-                <SurveySubmitButton/>
+                <SurveySubmitButton onClick={handleSave}/>
             </div>
         </div>
     );
