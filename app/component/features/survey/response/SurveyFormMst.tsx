@@ -9,12 +9,13 @@ import {useStatusHandler} from "@/app/hooks/useStatusHandler";
 import {SurveySubmitButton} from "@/app/component/features/survey/button/SurveySubmitButton";
 import {APIResponse, GroupData, ResponseError} from "@/app/types/apiTypes";
 import useAlert from "@/app/recoil/hooks/useAlert";
-
+import {useSearchParams} from "next/navigation";
 
 
 export const SurveyFormMst = () => {
 
     const openAlert = useAlert();
+    const searchParams = useSearchParams();
 
     const [surveyData, setSurveyData] = useState<SurveyMstProps>({
         sqMstId: "",
@@ -26,13 +27,15 @@ export const SurveyFormMst = () => {
     const [responses, setResponses] = useState<SurveyResponse[]>([]);
 
     const {data : queryData, isLoading, error : queryError} = useQuery({
-        queryKey: ["surveyFormId", surveyData.sqMstId], // Query key
+        queryKey: ["surveyUrl", searchParams.get("surveyUrl") || ""], // Query key
         queryFn: () => {
-            return getSurveyForm("test012345")
+            const surveyUrl = searchParams.get("surveyUrl");
+            return getSurveyForm(surveyUrl || "")
         }
     });
 
-    useStatusHandler(isLoading, queryError, "survey");
+    useStatusHandler(isLoading, queryError, "surveyResponse");
+
     useEffect(() => {
         if (queryData?.data) {
             const newResponses = queryData.data.questions.map((question: SurveyQuestionDtlResponse) => ({
