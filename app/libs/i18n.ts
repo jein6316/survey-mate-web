@@ -11,11 +11,13 @@ i18n.use(initReactI18next).init({
       common: require("@/app/utils/locales/common/en.json"),
       auth: require("@/app/utils/locales/auth/en.json"),
       group: require("@/app/utils/locales/group/en.json"),
+      surveyResponse: require("@/app/utils/locales/surveyResponse/en.json"),
     },
     ko: {
       common: require("@/app/utils/locales/common/ko.json"),
       auth: require("@/app/utils/locales/auth/ko.json"),
       group: require("@/app/utils/locales/group/ko.json"),
+      surveyResponse: require("@/app/utils/locales/surveyResponse/ko.json"),
     },
   },
 });
