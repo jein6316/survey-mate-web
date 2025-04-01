@@ -11,11 +11,13 @@ let refreshSubscribers: ((newToken: string) => void)[] = [];
 
 const redirectToLogout = () => {
   if (typeof window !== "undefined") {
-    window.location.href = "/api/logout"; // 🚀 서버에서 로그아웃 처리
+    // window.location.href = "/api/logout"; // 🚀 서버에서 로그아웃 처리
+      window.location.href = `/api/logout?redirect=${encodeURIComponent(window.location.href.replace(window.location.origin, ""))}`;
   }
 };
 
 api.interceptors.request.use(
+
   async (config) => {
     let accessToken = Cookies.get("accessToken");
     const refreshToken = Cookies.get("refreshToken");
