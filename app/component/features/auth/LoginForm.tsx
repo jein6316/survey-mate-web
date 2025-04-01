@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { LoginFormData, APIResponse } from "@/app/types/apiTypes";
 import { loginSubmit } from "@/app/api/auth/auth";
 import useMutationLogin from "@/app/hooks/useMutationLogin";
-import { useRouter } from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import Link from "next/link";
 import { SubmitButton } from "@/app/component/button/SubmitButton";
 import { useTranslation } from "react-i18next";
@@ -22,6 +22,9 @@ export function LoginForm({
   const { t } = useTranslation("auth");
   const user = useRecoilValue(userAtom);
   const [loading, setLoading] = useState(true); // 로딩 상태 추가
+  const searchParams = useSearchParams();
+  const redirectParam = searchParams.get("redirect") || "";
+
 
   //로그인 폼데이터
   const [formData, setFormData] = useState<LoginFormData>({
@@ -40,7 +43,9 @@ export function LoginForm({
 
   const { mutate } = useMutationLogin<APIResponse, LoginFormData>(
     loginSubmit,
-    {}
+    {
+      redirect: redirectParam,
+    }
   );
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -55,7 +60,7 @@ export function LoginForm({
   };
 
   useEffect(() => {
-    if (user.isLoggedIn) {
+    if (user.isLoggedIn && !redirectParam) {
       router.push(urlConstants.pages.USERDASHBOARD); // 로그인 상태라면 대시보드로 리디렉션
     } else {
       setLoading(false); // 로그인되지 않았다면 폼을 렌더링
