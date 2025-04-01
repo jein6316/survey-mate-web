@@ -1,13 +1,18 @@
-import { useRouter } from "next/navigation";
+import {useRouter} from "next/navigation";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { APIResponse } from "../types/apiTypes";
 import useUser from "../recoil/hooks/useUser";
 
+type ExtendedMutationOptions<TData, TVariables> =
+    UseMutationOptions<TData, Error, TVariables> & {
+  redirect?: string;
+};
+
 const useMutationLogin = <TData = any, TVariables = any>(
   mutationFn: (variables: TVariables) => Promise<TData>,
-  options?: UseMutationOptions<TData, Error, TVariables>
+  options?: ExtendedMutationOptions<TData, TVariables>
 ) => {
   const router = useRouter();
   const { setUserFromToken } = useUser();
@@ -68,7 +73,11 @@ const useMutationLogin = <TData = any, TVariables = any>(
         // });
 
         // 성공적으로 처리 후 리다이렉트
-        router.push(urlConstants.pages.USERDASHBOARD); // 로그인 후 대시보드 페이지로 이동
+        if (options?.redirect) {
+          return router.push(options.redirect);
+        }else{
+          router.push(urlConstants.pages.USERDASHBOARD); // 로그인 후 대시보드 페이지로 이동
+        }
       } catch (error) {
         console.error("토큰 처리 오류:", error);
         alert("로그인 처리 중 오류가 발생하였습니다.");

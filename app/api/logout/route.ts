@@ -5,7 +5,15 @@ import type { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   console.log("🚀 서버에서 로그아웃 처리 중...");
 
-  const res = NextResponse.redirect(new URL("/", req.url)); // 기본적으로 홈(`/`)으로 이동
+  const url = new URL(req.url);
+  const redirectPath = url.searchParams.get("redirect");
+  let redirectQueryString;
+  if(redirectPath){
+    redirectQueryString = `/?redirect=${encodeURIComponent(redirectPath)}`;
+  }else{
+    redirectQueryString = "/";
+  }
+  const res = NextResponse.redirect(new URL(redirectQueryString, req.url)); // 기본적으로 홈(`/`)으로 이동
 
   // ✅ 쿠키에서 `social` 값을 가져오기
   const socialType = req.cookies.get("social")?.value;
