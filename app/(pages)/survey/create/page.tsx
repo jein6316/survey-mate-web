@@ -7,36 +7,61 @@ import Question from "@/app/component/features/survey/question/Question";
 import { FaPlus } from "react-icons/fa";
 import { SaveButton } from "@/app/component/button/SaveButton";
 import QuestionAddButton from "@/app/component/features/survey/button/QuestionAddButton";
+import { useMutation } from "@tanstack/react-query";
+import { APIResponse, SurveyQuestionMstRequest } from "@/app/types/apiTypes";
+import { createSurvey } from "@/app/api/survey/surveApi";
+import useAlert from "@/app/recoil/hooks/useAlert";
 
 const CreateSurvey: React.FC = () => {
   const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [surveyTitle, setSurveyTitle] = useState("");
+  const [surveyDescription, setSurveyDescription] = useState("");
   const router = useRouter();
   const [showMenu, setShowMenu] = useState(false); // 메뉴가 보이는지 상태 관리
-
+  const openAlert = useAlert();
   const questionTypes = [
-    { name: "RADIO", text: "객관식 타입 추가" },
-    { name: "CHECKBOX", text: "체크박스 타입 추가" },
-    { name: "TEXT", text: "단답형 타입 추가" },
-    { name: "TEXTAREA", text: "문장형 타입 추가" },
-    { name: "NUMBER", text: "숫자 타입 추가" },
-    { name: "DATE", text: "날짜 타입 추가" },
-    { name: "TIME", text: "시간 타입 추가" },
-    { name: "RANGE", text: "범위 타입 추가" },
+    { typeId: "SQT001", name: "RADIO", text: "객관식 타입 추가" },
+    { typeId: "SQT002", name: "CHECKBOX", text: "체크박스 타입 추가" },
+    { typeId: "SQT003", name: "TEXT", text: "단답형 타입 추가" },
+    { typeId: "SQT004", name: "TEXTAREA", text: "문장형 타입 추가" },
+    { typeId: "SQT005", name: "NUMBER", text: "숫자 타입 추가" },
+    { typeId: "SQT006", name: "DATE", text: "날짜 타입 추가" },
+    { typeId: "SQT007", name: "TIME", text: "시간 타입 추가" },
+    { typeId: "SQT008", name: "RANGE", text: "범위 타입 추가" },
   ];
 
+  // API 호출 로직
+  const { data, error, isError, isPending, mutate } = useMutation<
+    APIResponse,
+    Error,
+    SurveyQuestionMstRequest
+  >({
+    mutationFn: createSurvey,
+    onSuccess: (data: any) => {
+      // setMenuData(data.data || []); // 데이터를 상태에 저장
+    },
+    onError: (error: Error) => {
+      console.error("API 호출 중 오류 발생:", error);
+    },
+  });
+
   // 질문을 추가하는 함수
-  const handleAddQuestion = (name: QuestionType["name"]) => {
+  const handleAddQuestion = (
+    name: QuestionType["name"],
+    typeId: QuestionType["typeId"]
+  ) => {
     const newQuestion: QuestionType = {
       id: `q${questions.length + 1}`,
-      name,
+      typeId,
       question: `질문 ${questions.length + 1}`,
       options:
-        name === "RADIO" || name === "CHECKBOX"
+        typeId === "RADIO" || typeId === "CHECKBOX"
           ? ["옵션 1"] // 객관식과 체크박스는 옵션 추가
-          : name === "RANGE"
+          : typeId === "RANGE"
           ? ["0", "100"] // RANGE 타입은 기본 최소/최대값 설정
-          : undefined, // TEXT, TEXTAREA, NUMBER, DATE, TIME은 options 필요 없음
+          : undefined,
+      name: name as any, // name 속성 추가
+      min: typeId === "RANGE" ? 0 : undefined, // RANGE 타입은 최소값 설정
     };
 
     console.log("추가되는 질문:", newQuestion); // 확인용 로그
@@ -60,28 +85,97 @@ const CreateSurvey: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const surveyData = { title: surveyTitle, questions };
+    // SurveyQuestionMstRequest 형식으로 변환
+    const surveyData: SurveyQuestionMstRequest = {
+      title: surveyTitle,
+      description: surveyDescription, // 설명은 필요에 따라 추가
+      questions: questions.map((question) => ({
+        typeId: question.typeId,
+        questionText: question.question,
+        options: question.options?.map((option, index) => ({
+          optionText: option, // 옵션 텍스트
+          questionSdtlOrder: index + 1, // 옵션 순서를 숫자로 변환
+        })),
+      })),
+    };
+    if (isValid()) {
+      // API 호출
+      mutate(surveyData); // SurveyQuestionMstRequest 형식으로 데이터 전달
+    }
+  };
 
-    try {
-      // 서버로 데이터를 POST 요청
-      const response = await fetch("/api/survey", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(surveyData), // 폼 데이터를 JSON으로 변환하여 보내기
-      });
+  //validation check
+  const isValid = () => {
+    if (!surveyTitle || !surveyDescription) {
+      openAlert(
+        "필수 입력값이 누락되었습니다.",
+        "설문 제목과 설명을 입력해주세요.",
+        "warning"
+      );
+      return false;
+    }
 
-      if (!response.ok) {
-        throw new Error("설문 생성에 실패했습니다.");
+    if (questions.length === 0) {
+      openAlert("질문이 없습니다.", "질문을 추가해주세요.", "warning");
+
+      return false;
+    }
+
+    for (const question of questions) {
+      if (!question.question || question.question.trim() === "") {
+        openAlert(
+          "질문이 비어있습니다.",
+          `"${question.question}" 질문을 입력해주세요.`,
+          "warning"
+        );
+        return false;
       }
 
-      // 응답 받은 후 설문 목록 페이지로 이동
-      router.push("/survey");
-    } catch (error) {
-      console.error(error);
-      // 오류 처리 (예: 사용자에게 알림)
+      // 옵션이 필요한 타입인데 옵션이 없거나 빈 항목만 있는 경우
+      const needsOptions = ["SQT001", "SQT002"]; // 객관식, 체크박스 타입
+      if (needsOptions.includes(question.typeId)) {
+        if (
+          !question.options ||
+          question.options.length === 0 ||
+          question.options.every((opt) => opt.trim() === "")
+        ) {
+          openAlert(
+            "옵션이 비어있습니다.",
+            `"${question.question}" 질문에 옵션을 추가해주세요.`,
+            "warning"
+          );
+          return false;
+        }
+      }
+      debugger;
+      if (question.typeId === "SQT008") {
+        const { min, max } = question;
+        if (
+          typeof min !== "number" ||
+          typeof max !== "number" ||
+          isNaN(min) ||
+          isNaN(max)
+        ) {
+          openAlert(
+            "범위값이 잘못되었습니다.",
+            `"${question.question}" 질문의 최소값과 최대값을 올바르게 입력해주세요.`,
+            "warning"
+          );
+          return false;
+        }
+
+        if (min >= max) {
+          openAlert(
+            "범위값이 올바르지 않습니다.",
+            `"${question.question}" 질문에서 최소값은 최대값보다 작아야 합니다.`,
+            "warning"
+          );
+          return false;
+        }
+      }
     }
+
+    return true;
   };
 
   return (
@@ -102,7 +196,19 @@ const CreateSurvey: React.FC = () => {
             placeholder="설문 제목을 입력하세요"
           />
         </div>
-
+        <div className="survey-description">
+          <label htmlFor="surveyDescription" className="block">
+            설문 설명
+          </label>
+          <textarea
+            id="surveyDescription"
+            value={surveyDescription}
+            onChange={(e) => setSurveyDescription(e.target.value)}
+            required
+            className="w-full p-2 border border-gray-300 rounded"
+            placeholder="설문 설명을 입력하세요"
+          />
+        </div>
         <div className="question-section">
           {questions.map((question) => (
             <Question
@@ -120,6 +226,7 @@ const CreateSurvey: React.FC = () => {
             className="px-4 py-2 bg-gray-200 text-white rounded-full flex items-center justify-center"
             onClick={() => setShowMenu(!showMenu)} // 클릭시 드롭다운 열고 닫기
             aria-label="Add Question"
+            type="button"
           >
             <FaPlus size={20} />
           </button>
@@ -127,12 +234,12 @@ const CreateSurvey: React.FC = () => {
           {/* 드롭다운 버튼들이 나타날 때 */}
           {showMenu && (
             <div className="absolute top-10 left-0 bg-white shadow-lg rounded-lg w-48 p-2 space-y-2">
-              {questionTypes.map(({ name, text }) => (
+              {questionTypes.map(({ typeId, name, text }) => (
                 <QuestionAddButton
                   key={name}
                   name={name as any}
                   onClick={() =>
-                    handleAddQuestion(name as QuestionType["name"])
+                    handleAddQuestion(name as QuestionType["name"], typeId)
                   }
                   text={text}
                 />

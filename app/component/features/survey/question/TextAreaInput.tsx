@@ -14,7 +14,7 @@ const TextAreaInput: React.FC<TextAreaInputProps> = ({ question }) => {
         name={question.id}
         placeholder="Your answer here"
         className="w-full p-2 border border-gray-300 rounded"
-        required
+        disabled
       />
     </div>
   );
