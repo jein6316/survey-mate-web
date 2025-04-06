@@ -49,36 +49,15 @@ const Question: React.FC<QuestionProps> = ({
   const renderInputComponent = () => {
     switch (question.name) {
       case "CHECKBOX":
-        return (
-          <CheckboxInput
-            question={question}
-            onChange={function (updatedQuestion: QuestionType): void {
-              throw new Error("Function not implemented.");
-            }}
-          />
-        );
+        return <CheckboxInput question={question} onChange={onChange} />;
       case "DATE":
         return <DateInput question={question} />;
       case "NUMBER":
         return <NumberInput question={question} />;
       case "RADIO":
-        return (
-          <RadioInput
-            question={question}
-            onChange={function (updatedQuestion: QuestionType): void {
-              throw new Error("Function not implemented.");
-            }}
-          />
-        );
+        return <RadioInput question={question} onChange={onChange} />;
       case "RANGE":
-        return (
-          <RangeInput
-            question={{ ...question, min: 0, max: 100 }}
-            onChange={function (updatedQuestion: QuestionType): void {
-              throw new Error("Function not implemented.");
-            }}
-          />
-        );
+        return <RangeInput question={question} onChange={onChange} />;
       case "TEXT":
         return <TextInput question={question} />;
       case "TEXTAREA":

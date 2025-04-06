@@ -58,7 +58,7 @@ export interface AlertModalProps {
   title: string;
   message: string;
   onClose: () => void;
-  type: 'error' | 'warning' | 'info'; // 모달 유형
+  type: "error" | "warning" | "info"; // 모달 유형
 }
 
 export interface ResponseError {
@@ -69,7 +69,6 @@ export interface ResponseError {
   };
   message: string;
 }
-
 
 //메뉴
 export interface MenuItem {
@@ -87,8 +86,26 @@ export interface MenuItem {
 
 //그룹
 export interface GroupData {
-  groupId: string,
-  groupCode: string,
-  groupName: string,
-  groupAuthCode: string,
+  groupId: string;
+  groupCode: string;
+  groupName: string;
+  groupAuthCode: string;
+}
+
+//설문
+export interface SurveyQuestionMstRequest {
+  title: string; // 설문 제목
+  description?: string; // 설문 설명
+  questions?: SurveyQuestionDtlRequest[]; // 질문 목록
+  groupId?: string; // 그룹아이디
+}
+
+export interface SurveyQuestionDtlRequest {
+  typeId: string; // 질문 유형 ID
+  questionText: string; // 질문 내용
+  options?: SurveyQuestionSdtlRequest[]; // 선택지 목록
+}
+
+export interface SurveyQuestionSdtlRequest {
+  optionText: string; // 선택지 내용
 }

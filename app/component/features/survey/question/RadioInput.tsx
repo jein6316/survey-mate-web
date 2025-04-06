@@ -47,7 +47,7 @@ const RadioInput: React.FC<RadioInputProps> = ({ question, onChange }) => {
               id={`${question.id}_option_${index}`}
               name={question.id}
               value={option}
-              required
+              disabled
             />
             <input
               type="text"
