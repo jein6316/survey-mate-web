@@ -10,7 +10,7 @@ export const getMenusByRole = async (memRole: string) => {
 
 //메뉴생성
 export const createMenu = async (formData: MenuItem) => {
-  const res = await axios.post(
+  const res = await api.post(
     `${process.env.NEXT_PUBLIC_API_URL}/api/menu/createMenu`,
     formData,
     {

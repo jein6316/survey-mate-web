@@ -55,6 +55,7 @@ const QuestionAddButton: React.FC<QuestionAddButtonProps> = ({
 
   return (
     <button
+      type="button"
       onClick={onClick}
       className={`w-full text-left px-4 py-2 text-white rounded-full ${getButtonColor(
         name

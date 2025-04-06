@@ -45,7 +45,7 @@ const CheckboxInput: React.FC<CheckboxInputProps> = ({
               id={`${question.id}_option_${index}`}
               name={question.id}
               value={option}
-              required
+              disabled
             />
             <input
               type="text"

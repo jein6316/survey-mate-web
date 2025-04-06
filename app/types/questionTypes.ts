@@ -1,5 +1,6 @@
 export type QuestionType = {
   id: string;
+  typeId: string; // 질문 유형 ID
   name:
     | "RADIO"
     | "CHECKBOX"
