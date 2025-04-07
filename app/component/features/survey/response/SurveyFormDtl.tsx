@@ -2,8 +2,8 @@ import React from 'react';
 import {SurveyFormSdtl} from './SurveyFormSdtl';
 
 
-
 export const SurveyFormDtl: React.FC<SurveyDtlProps> = ({
+                                                            hasResponded,
                                                             question,
                                                             onResponseChange
                                                         }) => {
@@ -17,6 +17,8 @@ export const SurveyFormDtl: React.FC<SurveyDtlProps> = ({
                                     option={option}
                                     questionType={question.typeId}
                                     questionId={question.questionDtlOrder}
+                                    respondedValue={question.respondedValue == null ? [] : question.respondedValue}
+                                    hasResponded={hasResponded}
                                     onResponseChange={onResponseChange}
                     />
                 ))}

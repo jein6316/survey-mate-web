@@ -7,20 +7,27 @@ import {useMutation, useQuery} from "@tanstack/react-query";
 import {getSurveyForm, saveSurveyResponse} from "@/app/api/surveyResponse/SurveyResponseApi";
 import {useStatusHandler} from "@/app/hooks/useStatusHandler";
 import {SurveySubmitButton} from "@/app/component/features/survey/button/SurveySubmitButton";
-import {APIResponse, GroupData, ResponseError} from "@/app/types/apiTypes";
+import {APIResponse, ResponseError} from "@/app/types/apiTypes";
 import useAlert from "@/app/recoil/hooks/useAlert";
-import {useSearchParams} from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
+import {useTranslation} from "react-i18next";
+import {urlConstants} from "@/app/constants/urls/auth/urlConstants";
+
 
 
 export const SurveyFormMst = () => {
 
     const openAlert = useAlert();
     const searchParams = useSearchParams();
+    const router = useRouter();
+    const { t: tSurveyResponse } = useTranslation("surveyResponse");
+
 
     const [surveyData, setSurveyData] = useState<SurveyMstProps>({
         sqMstId: "",
         title: "",
         description: "",
+        hasResponded: false,
         questions: [],
     });
 
@@ -40,10 +47,13 @@ export const SurveyFormMst = () => {
         if (queryData?.data) {
             const newResponses = queryData.data.questions.map((question: SurveyQuestionDtlResponse) => ({
                 questionId: question.questionDtlOrder,
-                answer: []
+                answer: !question.respondedValue ? [] : question.respondedValue
             }));
-            setResponses(newResponses);
             setSurveyData(queryData.data);
+            setResponses(newResponses);
+            if(queryData.data.hasResponded){
+                openAlert(tSurveyResponse("SURVEY_ALREADY_RESPONDED"), "info");
+            }
         }
     }, [queryData]);
 
@@ -65,7 +75,6 @@ export const SurveyFormMst = () => {
             }else{
                 prevData.answer = [value];
             }
-            console.log(prevResponses);
             return prevResponses;
         });
     };
@@ -87,6 +96,8 @@ export const SurveyFormMst = () => {
     >({
         mutationFn: saveSurveyResponse,
         onSuccess: (data: any) => {
+            openAlert(tSurveyResponse("SURVEY_SUBMIT_SUCCESS"), "info");
+            router.push(urlConstants.pages.USERDASHBOARD);
         },
         onError: (error: ResponseError) => {
             let errorMsg = error.message;
@@ -103,15 +114,18 @@ export const SurveyFormMst = () => {
             {surveyData && surveyData.questions.length > 0 ? (
                 surveyData.questions.map((question, index) => (
                     <div className="survey-form-question" key={index}>
-                        <SurveyFormDtl question={question} onResponseChange={handleResponseChange}/>
+                        <SurveyFormDtl hasResponded={surveyData.hasResponded} question={question} onResponseChange={handleResponseChange}/>
                     </div>
                 ))
             ) : (
                 <div>No response available.</div> // 질문이 없을 경우 처리
             )}
-            <div className="flex justify-center">
-                <SurveySubmitButton onClick={handleSave}/>
-            </div>
+            {surveyData && surveyData.hasResponded ? null : (
+                <div className="flex justify-center">
+                    <SurveySubmitButton onClick={handleSave}/>
+                </div>
+            )}
+
         </div>
     );
 };

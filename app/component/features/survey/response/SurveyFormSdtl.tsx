@@ -1,15 +1,31 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 
 export const SurveyFormSdtl: React.FC<SurveySdtlProps> = ({
                                                               option,
                                                               questionType,
                                                               questionId,
+                                                              respondedValue,
+                                                              hasResponded,
                                                               onResponseChange
                                                           }) => {
 
+    const [rangeSelectedValue,setRangeSelectedValue ] = useState("");
+
+    useEffect(()=>{
+        if(questionType === "SQT008"){
+            if(respondedValue && respondedValue.length > 0){
+                setRangeSelectedValue(respondedValue[0]);
+            }
+        }
+    },[questionType, respondedValue])
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const {value, type} = e.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+
+        if (type === "range") {
+            setRangeSelectedValue(value);
+        }
         if (type === "checkbox") {
             const {checked} = e.target as HTMLInputElement;
             onResponseChange(questionId, value, type, checked);
@@ -20,6 +36,7 @@ export const SurveyFormSdtl: React.FC<SurveySdtlProps> = ({
     };
 
     const renderInputType = () => {
+
         switch (questionType) {
             case "SQT001":
                 return (
@@ -29,6 +46,9 @@ export const SurveyFormSdtl: React.FC<SurveySdtlProps> = ({
                         name={`option-${questionId}`}
                         value={option.questionSdtlOrder}
                         onChange={handleChange}
+                        disabled={hasResponded}
+                        // checked={respondedValue.includes(String(option.questionSdtlOrder))}
+                        {...(hasResponded && {checked: respondedValue.includes(String(option.questionSdtlOrder))})}
                     />
                 );
             case "SQT002":
@@ -40,6 +60,8 @@ export const SurveyFormSdtl: React.FC<SurveySdtlProps> = ({
                         name={`option-${questionId}`}
                         multiple
                         onChange={handleChange}
+                        disabled={hasResponded}
+                        {...(hasResponded && {checked: respondedValue.includes(String(option.questionSdtlOrder))})}
                     />
                 );
             case "SQT003":
@@ -50,6 +72,9 @@ export const SurveyFormSdtl: React.FC<SurveySdtlProps> = ({
                         name={`option-${option.questionSdtlOrder}`}
                         placeholder={option.optionText}
                         onChange={handleChange}
+                        className={"survey-option-singleLineText"}
+                        disabled={hasResponded}
+                        {...(hasResponded && {value: respondedValue[0]})}
                     />
                 );
             case "SQT004":
@@ -59,6 +84,9 @@ export const SurveyFormSdtl: React.FC<SurveySdtlProps> = ({
                         name={`option-${option.questionSdtlOrder}`}
                         placeholder={option.optionText}
                         onChange={handleChange}
+                        className={"survey-option-multiLineText"}
+                        disabled={hasResponded}
+                        {...(hasResponded && {value: respondedValue[0]})}
                     />
                 );
             case "SQT005":
@@ -69,6 +97,9 @@ export const SurveyFormSdtl: React.FC<SurveySdtlProps> = ({
                         name={`option-${option.questionSdtlOrder}`}
                         placeholder={option.optionText}
                         onChange={handleChange}
+                        className={"survey-option-numberInput"}
+                        disabled={hasResponded}
+                        {...(hasResponded && {value: respondedValue[0]})}
                     />
                 );
             case "SQT006":
@@ -78,6 +109,8 @@ export const SurveyFormSdtl: React.FC<SurveySdtlProps> = ({
                         id={`${questionId}-${option.questionSdtlOrder}`}
                         name={`option-${option.questionSdtlOrder}`}
                         onChange={handleChange}
+                        disabled={hasResponded}
+                        {...(hasResponded && {value: respondedValue[0]})}
                     />
                 );
             case "SQT007":
@@ -87,31 +120,26 @@ export const SurveyFormSdtl: React.FC<SurveySdtlProps> = ({
                         id={`${questionId}-${option.questionSdtlOrder}`}
                         name={`option-${option.questionSdtlOrder}`}
                         onChange={handleChange}
+                        disabled={hasResponded}
+                        {...(hasResponded && {value: respondedValue[0]})}
                     />
                 );
             case "SQT008":
                 return (
-                    <input
-                        type="range"
-                        id={`${questionId}-${option.questionSdtlOrder}`}
-                        name={`option-${option.questionSdtlOrder}`}
-                        min="1"
-                        max="10"
-                        onChange={handleChange}
-                    />
-                );
-            case "SQT009":
-                return (
-                    <select id={`${questionId}-${option.questionSdtlOrder}`}
+                    <div className={"survey-option-range"}>
+                        <input
+                            type="range"
+                            id={`${questionId}-${option.questionSdtlOrder}`}
                             name={`option-${option.questionSdtlOrder}`}
+                            min={option.optionText.split("-")[0]}
+                            max={option.optionText.split("-")[1]}
                             onChange={handleChange}
-                    >
-                        {option.optionText.split(',').map((text, index) => (
-                            <option key={index} value={text.trim()}>
-                                {text.trim()}
-                            </option>
-                        ))}
-                    </select>
+                            disabled={hasResponded}
+                            value={rangeSelectedValue}
+                            className={"survey-option-range"}
+                        />
+                        <p>{rangeSelectedValue}</p>
+                    </div>
                 );
             default:
                 return null;
@@ -121,7 +149,9 @@ export const SurveyFormSdtl: React.FC<SurveySdtlProps> = ({
     return (
         <div>
             {renderInputType()}
-            <label htmlFor={`${questionId}-${option.questionSdtlOrder}`}>{option.optionText}</label>
+            {questionType === "SQT003" || questionType === "SQT004" || questionType === "SQT005" || questionType === "SQT008" ? null : (
+                <label htmlFor={`${questionId}-${option.questionSdtlOrder}`}>{option.optionText}</label>
+            )}
         </div>
     );
 };

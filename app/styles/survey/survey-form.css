@@ -57,3 +57,31 @@
     font-size: 1rem;
     color: #444;
 }
+
+/*SQT003*/
+.survey-option-singleLineText {
+    width: 95%;
+    height: 50px;
+    padding-left: 7px;
+}
+
+/*SQT004*/
+.survey-option-multiLineText {
+    width: 95%;
+    height: 100px;
+    padding: 6px;
+}
+
+/*SQT005*/
+.survey-option-numberInput {
+    width: 95%;
+    height: 40px;
+    padding: 6px;
+}
+
+/*SQT008*/
+.survey-option-range {
+    width: 95%;
+    height: 40px;
+    padding: 6px;
+}
