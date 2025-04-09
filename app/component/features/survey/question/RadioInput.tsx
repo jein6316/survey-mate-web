@@ -1,6 +1,6 @@
 // RadioInput.tsx
 "use cleint";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { QuestionType } from "@/app/types/questionTypes";
 
 interface RadioInputProps {
@@ -12,6 +12,13 @@ const RadioInput: React.FC<RadioInputProps> = ({ question, onChange }) => {
   const [options, setOptions] = useState<string[]>(
     question.options || ["옵션 1"]
   );
+  // 처음 마운트되었을 때 onChange로 초기값 반영
+  useEffect(() => {
+    const updatedOptions = [...options];
+    if (!question.options || question.options.length === 0) {
+      onChange({ ...question, options: updatedOptions });
+    }
+  }, [onChange, options, question]);
 
   const handleOptionChange = (index: number, value: string) => {
     const updatedOptions = [...options];

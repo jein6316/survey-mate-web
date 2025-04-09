@@ -1,5 +1,5 @@
 "use cleint";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { QuestionType } from "@/app/types/questionTypes";
 
 interface CheckboxInputProps {
@@ -12,7 +12,19 @@ const CheckboxInput: React.FC<CheckboxInputProps> = ({
   onChange,
 }) => {
   // 옵션을 추가하고 삭제하는 함수들
-  const [options, setOptions] = useState<string[]>(question.options || []);
+  const [options, setOptions] = useState<string[]>(
+    question.options || ["옵션 1"]
+  );
+
+  // 처음 마운트되었을 때 onChange로 초기값 반영
+  useEffect(() => {
+    // question.options가 없거나 빈 배열일 때만 반영
+    const updatedOptions = [...options];
+    if (!question.options || question.options.length === 0) {
+      onChange({ ...question, options: updatedOptions });
+    }
+  }, []);
+
   const handleOptionChange = (index: number, value: string) => {
     const updatedOptions = [...options];
     updatedOptions[index] = value;

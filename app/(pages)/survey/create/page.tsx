@@ -9,13 +9,19 @@ import { SaveButton } from "@/app/component/button/SaveButton";
 import QuestionAddButton from "@/app/component/features/survey/button/QuestionAddButton";
 import { useMutation } from "@tanstack/react-query";
 import { APIResponse, SurveyQuestionMstRequest } from "@/app/types/apiTypes";
-import { createSurvey } from "@/app/api/survey/surveApi";
+import { createSurvey } from "@/app/api/survey/surveyApi";
 import useAlert from "@/app/recoil/hooks/useAlert";
+import { group } from "console";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "@/app/recoil/atoms/userAtom";
 
 const CreateSurvey: React.FC = () => {
   const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [surveyTitle, setSurveyTitle] = useState("");
   const [surveyDescription, setSurveyDescription] = useState("");
+  const { groupId } = useRecoilValue(userAtom); // 그룹 ID
+  // 상단 상태 추가
+  const [isGroupSurvey, setIsGroupSurvey] = useState<"Y" | "N">("N");
   const router = useRouter();
   const [showMenu, setShowMenu] = useState(false); // 메뉴가 보이는지 상태 관리
   const openAlert = useAlert();
@@ -97,7 +103,9 @@ const CreateSurvey: React.FC = () => {
           questionSdtlOrder: index + 1, // 옵션 순서를 숫자로 변환
         })),
       })),
+      groupId: isGroupSurvey == "Y" ? groupId : undefined, // 그룹 설문 여부
     };
+    debugger;
     if (isValid()) {
       // API 호출
       mutate(surveyData); // SurveyQuestionMstRequest 형식으로 데이터 전달
@@ -209,6 +217,23 @@ const CreateSurvey: React.FC = () => {
             placeholder="설문 설명을 입력하세요"
           />
         </div>
+        {/* 그룹 설문 생성 여부 */}
+        <div className="survey-groupId">
+          <label htmlFor="isGroupSurvey" className="block">
+            그룹 설문 생성 여부
+          </label>
+          <select
+            id="isGroupSurvey"
+            value={isGroupSurvey}
+            onChange={(e) => setIsGroupSurvey(e.target.value as "Y" | "N")}
+            required
+            className="w-full p-2 border border-gray-300 rounded"
+          >
+            <option value="Y">Y (그룹 설문)</option>
+            <option value="N">N (일반 설문)</option>
+          </select>
+        </div>
+
         <div className="question-section">
           {questions.map((question) => (
             <Question
