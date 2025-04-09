@@ -11,3 +11,12 @@ export const createSurvey = async (formData: SurveyQuestionMstRequest) => {
   );
   return res.data; // 성공 시 data 포함 반환
 };
+//설문수정
+export const updateSurvey = async (formData: SurveyQuestionMstRequest) => {
+  const res = await api.patch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/survey`, // 엔드포인트 URL
+    formData, // FormData 객체를 전송
+    {}
+  );
+  return res.data; // 성공 시 data 포함 반환
+};

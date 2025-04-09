@@ -25,7 +25,7 @@ const RangeInput: React.FC<RangeInputProps> = ({ question, onChange }) => {
       ...question,
       options: [updatedOption],
     });
-  }, []);
+  }, [max, min, onChange, question]);
 
   // 최소값 변경 핸들러
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
