@@ -8,10 +8,6 @@ const REFRESH_TOKEN_API = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh`;
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl.pathname;
 
-  // 특정 페이지 (`/main`)는 미들웨어 적용 제외
-  if (url.startsWith("/main")) {
-    return NextResponse.next();
-  }
   const token = request.cookies.get("accessToken")?.value;
   const refreshToken = request.cookies.get("refreshToken")?.value;
 
@@ -22,7 +18,7 @@ export async function middleware(request: NextRequest) {
 
   // 2. Access Token과 Refresh Token이 모두 없으면 로그아웃 처리
   if (!refreshToken) {
-    return NextResponse.redirect(new URL("/api/logout", request.url)); // 🚀 서버에서 로그아웃 처리
+    return NextResponse.redirect(new URL("/api/logout", request.url)); //서버에서 로그아웃 처리
   }
 
   //  3. Refresh Token이 있는 경우 Access Token 갱신 시도
@@ -79,5 +75,5 @@ export async function middleware(request: NextRequest) {
 
 // 미들웨어 적용 경로 설정
 export const config = {
-  matcher: ["/dashboard/:path*", "/protected/:path*"], //보호된 경로에만 미들웨어 적용
+  matcher: ["/dashboard/:path*", "/group/:path*", "/survey/:path*"], //보호된 경로에만 미들웨어 적용
 };
