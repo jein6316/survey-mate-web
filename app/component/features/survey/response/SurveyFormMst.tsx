@@ -21,7 +21,6 @@ export const SurveyFormMst = () => {
     const router = useRouter();
     const {t: tSurveyResponse} = useTranslation("surveyResponse");
 
-
     const [surveyData, setSurveyData] = useState<SurveyMstProps>({
         sqMstId: "",
         title: "",

@@ -10,10 +10,12 @@ import {useTranslation} from "react-i18next";
 import {useRouter} from "next/navigation";
 
 export interface SurveyResponse {
+    rowNumber: number;
     sqMstId: string;
     title: string;
     description: string;
     surveyUrl: string;
+    completed: boolean;
 }
 
 
@@ -44,13 +46,15 @@ export const SurveyResponseList = () => {
 
     return (
         <div className="list-container">
-            <h2 className="list-title">{t("GROUP_USERS")}</h2>
+            <h2 className="list-title">{t("SURVEY_RESPONSE_LIST")}</h2>
             <br/>
             <table>
                 <thead>
                 <tr>
                     <th style={{width: "30%"}}>{t("SUBJECT")}</th>
-                    <th style={{width: "70%"}}>{t("DESCRIPTION")}</th>
+                    <th style={{width: "60%"}}>{t("DESCRIPTION")}</th>
+                    <th style={{width: "10%"}}>{t("STATUS")}</th>
+
                     <th className="list-hidden-column"></th>
                 </tr>
                 </thead>
@@ -62,6 +66,7 @@ export const SurveyResponseList = () => {
                         >{response.title}</td>
                         <td style={{textAlign: "left"}}> {response.description}</td>
                         <td className="list-hidden-column">{response.surveyUrl}</td>
+                        <td>{response.completed ? t("COMPLETED") : t("NOT_COMPLETED")}</td>
                     </tr>
                 ))}
                 </tbody>
