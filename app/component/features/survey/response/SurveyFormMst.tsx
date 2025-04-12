@@ -14,13 +14,12 @@ import {useTranslation} from "react-i18next";
 import {urlConstants} from "@/app/constants/urls/auth/urlConstants";
 
 
-
 export const SurveyFormMst = () => {
 
     const openAlert = useAlert();
     const searchParams = useSearchParams();
     const router = useRouter();
-    const { t: tSurveyResponse } = useTranslation("surveyResponse");
+    const {t: tSurveyResponse} = useTranslation("surveyResponse");
 
 
     const [surveyData, setSurveyData] = useState<SurveyMstProps>({
@@ -33,7 +32,7 @@ export const SurveyFormMst = () => {
 
     const [responses, setResponses] = useState<SurveyResponse[]>([]);
 
-    const {data : queryData, isLoading, error : queryError} = useQuery({
+    const {data: queryData, isLoading, error: queryError} = useQuery({
         queryKey: ["surveyUrl", searchParams.get("surveyUrl") || ""], // Query key
         queryFn: () => {
             const surveyUrl = searchParams.get("surveyUrl");
@@ -51,7 +50,8 @@ export const SurveyFormMst = () => {
             }));
             setSurveyData(queryData.data);
             setResponses(newResponses);
-            if(queryData.data.hasResponded){
+            const prevPage = searchParams.get("prevPage");
+            if (!prevPage && queryData.data.hasResponded) {
                 openAlert(tSurveyResponse("SURVEY_ALREADY_RESPONDED"), "info");
             }
         }
@@ -60,19 +60,19 @@ export const SurveyFormMst = () => {
     const handleResponseChange = (questionId: number, value: string, type: string, checked: boolean | null) => {
         setResponses((prevResponses) => {
             let prevData = prevResponses.find((response) => response.questionId === questionId);
-            if(!prevData){
-                prevData = {questionId:questionId, answer:[]};
+            if (!prevData) {
+                prevData = {questionId: questionId, answer: []};
             }
 
-            if(type === "checkbox"){
+            if (type === "checkbox") {
                 if (checked) {
-                    if(!prevData.answer.includes(value)) {
+                    if (!prevData.answer.includes(value)) {
                         prevData.answer.push(value);
                     }
-                }else{
+                } else {
                     prevData.answer = prevData.answer.filter((item) => item !== value);
                 }
-            }else{
+            } else {
                 prevData.answer = [value];
             }
             return prevResponses;
@@ -81,18 +81,18 @@ export const SurveyFormMst = () => {
 
     const handleSave = () => {
         const emptyResponse = responses.filter((item: SurveyResponse) => item.answer.length == 0);
-        if(emptyResponse && emptyResponse.length > 0) {
+        if (emptyResponse && emptyResponse.length > 0) {
             const ids = emptyResponse.map(item => item.questionId).join(',');
-            openAlert("응답하지 않은 항목이 있습니다. : "+ids);
+            openAlert("응답하지 않은 항목이 있습니다. : " + ids);
             return;
         }
-        mutate({sqMstId:surveyData.sqMstId, surveyResponse:responses});
+        mutate({sqMstId: surveyData.sqMstId, surveyResponse: responses});
     };
 
-    const { data, error , isError, isPending, mutate } = useMutation<
+    const {data, error, isError, isPending, mutate} = useMutation<
         APIResponse,
         ResponseError,
-        {sqMstId: string, surveyResponse:SurveyResponse[]}
+        { sqMstId: string, surveyResponse: SurveyResponse[] }
     >({
         mutationFn: saveSurveyResponse,
         onSuccess: (data: any) => {
@@ -101,10 +101,10 @@ export const SurveyFormMst = () => {
         },
         onError: (error: ResponseError) => {
             let errorMsg = error.message;
-            if(error.response){
+            if (error.response) {
                 errorMsg = error.response?.data.message;
             }
-            openAlert("SAVE FAILED",errorMsg,"error");
+            openAlert("SAVE FAILED", errorMsg, "error");
         },
     });
 
@@ -114,7 +114,9 @@ export const SurveyFormMst = () => {
             {surveyData && surveyData.questions.length > 0 ? (
                 surveyData.questions.map((question, index) => (
                     <div className="survey-form-question" key={index}>
-                        <SurveyFormDtl hasResponded={surveyData.hasResponded} question={question} onResponseChange={handleResponseChange}/>
+                        <SurveyFormDtl hasResponded={surveyData.hasResponded}
+                                       question={question}
+                                       onResponseChange={handleResponseChange}/>
                     </div>
                 ))
             ) : (
