@@ -19,5 +19,10 @@
     "NAME" : "NAME",
     "ROLE" : "ROLE",
     "PREV" : "prev",
-    "NEXT" : "next"
+    "NEXT" : "next",
+    "SUBJECT": "Subject",
+    "STATUS": "Status",
+    "DESCRIPTION": "Description",
+    "COMPLETED": "Completed",
+    "NOT_COMPLETED": "Not Completed"
 }
