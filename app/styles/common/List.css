@@ -7,7 +7,7 @@
 }
 
 .list-table {
-    @apply w-full border-collapse mb-4;
+    @apply w-full border-collapse;
 }
 
 .list-container table {
@@ -23,7 +23,7 @@
 }
 
 .list-container th {
-    @apply font-bold;
+    @apply font-bold text-xl;
 }
 
 .list-container td {
@@ -37,4 +37,12 @@
 .list-container th,
 .list-container td {
     @apply flex-1;
+}
+
+.list-hidden-column {
+    display: none;
+}
+
+.list-clickable {
+    @apply cursor-pointer font-bold !important;
 }
