@@ -6,7 +6,7 @@ export const getSurveyForm = async (surveyUrl: string) => {
 };
 
 export const saveSurveyResponse = async ({sqMstId,surveyResponse}: {sqMstId: string, surveyResponse: SurveyResponse[]}) => {
-    const response = await api.post("/api/survey/response/save", {sqMstId, surveyResponse});
+    const response = await api.post("/api/survey/response", {sqMstId, surveyResponse});
     return response.data;
 };
 
