@@ -14,7 +14,7 @@ export const saveOrupdateGroupData = async (formData: GroupData) => {
 
 export const getGroupMembers = async (groupId: string, currentPage: number) => {
     const response = await api.get(`/api/group/${groupId}/members`, {
-        params: { page: currentPage - 1 }
+        params: {page: currentPage - 1, size: 10}
     });
     return response.data;
 };

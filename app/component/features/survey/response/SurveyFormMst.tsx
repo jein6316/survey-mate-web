@@ -35,7 +35,8 @@ export const SurveyFormMst = () => {
         queryKey: ["surveyUrl", searchParams.get("surveyUrl") || ""], // Query key
         queryFn: () => {
             const surveyUrl = searchParams.get("surveyUrl");
-            return getSurveyForm(surveyUrl || "")
+            const srMstId = searchParams.get("srMstId");
+            return getSurveyForm(surveyUrl || "", srMstId||"")
         }
     });
 
