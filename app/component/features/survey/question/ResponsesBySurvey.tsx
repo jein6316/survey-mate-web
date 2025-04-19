@@ -8,6 +8,7 @@ import {getResponsesBySurvey} from "@/app/api/survey/surveyApi";
 import {useStatusHandler} from "@/app/hooks/useStatusHandler";
 import {useRouter, useSearchParams} from "next/navigation";
 import {Pagination} from "@/app/component/common/page/Pagination";
+import {useTranslation} from "react-i18next";
 
 export interface ResponsesBySurvey {
     srMstId: number;
@@ -21,6 +22,7 @@ export interface ResponsesBySurvey {
 export const ResponsesBySurvey = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const searchParams = useSearchParams();
+    const {t} = useTranslation("survey");
     const router = useRouter();
 
     const {data, isLoading, error} = useQuery({
@@ -66,9 +68,9 @@ export const ResponsesBySurvey = () => {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>생성일시</TableHead>
-                                <TableHead>생성자ID</TableHead>
-                                <TableHead>생성자이름</TableHead>
+                                <TableHead>{t("CREATED_AT")}</TableHead>
+                                <TableHead>{t("CREATOR_ID")}</TableHead>
+                                <TableHead>{t("CREATOR_NAME")}</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
