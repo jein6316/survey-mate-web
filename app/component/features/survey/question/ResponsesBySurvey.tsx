@@ -77,8 +77,8 @@ export const ResponsesBySurvey = () => {
                         <TableBody>
                             {responses.map((response: any, index: number) => (
                                 <TableRow key={index}>
-                                    <TableCell>
-                                        <span onClick={() => handleRowClick(response.srMstId)} style={{cursor: 'pointer'}}>
+                                    <TableCell className="list-clickable">
+                                        <span onClick={() => handleRowClick(response.srMstId)}>
                                             {createFormattedDate(response.createData)}
                                         </span>
                                     </TableCell>
