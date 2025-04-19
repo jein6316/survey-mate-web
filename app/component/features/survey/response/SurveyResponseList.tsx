@@ -8,6 +8,8 @@ import {useStatusHandler} from "@/app/hooks/useStatusHandler";
 import {Pagination} from "@/app/component/common/page/Pagination";
 import {useTranslation} from "react-i18next";
 import {useRouter} from "next/navigation";
+import {Card, CardContent} from "@/app/component/common/list/Card";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/app/component/common/list/Table";
 
 export interface SurveyResponse {
     rowNumber: number;
@@ -45,32 +47,33 @@ export const SurveyResponseList = () => {
 
 
     return (
-        <div className="list-container">
+        <div className="p-6 space-y-4">
             <h2 className="list-title">{t("SURVEY_RESPONSE_LIST")}</h2>
-            <br/>
-            <table>
-                <thead>
-                <tr>
-                    <th style={{width: "30%"}}>{t("SUBJECT")}</th>
-                    <th style={{width: "60%"}}>{t("DESCRIPTION")}</th>
-                    <th style={{width: "10%"}}>{t("STATUS")}</th>
-
-                    <th className="list-hidden-column"></th>
-                </tr>
-                </thead>
-                <tbody>
-                {responses.map((response) => (
-                    <tr key={response.sqMstId}>
-                        <td className="list-clickable"
-                            onClick={() => handleRowClick(response.surveyUrl)}
-                        >{response.title}</td>
-                        <td style={{textAlign: "left"}}> {response.description}</td>
-                        <td className="list-hidden-column">{response.surveyUrl}</td>
-                        <td>{response.completed ? t("COMPLETED") : t("NOT_COMPLETED")}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+            <Card>
+                <CardContent className="pt-6">
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead className="w-[40%]">{t("SUBJECT")}</TableHead>
+                                <TableHead>{t("DESCRIPTION")}</TableHead>
+                                <TableHead>{t("STATUS")}</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {responses.map((response) => (
+                                <TableRow key={response.sqMstId}>
+                                    <TableCell className="list-clickable"
+                                    ><span onClick={() => handleRowClick(response.surveyUrl)}>{response.title}</span>
+                                    </TableCell>
+                                    <TableCell style={{textAlign: "left"}}> {response.description}</TableCell>
+                                    <TableCell className="list-hidden-column">{response.surveyUrl}</TableCell>
+                                    <TableCell>{response.completed ? t("COMPLETED") : t("NOT_COMPLETED")}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </CardContent>
+            </Card>
 
             {pageData && (
                 <Pagination
@@ -83,6 +86,8 @@ export const SurveyResponseList = () => {
                 />
             )}
         </div>
+
+
     );
 
 }

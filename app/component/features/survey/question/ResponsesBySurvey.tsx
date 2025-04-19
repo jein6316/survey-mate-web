@@ -1,5 +1,6 @@
 "use client";
 
+import "@/app/styles/common/List.css";
 import {Card, CardContent} from "@/app/component/common/list/Card";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/app/component/common/list/Table";
 import React, {useState} from "react";
@@ -62,7 +63,7 @@ export const ResponsesBySurvey = () => {
 
     return (
         <div className="p-6 space-y-4">
-
+            <h2 className="list-title">{t("RESPONSES_BY_SURVEY")}</h2>
             <Card>
                 <CardContent className="pt-6">
                     <Table>
