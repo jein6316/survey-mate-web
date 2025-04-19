@@ -9,6 +9,8 @@ import useAlert from "@/app/recoil/hooks/useAlert";
 import {useTranslation} from "react-i18next";
 import {useStatusHandler} from "@/app/hooks/useStatusHandler";
 import {Pagination} from "@/app/component/common/page/Pagination";
+import {Card, CardContent} from "@/app/component/common/list/Card";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/app/component/common/list/Table";
 
 // types.ts
 export interface User {
@@ -54,26 +56,30 @@ export const GroupUserList = () => {
     };
 
     return (
-        <div className="list-container">
+        <div className="p-6 space-y-4">
             <h2 className="list-title">{tGroup("GROUP_USERS")}</h2>
-            <table>
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>{tCommon("NAME")}</th>
-                    <th>{tCommon("ROLE")}</th>
-                </tr>
-                </thead>
-                <tbody>
-                {users.map((user) => (
-                    <tr key={user.userId}>
-                        <td>{user.userId}</td>
-                        <td>{user.userName}</td>
-                        <td>{tCommon(user.memRole)}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+            <Card>
+                <CardContent className="pt-6">
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>ID</TableHead>
+                                <TableHead>{tCommon("NAME")}</TableHead>
+                                <TableHead>{tCommon("ROLE")}</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {users.map((user) => (
+                                <TableRow key={user.userId}>
+                                    <TableCell>{user.userId}</TableCell>
+                                    <TableCell>{user.userName}</TableCell>
+                                    <TableCell>{tCommon(user.memRole)}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </CardContent>
+            </Card>
 
             {pageData && (
                 <Pagination
@@ -85,6 +91,6 @@ export const GroupUserList = () => {
                     onPageChange={handlePageChange}
                 />
             )}
-        </div>
-    );
+        </div>)
+    ;
 };
