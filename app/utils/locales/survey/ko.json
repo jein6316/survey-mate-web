@@ -1,5 +1,6 @@
 {
   "CREATED_AT": "생성일시",
   "CREATOR_ID": "생성자ID",
-  "CREATOR_NAME": "생성자이름"
+  "CREATOR_NAME": "생성자이름",
+  "RESPONSES_BY_SURVEY": "설문별 응답 목록"
 }
