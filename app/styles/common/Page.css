@@ -1,5 +1,5 @@
 .page-background {
-    @apply flex h-screen w-screen items-center justify-center bg-gray-50;
+    @apply flex bg-gray-50;
 }
 
 .page-container {
