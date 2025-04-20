@@ -51,7 +51,7 @@ export default function ModifyUser({ params }: { params: { id: string } }) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+    <div className="flex p-4">
       <div className="bg-white p-8 shadow-md rounded-md max-w-lg w-full">
         <h1 className="text-lg font-bold text-gray-700 mb-4">회원정보 수정</h1>
         <p className="text-sm text-gray-600 mb-4">
