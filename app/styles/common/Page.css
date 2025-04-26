@@ -1,5 +1,5 @@
 .page-background {
-    @apply flex bg-gray-50;
+    @apply flex;
 }
 
 .page-container {
