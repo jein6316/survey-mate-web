@@ -15,7 +15,7 @@ export const urlConstants: UrlConstantsType = {
   pages: {
     /*로그인 이전*/
     HOME: "/",
-    LOGIN: "/auth/login",
+    LOGIN: "/",
     REGISTER: "/auth/register",
     FINDIDBYEMAIL: "/auth/findIdByEmail",
     RESETPASSWORD: "/auth/resetPassword",
