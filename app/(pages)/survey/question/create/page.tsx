@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { QuestionType } from "@/app/types/questionTypes";
@@ -11,13 +10,24 @@ import { useMutation } from "@tanstack/react-query";
 import { APIResponse, SurveyQuestionMstRequest } from "@/app/types/apiTypes";
 import { createSurvey } from "@/app/api/survey/surveyApi";
 import useAlert from "@/app/recoil/hooks/useAlert";
-import { group } from "console";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/app/recoil/atoms/userAtom";
+import { DatePicker } from "@/app/component/common/list/DatePicker";
+import { formatDateStartEndDate } from "@/app/utils/formatter";
 
-const CreateSurvey: React.FC = () => {
+export default function CreateSurvey() {
   const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [surveyTitle, setSurveyTitle] = useState("");
+  const [startDate, setStartDate] = useState<Date | null>(() => {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    return date;
+  });
+  const [endDate, setEndDate] = useState<Date | null>(() => {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    return date;
+  });
   const [surveyDescription, setSurveyDescription] = useState("");
   const { groupId } = useRecoilValue(userAtom); // 그룹 ID
   // 상단 상태 추가
@@ -43,9 +53,7 @@ const CreateSurvey: React.FC = () => {
     SurveyQuestionMstRequest
   >({
     mutationFn: createSurvey,
-    onSuccess: (data: any) => {
-      // setMenuData(data.data || []); // 데이터를 상태에 저장
-    },
+    onSuccess: (data: any) => {},
     onError: (error: Error) => {
       console.error("API 호출 중 오류 발생:", error);
     },
@@ -69,8 +77,6 @@ const CreateSurvey: React.FC = () => {
       name: name as any, // name 속성 추가
       min: typeId === "RANGE" ? 0 : undefined, // RANGE 타입은 최소값 설정
     };
-
-    console.log("추가되는 질문:", newQuestion); // 확인용 로그
     setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
   };
 
@@ -94,6 +100,10 @@ const CreateSurvey: React.FC = () => {
     // SurveyQuestionMstRequest 형식으로 변환
     const surveyData: SurveyQuestionMstRequest = {
       title: surveyTitle,
+      startDate: startDate
+        ? formatDateStartEndDate(startDate, false)
+        : undefined, // 시작일을 ISO 문자열로 변환
+      endDate: endDate ? formatDateStartEndDate(endDate, true) : undefined, // 종료일을 ISO 문자열로 변환
       description: surveyDescription, // 설명은 필요에 따라 추가
       questions: questions.map((question) => ({
         typeId: question.typeId,
@@ -105,7 +115,6 @@ const CreateSurvey: React.FC = () => {
       })),
       groupId: isGroupSurvey == "Y" ? groupId : undefined, // 그룹 설문 여부
     };
-    debugger;
     if (isValid()) {
       // API 호출
       mutate(surveyData); // SurveyQuestionMstRequest 형식으로 데이터 전달
@@ -155,7 +164,6 @@ const CreateSurvey: React.FC = () => {
           return false;
         }
       }
-      debugger;
       if (question.typeId === "SQT008") {
         const { min, max } = question;
         if (
@@ -202,6 +210,24 @@ const CreateSurvey: React.FC = () => {
             required
             className="w-full p-2 border border-gray-300 rounded"
             placeholder="설문 제목을 입력하세요"
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          <label htmlFor="startDate" className="block">
+            설문 시작일
+          </label>
+          <DatePicker
+            value={startDate}
+            onChange={setStartDate}
+            placeholder="시작일"
+          />
+          <label htmlFor="endDate" className="block">
+            설문 종료일
+          </label>
+          <DatePicker
+            value={endDate}
+            onChange={setEndDate}
+            placeholder="종료일"
           />
         </div>
         <div className="survey-description">
@@ -280,6 +306,4 @@ const CreateSurvey: React.FC = () => {
       </form>
     </div>
   );
-};
-
-export default CreateSurvey;
+}

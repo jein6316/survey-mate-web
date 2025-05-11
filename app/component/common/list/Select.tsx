@@ -12,25 +12,27 @@ export const Select = ({
   children: React.ReactNode;
 }) => {
   const [open, setOpen] = React.useState(false);
-  const [selected, setSelected] = React.useState(value || "");
 
+  // 항목 선택시 부모로 값 전달
   const handleSelect = (val: string) => {
-    setSelected(val);
-    setOpen(false);
-    onValueChange?.(val);
+    onValueChange?.(val); // 부모로 선택된 값 전달
+    setOpen(false); // 드롭다운 닫기
   };
 
   return (
     <div className="relative inline-block w-full">
-      <SelectTrigger onClick={() => setOpen(!open)}>
-        <SelectValue>{selected}</SelectValue>
+      {/* 드롭다운이 열리지 않았을 때만 SelectTrigger 보이게 */}
+      <SelectTrigger onClick={() => setOpen((prev) => !prev)}>
+        <SelectValue>{value}</SelectValue>
         <ChevronDown className="ml-auto h-4 w-4" />
       </SelectTrigger>
+
+      {/* 드롭다운이 열린 경우에만 SelectContent 보이기 */}
       {open && (
         <SelectContent>
           {React.Children.map(children, (child) =>
             React.cloneElement(child as React.ReactElement, {
-              onSelect: handleSelect,
+              onSelect: handleSelect, // 각 항목 클릭 시 선택 처리
             })
           )}
         </SelectContent>
@@ -75,7 +77,7 @@ export const SelectItem = ({
   onSelect?: (val: string) => void;
 }) => (
   <div
-    onClick={() => onSelect?.(value)}
+    onClick={() => onSelect?.(value)} // 선택 시 onSelect 호출
     className="cursor-pointer px-3 py-2 text-sm hover:bg-accent rounded"
   >
     {children}
