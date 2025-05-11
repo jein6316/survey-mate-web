@@ -4,11 +4,19 @@ import { cn } from "@/app/utils/cn";
 export const Table = ({
   children,
   className,
-}: React.HTMLAttributes<HTMLTableElement>) => (
+  colWidths = [], // 추가
+}: React.HTMLAttributes<HTMLTableElement> & { colWidths?: string[] }) => (
   <div className="w-full overflow-auto">
     <table
       className={cn("min-w-[600px] w-full caption-bottom text-sm", className)}
     >
+      {colWidths.length > 0 && (
+        <colgroup>
+          {colWidths.map((width, index) => (
+            <col key={index} style={{ width }} />
+          ))}
+        </colgroup>
+      )}
       {children}
     </table>
   </div>
@@ -49,12 +57,14 @@ export const TableRow = ({
 export const TableHead = ({
   children,
   className,
+  style,
 }: React.ThHTMLAttributes<HTMLTableCellElement>) => (
   <th
     className={cn(
-      "h-10 px-2 text-left align-middle font-medium text-muted-foreground text-nowrap [&:has([role=checkbox])]:pr-0",
+      "h-10 px-4 py-2 text-left align-middle font-medium text-muted-foreground text-nowrap [&:has([role=checkbox])]:pr-0",
       className
     )}
+    style={style}
   >
     {children}
   </th>
@@ -63,12 +73,16 @@ export const TableHead = ({
 export const TableCell = ({
   children,
   className,
+  onClick,
+  style,
 }: React.TdHTMLAttributes<HTMLTableCellElement>) => (
   <td
     className={cn(
-      "p-2 align-middle text-nowrap [&:has([role=checkbox])]:pr-0",
+      "align-middle text-nowrap [&:has([role=checkbox])]:pr-0",
       className
     )}
+    onClick={onClick}
+    style={style}
   >
     {children}
   </td>
