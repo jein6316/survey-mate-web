@@ -94,12 +94,28 @@ export interface GroupData {
 
 //설문
 export interface SurveyQuestionMstRequest {
+  title?: string; // 설문 제목
+  startDate?: string; // 시작일자
+  endDate?: string; // 종료일자
+  description?: string; // 설문 설명
+  questions?: SurveyQuestionDtlRequest[]; // 질문 목록
+  groupId?: string; // 그룹아이디
+  size?: number;
+  page?: number;
+}
+export interface SurveyQuestionMstResponse {
+  sqMstId: string; // 설문 ID
   title: string; // 설문 제목
   description?: string; // 설문 설명
   questions?: SurveyQuestionDtlRequest[]; // 질문 목록
   groupId?: string; // 그룹아이디
+  size?: number;
+  page?: number;
+  createDate?: string; // 생성일자
+  updateDate?: string; // 수정일자
+  createMemNum?: string; // 생성자
+  updateMemNum?: string; // 수정자
 }
-
 export interface SurveyQuestionDtlRequest {
   typeId: string; // 질문 유형 ID
   questionText: string; // 질문 내용
