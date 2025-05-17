@@ -53,7 +53,18 @@ export default function CreateSurvey() {
     SurveyQuestionMstRequest
   >({
     mutationFn: createSurvey,
-    onSuccess: (data: any) => {},
+    onSuccess: (data: any) => {
+      if (data.result) {
+        openAlert(
+          "설문 생성 완료",
+          "설문이 성공적으로 생성되었습니다.",
+          "info",
+          () => {
+            router.push("/survey/question/list");
+          }
+        );
+      }
+    },
     onError: (error: Error) => {
       console.error("API 호출 중 오류 발생:", error);
     },
@@ -70,12 +81,12 @@ export default function CreateSurvey() {
       question: `질문 ${questions.length + 1}`,
       options:
         typeId === "RADIO" || typeId === "CHECKBOX"
-          ? ["옵션 1"] // 객관식과 체크박스는 옵션 추가
+          ? ["옵션 1"]
           : typeId === "RANGE"
-          ? ["0", "100"] // RANGE 타입은 기본 최소/최대값 설정
+          ? ["0", "100"]
           : undefined,
-      name: name as any, // name 속성 추가
-      min: typeId === "RANGE" ? 0 : undefined, // RANGE 타입은 최소값 설정
+      name: name as any,
+      min: typeId === "RANGE" ? 0 : undefined,
     };
     setQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
   };

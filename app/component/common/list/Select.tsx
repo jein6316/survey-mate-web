@@ -13,73 +13,53 @@ export const Select = ({
 }) => {
   const [open, setOpen] = React.useState(false);
 
-  // 항목 선택시 부모로 값 전달
   const handleSelect = (val: string) => {
-    onValueChange?.(val); // 부모로 선택된 값 전달
-    setOpen(false); // 드롭다운 닫기
+    onValueChange?.(val);
+    setOpen(false);
   };
 
-  return (
-    <div className="relative inline-block w-full">
-      {/* 드롭다운이 열리지 않았을 때만 SelectTrigger 보이게 */}
-      <SelectTrigger onClick={() => setOpen((prev) => !prev)}>
-        <SelectValue>{value}</SelectValue>
-        <ChevronDown className="ml-auto h-4 w-4" />
-      </SelectTrigger>
+  const selectedLabel = React.Children.toArray(children)
+    .map((child) => child as React.ReactElement)
+    .find((child) => child.props.value === value)?.props.label;
 
-      {/* 드롭다운이 열린 경우에만 SelectContent 보이기 */}
+  return (
+    <div className="relative inline-block w-full text-left">
+      <button
+        onClick={() => setOpen((prev) => !prev)}
+        className="flex items-center justify-between w-full px-3 py-2 border border-gray-300 rounded-md text-sm bg-white"
+      >
+        <span>{selectedLabel || "선택해주세요"}</span>
+        <ChevronDown className="w-4 h-4 ml-2" />
+      </button>
+
       {open && (
-        <SelectContent>
-          {React.Children.map(children, (child) =>
-            React.cloneElement(child as React.ReactElement, {
-              onSelect: handleSelect, // 각 항목 클릭 시 선택 처리
-            })
-          )}
-        </SelectContent>
+        <div className="absolute z-10 mt-1 w-full rounded-md border bg-white shadow-md">
+          <div className="max-h-60 overflow-y-auto py-1">
+            {React.Children.map(children, (child) =>
+              React.cloneElement(child as React.ReactElement, {
+                onSelect: handleSelect,
+              })
+            )}
+          </div>
+        </div>
       )}
     </div>
   );
 };
 
-export const SelectTrigger = ({
-  children,
-  className,
-  ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
-  <button
-    className={cn(
-      "flex items-center justify-between w-full px-3 py-2 border border-input rounded-md bg-background text-sm",
-      className
-    )}
-    {...props}
-  >
-    {children}
-  </button>
-);
-
-export const SelectValue = ({ children }: { children?: React.ReactNode }) => (
-  <span>{children}</span>
-);
-
-export const SelectContent = ({ children }: { children: React.ReactNode }) => (
-  <div className="absolute z-10 mt-1 w-full rounded-md border bg-popover shadow-md">
-    <div className="p-1 space-y-1 max-h-60 overflow-y-auto">{children}</div>
-  </div>
-);
-
 export const SelectItem = ({
   value,
-  children,
+  label,
   onSelect,
 }: {
   value: string;
-  children: React.ReactNode;
+  label: string;
   onSelect?: (val: string) => void;
 }) => (
   <div
-    onClick={() => onSelect?.(value)} // 선택 시 onSelect 호출
-    className="cursor-pointer px-3 py-2 text-sm hover:bg-accent rounded"
+    onClick={() => onSelect?.(value)}
+    className="cursor-pointer px-3 py-2 text-sm hover:bg-gray-100"
   >
-    {children}
+    {label}
   </div>
 );
