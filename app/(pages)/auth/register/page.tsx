@@ -5,7 +5,7 @@ import "@/app/styles/common/Page.css";
 
 export default function Register() {
   return (
-    <div className="page-background">
+    <div className="page-background justify-center">
       <div className="page-container">
         <RegisterForm>
           <SubmitButton>Sign Up</SubmitButton>
