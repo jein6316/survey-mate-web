@@ -5,11 +5,9 @@ import { useState, useEffect, ReactNode } from "react";
 import { setupGlobals } from "@/app/utils/global";
 import { RecoilRoot, useSetRecoilState } from "recoil";
 import { userAtom } from "@/app/recoil/atoms/userAtom";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
 import i18n from "@/app/libs/i18n";
 import { I18nextProvider } from "react-i18next";
-import {getUserFromToken} from "@/app/recoil/hooks/useUser";
+import { getUserFromToken } from "@/app/recoil/hooks/useUser";
 
 interface ProvidersProps {
   children: ReactNode;
