@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { APIResponse } from "../types/apiTypes";
 import useUser from "../recoil/hooks/useUser";
+import useAlert from "@/app/recoil/hooks/useAlert";
 
 type ExtendedMutationOptions<TData, TVariables> =
     UseMutationOptions<TData, Error, TVariables> & {
@@ -15,6 +16,7 @@ const useMutationLogin = <TData = any, TVariables = any>(
   options?: ExtendedMutationOptions<TData, TVariables>
 ) => {
   const router = useRouter();
+  const openAlert = useAlert();
   const { setUserFromToken } = useUser();
 
   return useMutation<TData, Error, TVariables>({
@@ -89,6 +91,12 @@ const useMutationLogin = <TData = any, TVariables = any>(
       }
     },
     onError: (error: Error, variables, context) => {
+
+      if (error.message.includes("403")) {
+        openAlert("로그인 실패", "아이디와 비밀번호를 확인해 주세요", "error");
+        return;
+      }
+
       // 공통 에러 처리
       console.error("Mutation Error:", error.message);
       alert("요청 처리 중 오류가 발생하였습니다.");
