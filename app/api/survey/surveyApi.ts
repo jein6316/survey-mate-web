@@ -1,7 +1,5 @@
-import axios from "axios";
-import { MenuItem, SurveyQuestionMstRequest } from "@/app/types/apiTypes";
+import { SurveyQuestionMstRequest } from "@/app/types/apiTypes";
 import api from "@/app/api/auth/api";
-import PagesManifestPlugin from "next/dist/build/webpack/plugins/pages-manifest-plugin";
 
 //설문생성
 export const createSurvey = async (formData: SurveyQuestionMstRequest) => {

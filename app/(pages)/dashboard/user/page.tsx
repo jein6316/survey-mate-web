@@ -87,13 +87,13 @@ export default function User() {
       </div>*/}
       <button
         onClick={handleEditClick}
-        className="mt-4 w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600"
+        className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
       >
         {t("MODIFY_USER_INFO")}
       </button>
       <button
         onClick={handleResetPassowrd}
-        className="mt-4 w-full bg-pink-500 text-white py-2 rounded-md hover:bg-pink-600"
+        className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
       >
         {t("MODIFY_USER_PASSWORD")}
       </button>

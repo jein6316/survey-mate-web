@@ -23,7 +23,6 @@ export default function ChangePassword({ params }: { params: { id: string } }) {
       window.history.back();
     },
     onError: (error) => {
-      console.error("비밀번호 수정 실패:", error);
       alert(error.message || "비밀번호 수정 중 문제가 발생했습니다.");
     },
   });

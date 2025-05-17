@@ -1,6 +1,5 @@
 import * as React from "react";
 import { ChevronDown } from "lucide-react";
-import { cn } from "@/app/utils/cn";
 
 export const Select = ({
   value,

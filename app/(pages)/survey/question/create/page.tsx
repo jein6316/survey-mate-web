@@ -66,7 +66,7 @@ export default function CreateSurvey() {
       }
     },
     onError: (error: Error) => {
-      console.error("API 호출 중 오류 발생:", error);
+      openAlert("설문 생성중 오류가 발생하였습니다", "error");
     },
   });
 
