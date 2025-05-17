@@ -106,7 +106,7 @@ const MenuLayout: React.FC<MenuLayoutProps> = ({ children }) => {
   );
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-[92vh]">
       {user.isLoggedIn ? (
         <>
           <div
@@ -140,7 +140,7 @@ const MenuLayout: React.FC<MenuLayoutProps> = ({ children }) => {
           )}
         </>
       ) : (
-        <div className="p-4">{children}</div>
+        <div className="p-1">{children}</div>
       )}
     </div>
   );

@@ -72,7 +72,7 @@ export function LoginForm({
   }
 
   return (
-    <div className="flex min-h-screen w-screen items-center justify-center bg-gray-50 px-4">
+    <div className="flex min-h-[92vh] w-screen items-center justify-center bg-gray-50">
       <div className="z-10 w-full max-w-md overflow-hidden rounded-lg border border-gray-300 shadow-lg bg-white -mt-40">
         {/* 헤더 */}
         <header className="flex flex-col items-center justify-center space-y-2 border-b border-gray-200 px-6 py-8 text-center">
