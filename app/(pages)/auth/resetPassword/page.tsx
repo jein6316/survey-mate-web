@@ -19,11 +19,9 @@ export default function ResetPassword() {
     mutationFn: restPasswordAPI,
     onSuccess: (data: any) => {
       alert(`아이디 찾기 성공! 찾은 아이디: ${data?.data}`);
-      console.log("아이디 찾기 성공 데이터:", data);
     },
     onError: (error: Error) => {
       alert("아이디 찾기 실패! 이메일을 다시 확인하세요.");
-      console.error("아이디 찾기 오류:", error.message);
     },
   });
 
