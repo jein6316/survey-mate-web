@@ -2,13 +2,7 @@
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query"; // or the appropriate library
 import { Input } from "@/app/component/common/list/ListInput";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/app/component/common/list/Select";
+import { Select, SelectItem } from "@/app/component/common/list/Select";
 import { ListButton } from "@/app/component/common/list/ListButton";
 import { DatePicker } from "@/app/component/common/list/DatePicker"; // 커스텀 DatePicker 컴포넌트 사용 가정
 import { Card, CardContent } from "@/app/component/common/list/Card";
@@ -26,51 +20,48 @@ import {
   SurveyQuestionMstRequest,
   SurveyQuestionMstResponse,
 } from "@/app/types/apiTypes";
-import { getCreatedSurveyList } from "@/app/api/survey/surveyApi"; // API 호출 함수
+import { getCreatedSurveyList } from "@/app/api/survey/surveyApi";
 import { parseDateArrayToStringWithoutLast } from "@/app/utils/formatter";
-import { useRouter } from "next/navigation"; // next/navigation에서 useRouter, usePathname 사용
+import { useRouter } from "next/navigation";
 import { formatDateStartEndDate } from "@/app/utils/formatter";
 import { userAtom } from "@/app/recoil/atoms/userAtom";
 import { useRecoilValue } from "recoil";
 
 export default function SurveyListPage() {
-  const [searchType, setSearchType] = useState("title");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [surveyType, setSurveyType] = useState("모든 설문");
-  const [page, setPage] = useState(1); // 현재 페이지 (1부터 시작)
-  const [pageSize, setPageSize] = useState(10); // 한 페이지당 아이템 수
-  const [surveyTotalCount, setSurveyTotalCount] = useState(0); // 전체 아이템 수
-  const [selectedValue, setSelectedValue] = useState("모든 설문");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [surveyTotalCount, setSurveyTotalCount] = useState(0);
+  const [selected, setSelected] = useState("모든 설문");
   const [surveys, setSurveys] = useState([]);
-  const { groupId } = useRecoilValue(userAtom); // 그룹 ID
-  const router = useRouter(); // next/navigation에서 useRouter 사용
+  const { groupId } = useRecoilValue(userAtom);
+  const router = useRouter();
 
   const handleSearch = () => {
-    // SurveyQuestionMstRequest 형식으로 변환
     const surveyData: SurveyQuestionMstRequest = {
       title: searchKeyword,
       startDate: startDate
         ? formatDateStartEndDate(startDate, false)
-        : undefined, // 시작일을 ISO 문자열로 변환
-      endDate: endDate ? formatDateStartEndDate(endDate, true) : undefined, // 종료일을 ISO 문자열로 변환
-      groupId: selectedValue == "group" ? groupId : undefined, // 그룹 설문 여부
+        : undefined,
+      endDate: endDate ? formatDateStartEndDate(endDate, true) : undefined,
+      groupId: selected == "group" ? groupId : undefined,
     };
+    debugger;
     if (isValid()) {
       mutate({
         ...surveyData,
-        page: page - 1, // 페이지는 0부터 시작하므로 -1
+        page: page - 1,
         size: pageSize,
       });
     }
   };
-  //validation check
-  const isValid = () => {
-    return true; // 여기에 유효성 검사 로직 추가
-  };
 
-  // API 호출 로직
+  const isValid = () => {
+    return true;
+  };
   const { data, error, isError, isPending, mutate } = useMutation<
     APIResponse,
     Error,
@@ -78,8 +69,9 @@ export default function SurveyListPage() {
   >({
     mutationFn: getCreatedSurveyList,
     onSuccess: (data: any) => {
-      setSurveys(data.data.content || []); // 데이터를 상태에 저장
-      setSurveyTotalCount(data.totalCount || 0); // 전체 아이템 수 저장
+      setSurveys(data.data.content || []);
+      setSurveyTotalCount(data.data.totalElements);
+      debugger;
     },
     onError: (error: Error) => {
       console.error("API 호출 중 오류 발생:", error);
@@ -87,15 +79,13 @@ export default function SurveyListPage() {
   });
 
   useEffect(() => {
-    // API 호출 예시
     mutate({
-      page: page - 1, // 페이지는 0부터 시작하므로 -1
+      page: page - 1,
       size: pageSize,
-    } as SurveyQuestionMstRequest);
-  }, [mutate, page, pageSize]);
+    });
+  }, [mutate, page]);
 
   const handleClickTitle = (mstId: string) => {
-    debugger;
     const url = `/survey/question/list/responses/?sqMstId=${mstId}`;
     router.push(url);
   };
@@ -129,19 +119,14 @@ export default function SurveyListPage() {
               />
             </div>
 
-            <div>
+            <div hidden={groupId == undefined}>
               <Select
-                value={selectedValue}
-                onValueChange={(v) => setSelectedValue(v)}
+                value={selected}
+                onValueChange={(val) => setSelected(val)}
               >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="모든 설문">모든 설문</SelectItem>
-                  <SelectItem value="normal">일반 설문</SelectItem>
-                  <SelectItem value="group">그룹 설문</SelectItem>
-                </SelectContent>
+                <SelectItem value="all" label="모든 설문" />
+                <SelectItem value="normal" label="일반 설문" />
+                <SelectItem value="group" label="그룹 설문" />
               </Select>
             </div>
 
