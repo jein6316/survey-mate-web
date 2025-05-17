@@ -29,11 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Providers>
-        <body className={GeistSans.variable}>
+        <body className={`${GeistSans.variable} relative min-h-screen overflow-x-hidden`}>
           <LoadingBar />
           <AlertModal />
           {/* Header */}
-          <header className="flex justify-end items-center p-4 bg-white shadow-md">
+          <header className="flex justify-end items-center p-4 bg-white shadow-md z-50">
             <HeaderRight />
           </header>
           <MenuLayout>{children}</MenuLayout>
