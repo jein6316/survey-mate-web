@@ -16,6 +16,7 @@ import "@/app/styles/common/Button.css";
 import "@/app/styles/common/Common.css";
 import {useRouter} from "next/navigation";
 import useLoading from "@/app/recoil/hooks/useLoading";
+import {useTranslation} from "react-i18next";
 
 export const RegisterForm = ({
                                  action,
@@ -50,7 +51,7 @@ export const RegisterForm = ({
     ); // 비밀번호 확인 에러
     const [errorRegister, setErrorRegister] = useState<string | null>(null); //회원가입 에러
     const router = useRouter();
-
+    const {t} = useTranslation("auth");
     const openAlert = useAlert();
     const {setLoadingState, clearLoadingState} = useLoading();
 
@@ -85,6 +86,13 @@ export const RegisterForm = ({
         setFormData((prevData) => ({
             ...prevData,
             profileImage: file,
+        }));
+        e.target.value = '';
+    };
+    const removeImage = () => {
+        setFormData((prevData) => ({
+            ...prevData,
+            profileImage: null,
         }));
     };
     //이메일 인증 코드 값 변경 처리
@@ -221,15 +229,18 @@ export const RegisterForm = ({
     } = useMutation<APIResponse, Error, RegisterFormData>({
         mutationFn: registerSubmit, // mutationFn 속성에 checkDuplicateId 함수를 할당
         onSuccess: (data: any) => {
+            clearLoadingState();
             openAlert("회원가입 성공!", "회원가입 되었습니다.", "info", () => {
                 router.replace("/");
             });
         },
         onError: (error: ResponseError) => {
+            clearLoadingState();
             openAlert("회원가입 실패!", "회원가입에 실패했습니다.", "error");
             console.error("Login failed:", error.message);
         },
     });
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -242,16 +253,17 @@ export const RegisterForm = ({
         // 데이터 유효성 체크
         validateForm();
         setErrorRegister(""); // 에러 초기화
+        setLoadingState("Loading..");
         mutateRegister(formData); // 회원가입 요청 실행
     };
     return (
         <form onSubmit={handleSubmit} autoComplete="off" className="form-container">
-            <h2 className="form-title">회원가입</h2>
+            <h2 className="form-title">{t("SIGN_UP")}</h2>
 
             {/* User ID */}
             <div>
                 <label htmlFor="userId" className="form-label">
-                    아이디
+                    {t("USERID")}
                 </label>
                 <div className="form-button-group">
                     <input
@@ -269,7 +281,7 @@ export const RegisterForm = ({
                         onClick={handleDuplicateId}
                         className="button-check"
                     >
-                        체크
+                        {t("CHECK")}
                     </button>
                 </div>
                 {errorId && <p className="error-msg">{errorId}</p>}
@@ -278,7 +290,7 @@ export const RegisterForm = ({
             {/* Email */}
             <div>
                 <label htmlFor="userEmail" className="form-label">
-                    이메일
+                    {t("EMAIL")}
                 </label>
                 <div className="form-button-group">
                     <input
@@ -296,7 +308,7 @@ export const RegisterForm = ({
                         onClick={handleCheckEmail}
                         className="button-check"
                     >
-                        체크
+                        {t("CHECK")}
                     </button>
                 </div>
             </div>
@@ -304,7 +316,7 @@ export const RegisterForm = ({
             {/* Verification Code */}
             <div>
                 <label htmlFor="verCode" className="form-label">
-                    이메일 인증 확인
+                    {t("EMAIL_VERIFICATION")}
                 </label>
                 <div className="form-button-group">
                     <input
@@ -318,7 +330,7 @@ export const RegisterForm = ({
                         className="form-input"
                     />
                     <button type="button" onClick={checkVerCode} className="button-auth">
-                        인증
+                        {t("VERIFY")}
                     </button>
                 </div>
             </div>
@@ -326,7 +338,7 @@ export const RegisterForm = ({
             {/* User Name */}
             <div>
                 <label htmlFor="userName" className="form-label">
-                    이름
+                    {t("NAME")}
                 </label>
                 <input
                     id="userName"
@@ -343,7 +355,7 @@ export const RegisterForm = ({
             {/* Password */}
             <div>
                 <label htmlFor="password" className="form-label">
-                    비밀번호
+                    {t("PASSWORD")}
                 </label>
                 <input
                     id="password"
@@ -360,7 +372,7 @@ export const RegisterForm = ({
             {/* Password Check */}
             <div>
                 <label htmlFor="passwordCheck" className="form-label">
-                    비밀번호 확인
+                    {t("PASSWORD_CONFIRM")}
                 </label>
                 <input
                     id="passwordCheck"
@@ -379,8 +391,8 @@ export const RegisterForm = ({
 
             {/* Profile Image */}
             <div>
-                <label htmlFor="profileImage" className="form-label">
-                    프로필 이미지
+                <label htmlFor="profileImageLabel" className="form-label">
+                    {t("PROFILE_IMAGE")}
                 </label>
                 <input
                     id="profileImage"
@@ -389,12 +401,38 @@ export const RegisterForm = ({
                     accept="image/*"
                     onChange={handleFileChange}
                     className="form-input-file"
+                    style={{display: 'none'}}
                 />
+                <label
+                    htmlFor="profileImage"
+                    className="inline-block px-4 py-2 bg-blue-500 text-white rounded cursor-pointer"
+                >
+                    {t("UPLOAD_IMAGE")}
+                </label>
+                <br/>
+                {formData.profileImage && (
+                    <div className="relative inline-block mt-4">
+                        <img
+                            src={URL.createObjectURL(formData.profileImage)}
+                            alt="Preview"
+                            className="w-32 h-32 object-cover rounded border"
+                        />
+                        {/* X 버튼 */}
+                        <button
+                            type="button"
+                            onClick={removeImage}
+                            className="absolute top-0 right-0 bg-black bg-opacity-50 text-white rounded-full w-6 h-6 text-xs flex items-center justify-center hover:bg-opacity-80"
+                            title="Remove Image"
+                        >
+                            ×
+                        </button>
+                    </div>
+                )}
             </div>
 
             <div>
                 <label htmlFor="groupSelect" className="form-label">
-                    그룹 선택
+                    {t("SELECT_GROUP")}
                 </label>
                 <select
                     id="groupOption"
@@ -403,9 +441,9 @@ export const RegisterForm = ({
                     value={formData.groupOption}
                     className="form-input-full"
                 >
-                    <option value="none">그룹 없음</option>
-                    <option value="create">그룹 생성</option>
-                    <option value="select">그룹 입력</option>
+                    <option value="none">{t("NO_GROUP")}</option>
+                    <option value="create">{t("CREATE_GROUP")}</option>
+                    <option value="select">{t("ENTER_GROUP")}</option>
                 </select>
 
                 {/* 그룹 생성 필드 */}
@@ -413,7 +451,7 @@ export const RegisterForm = ({
                     <div className="mt-4">
                         <div>
                             <label htmlFor="groupName" className="form-label">
-                                그룹 이름
+                                {t("GROUP_NAME")}
                             </label>
                             <input
                                 id="groupName"
@@ -429,14 +467,13 @@ export const RegisterForm = ({
                         <div className="mt-4">
                             <div className="flex items-center">
                                 <label htmlFor="groupAuthCode" className="form-label">
-                                    그룹 인증 번호
+                                    {t("GROUP_AUTH_CODE")}
                                 </label>
                                 <div className="ml-2 -mt-2 relative group">
                                     <span className="question-circle">?</span>
                                     <div
                                         className="absolute top-10 left-0 hidden w-52 text-xs text-white bg-gray-700 rounded-lg p-2 group-hover:block shadow-lg">
-                                        그룹 인증 번호는 다른 사용자가 해당 그룹 소속으로 가입할 때
-                                        사용됩니다.
+                                        {t("GROUP_AUTH_CODE_DESCRIPTION")}
                                     </div>
                                 </div>
                             </div>
@@ -459,7 +496,7 @@ export const RegisterForm = ({
                     <div className="mt-4">
                         <div className="form-group">
                             <label htmlFor="groupCode" className="form-label">
-                                그룹 코드
+                                {t("GROUP_CODE")}
                             </label>
                             <input
                                 id="groupCode"
@@ -474,7 +511,7 @@ export const RegisterForm = ({
                         </div>
                         <div className="mt-4">
                             <label htmlFor="groupAuthCode" className="form-label">
-                                그룹 인증 번호
+                                {t("GROUP_AUTH_CODE")}
                             </label>
                             <input
                                 id="groupAuthCodeSelect"

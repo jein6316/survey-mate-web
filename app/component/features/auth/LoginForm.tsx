@@ -146,7 +146,6 @@ export function LoginForm({
               {t("RESET_PASSWORD")}
             </button>
             <p className="text-sm text-gray-600">
-              Don’t have an account?{" "}
               <Link
                 href={urlConstants.pages.REGISTER}
                 className="font-semibold text-blue-500 hover:text-blue-600 focus:outline-none focus:underline"
