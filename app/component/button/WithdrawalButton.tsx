@@ -1,19 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import useAlert from "@/app/recoil/hooks/useAlert";
 
 export function WithdrawalButton() {
   const [isPending, setIsPending] = useState(false);
-
+  const openAlert = useAlert();
   const handleWithdrawal = async () => {
     setIsPending(true);
 
     try {
       if (typeof window !== "undefined") {
-        window.location.href = "/api/logout"; // 🚀 서버에서 로그아웃 처리
+        window.location.href = "/api/logout";
       }
     } catch (error) {
-      console.error("회원 탈퇴 처리 중 오류 발생:", error);
+      openAlert("회원탈퇴 중 문제가 발생했습니다.", "error");
     } finally {
       setIsPending(false);
     }

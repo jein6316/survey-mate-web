@@ -9,10 +9,6 @@ import i18n from "@/app/libs/i18n";
 import { I18nextProvider } from "react-i18next";
 import { getUserFromToken } from "@/app/recoil/hooks/useUser";
 
-interface ProvidersProps {
-  children: ReactNode;
-}
-
 const AuthInitializer = () => {
   const setUser = useSetRecoilState(userAtom);
 
@@ -39,5 +35,4 @@ function Providers({ children }: { children: ReactNode }) {
   );
 }
 
-// export default appWithTranslation(Providers);
 export default Providers;

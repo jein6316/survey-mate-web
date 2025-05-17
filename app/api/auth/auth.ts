@@ -1,22 +1,15 @@
 import axios from "axios";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   APIResponse,
-  LoginResponseData,
   LoginFormData,
-  HandleSubmitParams,
-  modifyMemberPayload,
-  verCodeResponseData,
   RegisterFormData,
 } from "@/app/types/apiTypes";
-import Cookies from "js-cookie";
 
 /**************************
 auth 관련 API
 ***************************/
 
 //로그인
-// 로그인 요청 함수
 export const loginSubmit = async (formData: LoginFormData) => {
   const res = await axios.post(
     `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
@@ -27,21 +20,21 @@ export const loginSubmit = async (formData: LoginFormData) => {
       },
     }
   );
-  return res.data; // 서버 응답 데이터 반환
+  return res.data;
 };
 
 //회원가입
 export const registerSubmit = async (formData: RegisterFormData) => {
   const res = await axios.post(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, // 엔드포인트 URL
-    formData, // FormData 객체를 전송
+    `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`,
+    formData,
     {
       headers: {
-        "Content-Type": "multipart/form-data", // 요청 헤더에 Content-Type 설정
+        "Content-Type": "multipart/form-data",
       },
     }
   );
-  return res.data; // 성공 시 data 포함 반환
+  return res.data;
 };
 
 //아이디중복체크
@@ -51,21 +44,20 @@ export const checkDuplicateIdAPI = async (
   const res = await axios.get(
     `${process.env.NEXT_PUBLIC_API_URL}/api/auth/check-duplicate-id`,
     {
-      params: { userId }, // GET 요청의 쿼리 파라미터로 전달
+      params: { userId },
     }
   );
-  return res.data; // boolean 값 반환
+  return res.data;
 };
-
 // 이메일인증
 export const checkUserEmailAPI = async (email: string) => {
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_API_URL}/api/auth/send-verification-code`,
     {
-      params: { email }, // GET 요청의 쿼리 파라미터로 전달
+      params: { email },
     }
   );
-  return response.data; // 서버에서 성공 여부 반환 (boolean)
+  return response.data;
 };
 
 // 아이디 찾기
@@ -73,10 +65,10 @@ export const findIdByEmailAPI = async (email: string) => {
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_API_URL}/api/auth/findIdByEmail`,
     {
-      params: { email }, // GET 요청의 쿼리 파라미터로 전달
+      params: { email },
     }
   );
-  return response.data; // 서버에서 성공 여부 반환 (boolean)
+  return response.data;
 };
 
 //비밀번호 리셋
@@ -84,21 +76,21 @@ export const restPasswordAPI = async (email: string) => {
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_API_URL}/api/auth/findIdByEmail`,
     {
-      params: { email }, // GET 요청의 쿼리 파라미터로 전달
+      params: { email },
     }
   );
-  return response.data; // 서버에서 성공 여부 반환 (boolean)
+  return response.data;
 };
 //구글 로그인
 export const loginGoogleAPI = async (token: string) => {
   const response = await axios.post(
     "http://localhost:8080/api/auth/oauth/google",
-    {}, // 요청 본문 데이터가 필요 없으면 빈 객체를 전달
+    {},
     {
       headers: {
-        Authorization: `Bearer ${token}`, // 헤더에 토큰 추가
+        Authorization: `Bearer ${token}`,
       },
     }
   );
-  return response.data; // 서버에서 성공 여부 반환 (boolean)
+  return response.data;
 };

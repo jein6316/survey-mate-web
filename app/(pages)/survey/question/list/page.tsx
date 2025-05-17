@@ -49,7 +49,6 @@ export default function SurveyListPage() {
       endDate: endDate ? formatDateStartEndDate(endDate, true) : undefined,
       groupId: selected == "group" ? groupId : undefined,
     };
-    debugger;
     if (isValid()) {
       mutate({
         ...surveyData,
@@ -71,7 +70,6 @@ export default function SurveyListPage() {
     onSuccess: (data: any) => {
       setSurveys(data.data.content || []);
       setSurveyTotalCount(data.data.totalElements);
-      debugger;
     },
     onError: (error: Error) => {
       console.error("API 호출 중 오류 발생:", error);

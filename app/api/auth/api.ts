@@ -23,8 +23,6 @@ api.interceptors.request.use(
     const refreshToken = Cookies.get("refreshToken");
 
     if (!accessToken && refreshToken) {
-      console.log("🔄 accessToken 없음, refreshToken으로 재발급 시도");
-
       try {
         const { data } = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh`,
@@ -75,8 +73,7 @@ api.interceptors.response.use(
       if (!isRefreshing) {
         isRefreshing = true;
         try {
-          console.log("🔄 accessToken 만료됨, refreshToken으로 재발급 시도");
-
+          // 리프레시 토큰을 사용하여 새로운 액세스 토큰을 요청
           const { data } = await axios.post(
             `${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh`,
             {},

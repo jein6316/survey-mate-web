@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   modifyMemberPayload,
   changePasswordResData,
@@ -11,10 +10,9 @@ import api from "@/app/api/auth/api";
 
 //회원정보수정
 export const modifyMemberAPI = async (formData: modifyMemberPayload) => {
-  console.log("modifyMemberAPI<<<<<<<<<<<<<<<<<<<<");
   const response = await api.patch("/api/member/modify", formData, {
     headers: {
-      "Content-Type": "multipart/form-data", // 요청 헤더에 Content-Type 설정
+      "Content-Type": "multipart/form-data",
     },
   });
   return response.data;
