@@ -5,6 +5,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { APIResponse } from "../types/apiTypes";
 import useUser from "../recoil/hooks/useUser";
 import useAlert from "@/app/recoil/hooks/useAlert";
+import {useTranslation} from "react-i18next";
 
 type ExtendedMutationOptions<TData, TVariables> =
     UseMutationOptions<TData, Error, TVariables> & {
@@ -15,6 +16,7 @@ const useMutationLogin = <TData = any, TVariables = any>(
   mutationFn: (variables: TVariables) => Promise<TData>,
   options?: ExtendedMutationOptions<TData, TVariables>
 ) => {
+  const { t } = useTranslation("auth");
   const router = useRouter();
   const openAlert = useAlert();
   const { setUserFromToken } = useUser();
@@ -24,7 +26,7 @@ const useMutationLogin = <TData = any, TVariables = any>(
     onSuccess: (data: TData, variables, context) => {
       try {
         // 액세스 및 리프레시 토큰 추출
-        const { accessToken, refreshToken } = (data as APIResponse).data;
+        const { accessToken, refreshToken, profileImgPath } = (data as APIResponse).data;
 
         // 토큰 디코딩
         const decodedAccess = jwt.decode(accessToken) as JwtPayload | null;
@@ -62,6 +64,8 @@ const useMutationLogin = <TData = any, TVariables = any>(
           expires: refreshExpirationDate,
         });
 
+        localStorage.setItem("profileImgPath", profileImgPath);
+
         setUserFromToken(); // 로그인 상태 반영
         // Cookies.set("user_role", user_role, {
         //   secure: true,
@@ -93,7 +97,7 @@ const useMutationLogin = <TData = any, TVariables = any>(
     onError: (error: Error, variables, context) => {
 
       if (error.message.includes("403")) {
-        openAlert("로그인 실패", "아이디와 비밀번호를 확인해 주세요", "error");
+        openAlert(t("SIGNIN_FAILED"), t("SIGNIN_FAILED_CONTENT"), "error");
         return;
       }
 

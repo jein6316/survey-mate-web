@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 const HeaderRight = () => {
   const [language, setLanguage] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [profileFilePath, setProfileFilePath] = useState<string | null>(null);
   const user = useRecoilValue(userAtom);
   const { t, i18n } = useTranslation("auth");
 
@@ -59,6 +60,13 @@ const HeaderRight = () => {
     }
   }, [language]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const path = localStorage.getItem("profileImgPath");
+      setProfileFilePath('http://' + path);
+    }
+  }, []);
+
   const toggleDropdown = () => setIsOpen(!isOpen);
   const selectLanguage = (lang: "ko" | "en") => {
     setLanguage(lang);
@@ -76,10 +84,19 @@ const HeaderRight = () => {
 
   return (
     <div className="relative flex items-center space-x-4">
+      {/* 프로필 이미지 */}
+      {user.isLoggedIn && profileFilePath && (
+          <img
+              src={profileFilePath}
+              alt="Profile"
+              className="w-11 h-11 rounded-full object-cover border"
+          />
+      )}
+
       {/* 로그아웃 버튼 */}
       {user.isLoggedIn && (
         <button
-          className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded"
+          className="text-gray-700 hover:text-gray-900 pr-4 py-2 rounded"
           onClick={handleLogout}
         >
           {t("LOGOUT")}
