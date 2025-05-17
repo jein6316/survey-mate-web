@@ -20,7 +20,7 @@ export default function GoogleCallback() {
       if (token !== null) {
         mutate(token); // 토큰 전달하여 로그인 API 호출
       } else {
-        console.error("Access token is not found.");
+        alert("로그인 실패");
       }
     };
 

@@ -33,7 +33,6 @@ export const formatDate = (date: Date): string => {
 
 // 특정 날짜를 YYYY-MM-DD 형식으로 포맷
 export const formatDateFromString = (dateStr: string | number): string => {
-  debugger;
   const date = new Date(Number(dateStr));
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");

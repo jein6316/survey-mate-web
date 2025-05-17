@@ -26,8 +26,7 @@ export default function ModifyUser({ params }: { params: { id: string } }) {
       openAlert("회원정보가 성공적으로 수정되었습니다.", "info");
     },
     onError: (error) => {
-      console.error("회원정보 수정 실패:", error);
-      alert(error.message || "회원정보 수정 중 문제가 발생했습니다.");
+      openAlert("회원정보 수정 중 문제가 발생했습니다.", "error");
     },
   });
 
@@ -41,7 +40,6 @@ export default function ModifyUser({ params }: { params: { id: string } }) {
       window.isNullOrEmpty(userName) &&
       window.isInvalidFileType(profileImageUuid)
     ) {
-      debugger;
       alert("수정할 사항을 입력하세요");
     }
     mutateModifyMember({

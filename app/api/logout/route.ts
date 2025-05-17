@@ -11,12 +11,10 @@ export async function GET(req: NextRequest) {
   } else {
     redirectQueryString = "/";
   }
-  const res = NextResponse.redirect(new URL(redirectQueryString, req.url)); // 기본적으로 홈(`/`)으로 이동
+  const res = NextResponse.redirect(new URL(redirectQueryString, req.url));
 
-  //쿠키에서 `social` 값을 가져오기
   const socialType = req.cookies.get("social")?.value;
-
-  // 모든 쿠키 삭제 (액세스 토큰, 리프레시 토큰, 소셜 타입)
+  // 쿠키에서 accessToken과 refreshToken 삭제
   res.cookies.delete("accessToken");
   res.cookies.delete("refreshToken");
 
