@@ -1,4 +1,4 @@
-import api from "@/app/api/auth/api";
+import api from "@/app/web-api/auth/api";
 
 export const getSurveyForm = async (surveyUrl: string, srMstId: string) => {
     if(surveyUrl){

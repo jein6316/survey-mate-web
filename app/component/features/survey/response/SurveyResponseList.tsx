@@ -3,7 +3,7 @@
 import "@/app/styles/common/List.css";
 import React, {useState} from "react";
 import {useQuery} from "@tanstack/react-query";
-import {getSurveyResponseList} from "@/app/api/surveyResponse/SurveyResponseApi";
+import {getSurveyResponseList} from "@/app/web-api/surveyResponse/SurveyResponseApi";
 import {useStatusHandler} from "@/app/hooks/useStatusHandler";
 import {Pagination} from "@/app/component/common/page/Pagination";
 import {useTranslation} from "react-i18next";
