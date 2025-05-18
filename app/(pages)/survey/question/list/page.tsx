@@ -20,7 +20,7 @@ import {
   SurveyQuestionMstRequest,
   SurveyQuestionMstResponse,
 } from "@/app/types/apiTypes";
-import { getCreatedSurveyList } from "@/app/api/survey/surveyApi";
+import { getCreatedSurveyList } from "@/app/web-api/survey/surveyApi";
 import { parseDateArrayToStringWithoutLast } from "@/app/utils/formatter";
 import { useRouter } from "next/navigation";
 import { formatDateStartEndDate } from "@/app/utils/formatter";

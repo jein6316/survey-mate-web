@@ -78,7 +78,7 @@ const HeaderRight = () => {
   // ✅ 로그아웃 핸들러 (서버에서 처리)
   const handleLogout = () => {
     if (typeof window !== "undefined") {
-      window.location.href = "/api/logout"; // 🚀 서버에서 로그아웃 처리
+      window.location.href = "/web-api/logout"; // 🚀 서버에서 로그아웃 처리
     }
   };
 

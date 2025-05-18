@@ -1,5 +1,5 @@
 import { MenuItem } from "@/app/types/apiTypes";
-import api from "@/app/api/auth/api";
+import api from "@/app/web-api/auth/api";
 
 //권한별 레이아웃 메뉴 불러오기
 export const getMenusByRole = async (memRole: string) => {

@@ -5,7 +5,7 @@ import {Card, CardContent} from "@/app/component/common/list/Card";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/app/component/common/list/Table";
 import React, {useState} from "react";
 import {useQuery} from "@tanstack/react-query";
-import {getResponsesBySurvey} from "@/app/api/survey/surveyApi";
+import {getResponsesBySurvey} from "@/app/web-api/survey/surveyApi";
 import {useStatusHandler} from "@/app/hooks/useStatusHandler";
 import {useRouter, useSearchParams} from "next/navigation";
 import {Pagination} from "@/app/component/common/page/Pagination";

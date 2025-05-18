@@ -11,7 +11,7 @@ export function WithdrawalButton() {
 
     try {
       if (typeof window !== "undefined") {
-        window.location.href = "/api/logout";
+        window.location.href = "/web-api/logout";
       }
     } catch (error) {
       openAlert("회원탈퇴 중 문제가 발생했습니다.", "error");
