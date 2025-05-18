@@ -36,5 +36,7 @@
     "SIGNUP": "회원 가입",
     "CHECK": "체크",
     "VERIFY": "인증",
-    "UPLOAD_IMAGE" : "이미지 첨부"
+    "UPLOAD_IMAGE" : "이미지 첨부",
+    "SIGNIN_WITH_GOOGLE": "Google 계정으로 로그인"
+
 }
