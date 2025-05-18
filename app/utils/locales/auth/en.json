@@ -36,5 +36,6 @@
     "SIGNUP": "Sign Up",
     "CHECK": "Check",
     "VERIFY": "Verify",
-    "UPLOAD_IMAGE" : "Upload Image"
+    "UPLOAD_IMAGE" : "Upload Image",
+    "SIGNIN_WITH_GOOGLE": "Sign in with Google"
 }
