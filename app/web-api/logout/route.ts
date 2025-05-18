@@ -7,9 +7,9 @@ export async function GET(req: NextRequest) {
   const redirectPath = url.searchParams.get("redirect");
   let redirectQueryString;
   if (redirectPath) {
-    redirectQueryString = `/?redirect=${encodeURIComponent(redirectPath)}`;
+    redirectQueryString = `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/?redirect=${encodeURIComponent(redirectPath)}`;
   } else {
-    redirectQueryString = "/";
+    redirectQueryString = `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/`;
   }
   const res = NextResponse.redirect(new URL(redirectQueryString, req.url));
 
