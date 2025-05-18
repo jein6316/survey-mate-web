@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { LoginFormData, APIResponse } from "@/app/types/apiTypes";
-import { loginSubmit } from "@/app/api/auth/auth";
+import { loginSubmit } from "@/app/web-api/auth/auth";
 import useMutationLogin from "@/app/hooks/useMutationLogin";
 import {useRouter, useSearchParams} from "next/navigation";
 import Link from "next/link";

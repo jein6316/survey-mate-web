@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { APIResponse } from "@/app/types/apiTypes";
-import { findIdByEmailAPI } from "@/app/api/auth/auth";
+import { findIdByEmailAPI } from "@/app/web-api/auth/auth";
 
 export default function FindIdByEmail() {
   const [email, setEmail] = useState(""); // 이메일 입력 상태

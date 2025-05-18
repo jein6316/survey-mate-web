@@ -4,7 +4,7 @@ export function LogoutButton() {
 
   const handleLogout = () => {
     if (typeof window !== "undefined") {
-      window.location.href = "/api/logout";
+      window.location.href = "/web-api/logout";
     }
   };
 

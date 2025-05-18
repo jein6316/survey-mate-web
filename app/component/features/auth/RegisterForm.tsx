@@ -6,7 +6,7 @@ import {
     registerSubmit,
     checkUserEmailAPI,
     checkDuplicateIdAPI,
-} from "@/app/api/auth/auth";
+} from "@/app/web-api/auth/auth";
 import {RegisterFormData, ResponseError} from "@/app/types/apiTypes";
 import {getCurrentDate} from "@/app/utils/formatter";
 import {APIResponse} from "@/app/types/apiTypes";

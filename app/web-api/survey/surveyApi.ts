@@ -1,5 +1,5 @@
 import { SurveyQuestionMstRequest } from "@/app/types/apiTypes";
-import api from "@/app/api/auth/api";
+import api from "@/app/web-api/auth/api";
 
 //설문생성
 export const createSurvey = async (formData: SurveyQuestionMstRequest) => {

@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
   // 2. Access Token과 Refresh Token이 모두 없으면 로그아웃 처리
   if (!refreshToken) {
     const redirectUrl = encodeURIComponent(`${pathname}${search}`);
-    const logoutUrl = `/api/logout?redirect=${redirectUrl}`;
+    const logoutUrl = `/web-api/logout?redirect=${redirectUrl}`;
     return NextResponse.redirect(new URL(logoutUrl, request.url)); //서버에서 로그아웃 시 원래 가려던 주소 파라미터 보냄
 
     // return NextResponse.redirect(new URL("/api/logout", request.url)); //서버에서 로그아웃 처리
@@ -71,10 +71,10 @@ export async function middleware(request: NextRequest) {
 
       return responseWithToken;
     } else {
-      return NextResponse.redirect(new URL("/api/logout", request.url)); // 서버에서 로그아웃 처리
+      return NextResponse.redirect(new URL("/web-api/logout", request.url)); // 서버에서 로그아웃 처리
     }
   } catch (error) {
-    return NextResponse.redirect(new URL("/api/logout", request.url)); // 서버에서 로그아웃 처리
+    return NextResponse.redirect(new URL("/web-api/logout", request.url)); // 서버에서 로그아웃 처리
   }
 }
 

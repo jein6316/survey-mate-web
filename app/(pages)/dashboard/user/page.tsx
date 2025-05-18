@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getMemberInfoAPI } from "app/api/auth/member";
+import { getMemberInfoAPI } from "@/app/web-api/auth/member";
 import Image from "next/image";
 import { LogoutButton } from "@/app/component/button/LogoutButton";
 import { useTranslation } from "react-i18next";

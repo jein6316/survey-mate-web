@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from "react";
 import "@/app/styles/common/View.css";
 import {useQuery} from "@tanstack/react-query";
-import {getGroupInfo} from "@/app/api/group/group";
+import {getGroupInfo} from "@/app/web-api/group/group";
 import useAlert from "@/app/recoil/hooks/useAlert";
 import {useTranslation} from "react-i18next";
 import {GroupData} from "@/app/types/apiTypes";
