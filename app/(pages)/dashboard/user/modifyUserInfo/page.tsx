@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { modifyMemberAPI } from "@/app/api/auth/member";
+import { modifyMemberAPI } from "@/app/web-api/auth/member";
 import { modifyMemberPayload } from "@/app/types/apiTypes";
 import { useMutation } from "@tanstack/react-query";
 import { LoginFormData, APIResponse } from "@/app/types/apiTypes";

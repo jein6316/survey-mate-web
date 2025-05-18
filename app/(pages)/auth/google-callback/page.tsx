@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import useMutationLogin from "@/app/hooks/useMutationLogin"; // 커스텀 훅 가져오기
-import { loginGoogleAPI } from "@/app/api/auth/auth";
+import { loginGoogleAPI } from "@/app/web-api/auth/auth";
 import { APIResponse } from "@/app/types/apiTypes";
 
 export default function GoogleCallback() {

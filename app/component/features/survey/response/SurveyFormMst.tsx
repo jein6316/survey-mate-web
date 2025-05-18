@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import "@/app/styles/survey/survey-form.css";
 import {SurveyFormDtl} from './SurveyFormDtl';
 import {useMutation, useQuery} from "@tanstack/react-query";
-import {getSurveyForm, saveSurveyResponse} from "@/app/api/surveyResponse/SurveyResponseApi";
+import {getSurveyForm, saveSurveyResponse} from "@/app/web-api/surveyResponse/SurveyResponseApi";
 import {useStatusHandler} from "@/app/hooks/useStatusHandler";
 import {SurveySubmitButton} from "@/app/component/features/survey/button/SurveySubmitButton";
 import {APIResponse, ResponseError} from "@/app/types/apiTypes";

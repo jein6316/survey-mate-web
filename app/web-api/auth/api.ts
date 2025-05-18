@@ -11,7 +11,7 @@ let refreshSubscribers: ((newToken: string) => void)[] = [];
 
 const redirectToLogout = () => {
   if (typeof window !== "undefined") {
-    window.location.href = `/api/logout?redirect=${encodeURIComponent(
+    window.location.href = `/web-api/logout?redirect=${encodeURIComponent(
       window.location.href.replace(window.location.origin, "")
     )}`;
   }

@@ -8,7 +8,7 @@ import "@/app/styles/common/Form.css";
 import {useTranslation} from "react-i18next";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import {APIResponse, GroupData, ResponseError} from "@/app/types/apiTypes";
-import {getGroupInfo, saveOrupdateGroupData} from "@/app/api/group/group";
+import {getGroupInfo, saveOrupdateGroupData} from "@/app/web-api/group/group";
 import useAlert from "@/app/recoil/hooks/useAlert";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {userAtom} from "@/app/recoil/atoms/userAtom";

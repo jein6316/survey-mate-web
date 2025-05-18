@@ -2,7 +2,7 @@ import {
   modifyMemberPayload,
   changePasswordResData,
 } from "@/app/types/apiTypes";
-import api from "@/app/api/auth/api";
+import api from "@/app/web-api/auth/api";
 
 /**************************
     member  API

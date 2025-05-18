@@ -1,4 +1,4 @@
-import api from "@/app/api/auth/api";
+import api from "@/app/web-api/auth/api";
 import {GroupData} from "@/app/types/apiTypes";
 
 export const getGroupInfo = async (groupId: string) => {

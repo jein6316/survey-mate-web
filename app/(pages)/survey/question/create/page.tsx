@@ -8,7 +8,7 @@ import { SaveButton } from "@/app/component/button/SaveButton";
 import QuestionAddButton from "@/app/component/features/survey/button/QuestionAddButton";
 import { useMutation } from "@tanstack/react-query";
 import { APIResponse, SurveyQuestionMstRequest } from "@/app/types/apiTypes";
-import { createSurvey } from "@/app/api/survey/surveyApi";
+import { createSurvey } from "@/app/web-api/survey/surveyApi";
 import useAlert from "@/app/recoil/hooks/useAlert";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "@/app/recoil/atoms/userAtom";
