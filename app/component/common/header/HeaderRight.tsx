@@ -63,7 +63,7 @@ const HeaderRight = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const path = localStorage.getItem("profileImgPath");
-      setProfileFilePath('http://' + path);
+      setProfileFilePath(path);
     }
   }, []);
 
