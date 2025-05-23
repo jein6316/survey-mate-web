@@ -5,7 +5,7 @@ Back-End : https://github.com/uwhami/survey-mate-api
 
 &nbsp;
 
-# Survey Mate Web
+## Survey Mate Web 설명
 
 Next.js 기반 설문조사 플랫폼의 프론트엔드 프로젝트입니다.  
 사용자는 설문 응답, 로그인/회원가입, 그룹 관리 기능을 웹에서 편리하게 이용할 수 있습니다.  
