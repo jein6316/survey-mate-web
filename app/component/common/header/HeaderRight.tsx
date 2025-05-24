@@ -75,10 +75,10 @@ const HeaderRight = () => {
     setIsOpen(false);
   };
 
-  // ✅ 로그아웃 핸들러 (서버에서 처리)
+  // 로그아웃 핸들러 (서버에서 처리)
   const handleLogout = () => {
     if (typeof window !== "undefined") {
-      window.location.href = "/web-api/logout"; // 🚀 서버에서 로그아웃 처리
+      window.location.href = "/web-api/logout";
     }
   };
 
@@ -87,7 +87,7 @@ const HeaderRight = () => {
       {/* 프로필 이미지 */}
       {user.isLoggedIn && profileFilePath && (
           <img
-              src={profileFilePath}
+              src={`${profileFilePath}?t=${user.userId}`}
               alt="Profile"
               className="w-11 h-11 rounded-full object-cover border"
           />
