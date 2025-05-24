@@ -245,9 +245,16 @@ export const RegisterForm = ({
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         //이메일인증 확인
-        if (!isCheckedVerCode) {
+        if (formData.userEmail && !isCheckedVerCode) {
             openAlert("이메일 인증", "이메일 인증 확인이 되지 않았습니다.", "error");
             return;
+        }
+
+        if(!formData.userEmail){
+            let emailConfirm = confirm("이메일을 입력하지 않은 경우 아이디 찾기와 비밀번호 찾기가 제한됩니다. 가입하시겠습니까?");
+            if(!emailConfirm) {
+                return;
+            }
         }
 
         // 데이터 유효성 체크
@@ -263,7 +270,7 @@ export const RegisterForm = ({
             {/* User ID */}
             <div>
                 <label htmlFor="userId" className="form-label">
-                    {t("USERID")}
+                    * {t("USERID")}
                 </label>
                 <div className="form-button-group">
                     <input
@@ -300,7 +307,6 @@ export const RegisterForm = ({
                         placeholder="Enter your email"
                         onChange={handleChange}
                         value={formData.userEmail}
-                        required
                         className="form-input"
                     />
                     <button
@@ -326,7 +332,6 @@ export const RegisterForm = ({
                         placeholder="Enter verification code"
                         onChange={handleChangeVerCode}
                         value={verCode}
-                        required
                         className="form-input"
                     />
                     <button type="button" onClick={checkVerCode} className="button-auth">
@@ -338,7 +343,7 @@ export const RegisterForm = ({
             {/* User Name */}
             <div>
                 <label htmlFor="userName" className="form-label">
-                    {t("NAME")}
+                    * {t("NAME")}
                 </label>
                 <input
                     id="userName"
@@ -355,7 +360,7 @@ export const RegisterForm = ({
             {/* Password */}
             <div>
                 <label htmlFor="password" className="form-label">
-                    {t("PASSWORD")}
+                    * {t("PASSWORD")}
                 </label>
                 <input
                     id="password"
@@ -372,7 +377,7 @@ export const RegisterForm = ({
             {/* Password Check */}
             <div>
                 <label htmlFor="passwordCheck" className="form-label">
-                    {t("PASSWORD_CONFIRM")}
+                    * {t("PASSWORD_CONFIRM")}
                 </label>
                 <input
                     id="passwordCheck"
