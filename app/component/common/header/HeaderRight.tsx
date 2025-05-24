@@ -87,7 +87,7 @@ const HeaderRight = () => {
       {/* 프로필 이미지 */}
       {user.isLoggedIn && profileFilePath && (
           <img
-              src={`${profileFilePath}?t=${user.userId}`}
+              src={`${profileFilePath}?v=${Date.now()}`}
               alt="Profile"
               className="w-11 h-11 rounded-full object-cover border"
           />
