@@ -89,14 +89,14 @@ const HeaderRight = () => {
           <img
               src={`${profileFilePath}?t=${user.userId}`}
               alt="Profile"
-              className="w-11 h-11 rounded-full object-cover border"
+              className="w-11 h-11 rounded-full object-cover border -my-4"
           />
       )}
 
       {/* 로그아웃 버튼 */}
       {user.isLoggedIn && (
         <button
-          className="text-gray-700 hover:text-gray-900 pr-4 py-2 rounded"
+          className="text-gray-700 hover:text-gray-900 pr-4 rounded"
           onClick={handleLogout}
         >
           {t("LOGOUT")}
