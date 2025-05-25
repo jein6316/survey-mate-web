@@ -47,18 +47,26 @@ export const ResponsesBySurvey = () => {
 
     const createFormattedDate = (createdAtArray: number[]): string => {
         if (!createdAtArray) return "";
+
+        const milliseconds = Math.floor(createdAtArray[6] / 1000000); // 나노초 → 밀리초 (또는 큰 값 제한)
+
         const createdAt = new Date(
-            createdAtArray[0],   // 연도
-            createdAtArray[1] - 1, // 월 (0-based)
-            createdAtArray[2],   // 일
-            createdAtArray[3],   // 시
-            createdAtArray[4],   // 분
-            createdAtArray[5],   // 초
-            createdAtArray[6]    // 밀리초
+            createdAtArray[0],
+            createdAtArray[1] - 1,
+            createdAtArray[2],
+            createdAtArray[3],
+            createdAtArray[4],
+            createdAtArray[5],
+            milliseconds
         );
 
-        // 원하는 형식으로 변환 (예: 2025년 4월 7일 21시 37분)
-        return `${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월 ${createdAt.getDate()}일 ${String(createdAt.getHours())}시 ${String(createdAt.getMinutes())}분`;
+        const yyyy = createdAt.getFullYear();
+        const mm = String(createdAt.getMonth() + 1).padStart(2, "0");
+        const dd = String(createdAt.getDate()).padStart(2, "0");
+        const hh = String(createdAt.getHours()).padStart(2, "0");
+        const min = String(createdAt.getMinutes()).padStart(2, "0");
+
+        return `${yyyy}-${mm}-${dd} \u00a0  ${hh}:${min}`;
     };
 
     return (
