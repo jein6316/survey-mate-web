@@ -1,11 +1,11 @@
 import api from "@/app/web-api/auth/api";
 
 export const getSurveyForm = async (surveyUrl: string, srMstId: string) => {
-    if(surveyUrl){
-        const response = await api.get(`/api/survey/response/${surveyUrl}`);
-        return response.data;
-    }else if(srMstId){
+    if(srMstId){
         const response = await api.get(`/api/survey/response/listBySurvey/${srMstId}`);
+        return response.data;
+    }else if(surveyUrl){
+        const response = await api.get(`/api/survey/response/${surveyUrl}`);
         return response.data;
     }
 
