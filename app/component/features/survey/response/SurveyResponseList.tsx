@@ -18,6 +18,7 @@ export interface SurveyResponse {
     description: string;
     surveyUrl: string;
     completed: boolean;
+    srMstId: number;
 }
 
 
@@ -41,8 +42,8 @@ export const SurveyResponseList = () => {
         setCurrentPage(page); // 페이지 변경
     };
 
-    const handleRowClick = (surveyUrl: string) => {
-        router.push(`/survey/response?surveyUrl=${surveyUrl}&prevPage=list`);
+    const handleRowClick = (surveyUrl: string, srMstId: number) => {
+        router.push(`/survey/response?surveyUrl=${surveyUrl}&srMstId=${srMstId}&prevPage=list`);
     };
 
 
@@ -63,7 +64,7 @@ export const SurveyResponseList = () => {
                             {responses.map((response) => (
                                 <TableRow key={response.sqMstId}>
                                     <TableCell className="list-clickable"
-                                    ><span onClick={() => handleRowClick(response.surveyUrl)}>{response.title}</span>
+                                    ><span onClick={() => handleRowClick(response.surveyUrl, response.srMstId)}>{response.title}</span>
                                     </TableCell>
                                     <TableCell style={{textAlign: "left"}}> {response.description}</TableCell>
                                     <TableCell className="list-hidden-column">{response.surveyUrl}</TableCell>
