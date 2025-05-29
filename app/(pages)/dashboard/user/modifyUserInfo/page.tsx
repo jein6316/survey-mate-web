@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { modifyMemberAPI } from "@/app/web-api/auth/member";
 import { modifyMemberPayload } from "@/app/types/apiTypes";
 import { useMutation } from "@tanstack/react-query";
-import { LoginFormData, APIResponse } from "@/app/types/apiTypes";
+import { APIResponse } from "@/app/types/apiTypes";
 import { WithdrawalButton } from "@/app/component/button/WithdrawalButton";
 import useAlert from "@/app/recoil/hooks/useAlert";
 
