@@ -35,9 +35,11 @@ export default function SurveyListPage() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [surveyTotalCount, setSurveyTotalCount] = useState(0);
-  const [selected, setSelected] = useState("모든 설문");
+  const [selected, setSelected] = useState("all");
   const [surveys, setSurveys] = useState([]);
   const { groupId } = useRecoilValue(userAtom);
+  const user = useRecoilValue(userAtom);
+
   const router = useRouter();
 
   const handleSearch = () => {
@@ -47,20 +49,18 @@ export default function SurveyListPage() {
         ? formatDateStartEndDate(startDate, false)
         : undefined,
       endDate: endDate ? formatDateStartEndDate(endDate, true) : undefined,
-      groupId: selected == "group" ? groupId : undefined,
+      groupId:
+        selected == "group" ? "group" : selected == "normal" ? "normal" : "",
     };
-    if (isValid()) {
-      mutate({
-        ...surveyData,
-        page: page - 1,
-        size: pageSize,
-      });
-    }
+    mutate({
+      ...surveyData,
+      page: page - 1,
+      size: pageSize,
+    });
+    debugger;
+    setPage(1); // 검색 후 페이지를 1로 초기화
   };
 
-  const isValid = () => {
-    return true;
-  };
   const { data, error, isError, isPending, mutate } = useMutation<
     APIResponse,
     Error,
@@ -151,7 +151,7 @@ export default function SurveyListPage() {
                   <TableRow key={index}>
                     <TableCell
                       onClick={() => handleClickTitle(survey.sqMstId)}
-                      style={{ cursor: "pointer !important" }}
+                      className="px-4 py-2 hover:underline cursor-pointer"
                     >
                       {survey.title}
                     </TableCell>

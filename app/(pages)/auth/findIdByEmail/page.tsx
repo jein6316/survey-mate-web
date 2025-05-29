@@ -8,7 +8,6 @@ import { findIdByEmailAPI } from "@/app/web-api/auth/auth";
 export default function FindIdByEmail() {
   const [email, setEmail] = useState(""); // 이메일 입력 상태
 
-  // API 호출 로직 (React Query의 useMutation 사용)
   const { data, error, isError, isPending, mutate } = useMutation<
     APIResponse,
     Error,

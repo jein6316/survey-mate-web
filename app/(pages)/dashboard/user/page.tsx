@@ -10,8 +10,8 @@ import { useTranslation } from "react-i18next";
 import { useStatusHandler } from "@/app/hooks/useStatusHandler";
 
 export default function User() {
+  const router = useRouter();
   const { t } = useTranslation("dashboard");
-  const [userId, setUserId] = useState("");
 
   const normalizePath = (path: string) => {
     return path.replace(/\\/g, "/");
@@ -27,7 +27,7 @@ export default function User() {
   });
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["memberInfo", userId],
+    queryKey: ["memberInfo", userData.userId],
     queryFn: getMemberInfoAPI,
   });
 
@@ -45,8 +45,6 @@ export default function User() {
       });
     }
   }, [data]);
-
-  const router = useRouter();
 
   const handleEditClick = () => {
     router.push(urlConstants.pages.MODIFYUSER);
