@@ -127,12 +127,10 @@ export default function CreateSurvey() {
       groupId: isGroupSurvey == "Y" ? groupId : undefined, // 그룹 설문 여부
     };
     if (isValid()) {
-      // API 호출
-      mutate(surveyData); // SurveyQuestionMstRequest 형식으로 데이터 전달
+      mutate(surveyData);
     }
   };
 
-  //validation check
   const isValid = () => {
     if (!surveyTitle || !surveyDescription) {
       openAlert(
