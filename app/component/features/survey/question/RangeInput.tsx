@@ -18,14 +18,12 @@ const RangeInput: React.FC<RangeInputProps> = ({ question, onChange }) => {
     return range ? Number(range[1]) : 100;
   });
 
-  // 처음 마운트되었을 때 onChange로 초기값 반영
   useEffect(() => {
-    const updatedOption = `${min}-${max}`;
     onChange({
       ...question,
-      options: [updatedOption],
+      options: [String(min), String(max)],
     });
-  }, [max, min, onChange, question]);
+  }, [max, min]);
 
   // 최소값 변경 핸들러
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {

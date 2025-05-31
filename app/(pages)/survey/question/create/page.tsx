@@ -174,13 +174,18 @@ export default function CreateSurvey() {
         }
       }
       if (question.typeId === "SQT008") {
-        const { min, max } = question;
-        if (
-          typeof min !== "number" ||
-          typeof max !== "number" ||
-          isNaN(min) ||
-          isNaN(max)
-        ) {
+        if (!question.options || question.options.length < 2) {
+          openAlert(
+            "범위값이 잘못되었습니다.",
+            `"${question.question}" 질문의 최소값과 최대값을 올바르게 입력해주세요.`,
+            "warning"
+          );
+          return false;
+        }
+        const min = Number(question.options[0]);
+        const max = Number(question.options[1]);
+        if (isNaN(min) || isNaN(max)) {
+          debugger;
           openAlert(
             "범위값이 잘못되었습니다.",
             `"${question.question}" 질문의 최소값과 최대값을 올바르게 입력해주세요.`,
