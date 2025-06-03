@@ -11,7 +11,7 @@ import {APIResponse, ResponseError} from "@/app/types/apiTypes";
 import useAlert from "@/app/recoil/hooks/useAlert";
 import {useRouter, useSearchParams} from "next/navigation";
 import {useTranslation} from "react-i18next";
-import {urlConstants} from "@/app/constants/urls/auth/urlConstants";
+import {urlConstants} from "@/app/constants/urls/surveyResponse/urlConstants";
 
 
 export const SurveyFormMst = () => {
@@ -98,7 +98,7 @@ export const SurveyFormMst = () => {
         mutationFn: saveSurveyResponse,
         onSuccess: (data: any) => {
             openAlert(tSurveyResponse("SURVEY_SUBMIT_SUCCESS"), "info");
-            router.push(urlConstants.pages.USERDASHBOARD);
+            router.push(urlConstants.SURVEY_RESPONSE.LIST);
         },
         onError: (error: ResponseError) => {
             let errorMsg = error.message;

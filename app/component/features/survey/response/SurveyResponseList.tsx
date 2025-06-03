@@ -63,7 +63,7 @@ export const SurveyResponseList = () => {
                         <TableBody>
                             {responses.map((response) => (
                                 <TableRow key={response.sqMstId}>
-                                    <TableCell className="list-clickable"
+                                    <TableCell className="list-clickable px-4 py-2"
                                     ><span onClick={() => handleRowClick(response.surveyUrl, response.srMstId)}>{response.title}</span>
                                     </TableCell>
                                     <TableCell style={{textAlign: "left"}}> {response.description}</TableCell>
