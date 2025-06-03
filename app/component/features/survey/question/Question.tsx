@@ -1,7 +1,6 @@
 "use cleint";
 import React, { useState } from "react";
 import { QuestionType } from "@/app/types/questionTypes";
-import Checkbox from "./Checkbox";
 import DateInput from "./DateInput";
 import CheckboxInput from "./Checkbox";
 import NumberInput from "./Number";
@@ -65,14 +64,13 @@ const Question: React.FC<QuestionProps> = ({
       case "TIME":
         return <TimeInput question={question} />;
       default:
-        return null; // 기본적으로 아무것도 렌더링하지 않음
+        return null;
     }
   };
 
   return (
     <div className="border border-gray-300 rounded-lg p-4 mb-4 max-w-xl mx-auto">
       {" "}
-      {/* max-w-xl로 너비 제한 */}
       <input
         type="text"
         value={question.question}
