@@ -10,22 +10,10 @@ export const SurveyFormSdtl: React.FC<SurveySdtlProps> = ({
                                                               onResponseChange
                                                           }) => {
 
-    const [rangeSelectedValue,setRangeSelectedValue ] = useState("");
-
-    useEffect(()=>{
-        if(questionType === "SQT008"){
-            if(respondedValue && respondedValue.length > 0){
-                setRangeSelectedValue(respondedValue[0]);
-            }
-        }
-    },[questionType, respondedValue])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const {value, type} = e.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
 
-        if (type === "range") {
-            setRangeSelectedValue(value);
-        }
         if (type === "checkbox") {
             const {checked} = e.target as HTMLInputElement;
             onResponseChange(questionId, value, type, checked);
@@ -123,23 +111,6 @@ export const SurveyFormSdtl: React.FC<SurveySdtlProps> = ({
                         disabled={hasResponded}
                         {...(hasResponded && {value: respondedValue[0]})}
                     />
-                );
-            case "SQT008":
-                return (
-                    <div className={"survey-option-range"}>
-                        <input
-                            type="range"
-                            id={`${questionId}-${option.questionSdtlOrder}`}
-                            name={`option-${option.questionSdtlOrder}`}
-                            min={option.optionText.split("-")[0]}
-                            max={option.optionText.split("-")[1]}
-                            onChange={handleChange}
-                            disabled={hasResponded}
-                            value={rangeSelectedValue}
-                            className={"survey-option-range"}
-                        />
-                        <p>{rangeSelectedValue}</p>
-                    </div>
                 );
             default:
                 return null;
