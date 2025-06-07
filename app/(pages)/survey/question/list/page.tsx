@@ -1,4 +1,5 @@
 "use client";
+import "@/app/styles/common/List.css";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query"; // or the appropriate library
 import { Input } from "@/app/component/common/list/ListInput";
@@ -21,7 +22,7 @@ import {
   SurveyQuestionMstResponse,
 } from "@/app/types/apiTypes";
 import { getCreatedSurveyList } from "@/app/web-api/survey/surveyApi";
-import { parseDateArrayToStringWithoutLast } from "@/app/utils/formatter";
+import {formatDateTimeString} from "@/app/utils/formatter";
 import { useRouter } from "next/navigation";
 import { formatDateStartEndDate } from "@/app/utils/formatter";
 import { userAtom } from "@/app/recoil/atoms/userAtom";
@@ -151,7 +152,7 @@ export default function SurveyListPage() {
                   <TableRow key={index}>
                     <TableCell
                       onClick={() => handleClickTitle(survey.sqMstId)}
-                      className="px-4 py-2 hover:underline cursor-pointer"
+                      className="list-clickable"
                     >
                       {survey.title}
                     </TableCell>
@@ -160,18 +161,10 @@ export default function SurveyListPage() {
                     </TableCell>
                     <TableCell>{survey.createMemNum}</TableCell>
                     <TableCell>
-                      {parseDateArrayToStringWithoutLast(
-                        Array.isArray(survey.createDate)
-                          ? survey.createDate
-                          : []
-                      )}
+                      {formatDateTimeString(survey.createDate)}
                     </TableCell>
                     <TableCell>
-                      {parseDateArrayToStringWithoutLast(
-                        Array.isArray(survey.updateDate)
-                          ? survey.updateDate
-                          : []
-                      )}
+                      {formatDateTimeString(survey.updateDate)}
                     </TableCell>
                   </TableRow>
                 )

@@ -6,6 +6,7 @@
   "SURVEY_SUBMIT_SUCCESS": "Survey response completed.",
   "SUBJECT": "Subject",
   "DESCRIPTION": "Description",
+  "CREATE_DATE": "Created At",
   "STATUS": "Status",
   "COMPLETED": "Completed",
   "NOT_COMPLETED": "Not Completed"

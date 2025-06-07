@@ -6,6 +6,7 @@
   "SURVEY_SUBMIT_SUCCESS": "설문조사 응답이 제출되었습니다.",
   "SUBJECT": "제목",
   "DESCRIPTION": "설명",
+  "CREATE_DATE": "제출일",
   "STATUS": "상태",
   "COMPLETED": "완료",
   "NOT_COMPLETED": "미완료"

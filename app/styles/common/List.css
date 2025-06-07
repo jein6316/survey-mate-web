@@ -44,5 +44,5 @@
 }
 
 .list-clickable {
-    @apply cursor-pointer hover:underline font-bold !important;
+    @apply cursor-pointer hover:underline font-bold px-4 py-2 !important;
 }
