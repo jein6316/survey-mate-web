@@ -10,6 +10,7 @@ import {useStatusHandler} from "@/app/hooks/useStatusHandler";
 import {useRouter, useSearchParams} from "next/navigation";
 import {Pagination} from "@/app/component/common/page/Pagination";
 import {useTranslation} from "react-i18next";
+import {formatDateTimeString} from "@/app/utils/formatter";
 
 export interface ResponsesBySurvey {
     srMstId: number;
@@ -45,30 +46,6 @@ export const ResponsesBySurvey = () => {
         router.push(`/survey/response?srMstId=${srMstId}&prevPage=list`);
     };
 
-    const createFormattedDate = (createdAtArray: number[]): string => {
-        if (!createdAtArray) return "";
-
-        const milliseconds = Math.floor(createdAtArray[6] / 1000000); // 나노초 → 밀리초 (또는 큰 값 제한)
-
-        const createdAt = new Date(
-            createdAtArray[0],
-            createdAtArray[1] - 1,
-            createdAtArray[2],
-            createdAtArray[3],
-            createdAtArray[4],
-            createdAtArray[5],
-            milliseconds
-        );
-
-        const yyyy = createdAt.getFullYear();
-        const mm = String(createdAt.getMonth() + 1).padStart(2, "0");
-        const dd = String(createdAt.getDate()).padStart(2, "0");
-        const hh = String(createdAt.getHours()).padStart(2, "0");
-        const min = String(createdAt.getMinutes()).padStart(2, "0");
-
-        return `${yyyy}-${mm}-${dd} \u00a0  ${hh}:${min}`;
-    };
-
     return (
         <div className="p-6 space-y-4">
             <h2 className="list-title">{t("RESPONSES_BY_SURVEY")}</h2>
@@ -87,7 +64,7 @@ export const ResponsesBySurvey = () => {
                                 <TableRow key={index}>
                                     <TableCell className="list-clickable">
                                         <span onClick={() => handleRowClick(response.srMstId)}>
-                                            {createFormattedDate(response.createData)}
+                                            {formatDateTimeString(response.createData)}
                                         </span>
                                     </TableCell>
                                     <TableCell>{response.userId}</TableCell>

@@ -26,6 +26,8 @@ export const SurveyFormMst = () => {
         title: "",
         description: "",
         hasResponded: false,
+        startDate: "",
+        endDate: "",
         questions: [],
     });
 
@@ -57,6 +59,24 @@ export const SurveyFormMst = () => {
             }
         }
     }, [queryData]);
+
+    if (surveyData) {
+        const now = new Date();
+        const endDate = new Date(surveyData.endDate);
+
+        // 현재 시간이 종료 시간보다 이후인지 확인합니다.
+        if (now > endDate) {
+            return (
+                <div style={{ padding: '20px', textAlign: 'center' }}>
+                    <h1>{surveyData.title}</h1>
+                    <p style={{ color: 'red', fontWeight: 'bold' }}>
+                        설문 기간이 종료된 설문조사 입니다.
+                    </p>
+                </div>
+            );
+        }
+    }
+
 
     const handleResponseChange = (questionId: number, value: string, type: string, checked: boolean | null) => {
         setResponses((prevResponses) => {
