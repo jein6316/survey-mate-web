@@ -112,10 +112,70 @@ export const formatCustomDate = (date: Date, format: string): string => {
   const seconds = date.getSeconds().toString().padStart(2, "0");
 
   return format
-    .replace("YYYY", year.toString())
+    .replace("yyyy", year.toString())
     .replace("MM", month)
-    .replace("DD", day)
+    .replace("dd", day)
     .replace("HH", hours)
     .replace("mm", minutes)
     .replace("ss", seconds);
+};
+
+export const formatDateTimeString = (
+    isoString: string | null | undefined,
+    format: string = 'yyyy-MM-dd HH:mm',
+    hourFormat: '24h' | '12h' = '24h'
+): string => {
+
+  if (!isoString) {
+    return '';
+  }
+
+  try {
+    const date = new Date(isoString);
+    if (isNaN(date.getTime())) {
+      console.warn(`[formatDateTimeString] 유효하지 않은 날짜 형식입니다: ${isoString}`);
+      return '';
+    }
+
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const hours24 = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+
+    let displayHours = hours24;
+    let ampm = '';
+
+    if (hourFormat === '12h') {
+      ampm = hours24 >= 12 ? 'PM' : 'AM';
+      displayHours = hours24 % 12;
+      if (displayHours === 0) { // 자정(0시)과 정오(12시)를 12로 표시
+        displayHours = 12;
+      }
+    }
+
+    // 4. 포맷 문자열의 토큰을 실제 값으로 교체
+    let formattedString = format;
+
+    // replace는 첫 번째 발견된 문자열만 바꾸므로, 정규식 /YYYY/g 를 사용하거나,
+    // 포맷 토큰은 한 번만 쓴다고 가정하고 단순 replace를 사용합니다. 여기서는 후자를 선택.
+    formattedString = formattedString.replace('yyyy', String(year));
+    formattedString = formattedString.replace('MM', String(month).padStart(2, '0'));
+    formattedString = formattedString.replace('dd', String(day).padStart(2, '0'));
+    formattedString = formattedString.replace('HH', String(displayHours).padStart(2, '0'));
+    formattedString = formattedString.replace('mm', String(minutes).padStart(2, '0'));
+    formattedString = formattedString.replace('ss', String(seconds).padStart(2, '0'));
+
+    // 'A' 토큰이 있을 경우에만 오전/오후로 교체
+    if (format.includes('A')) {
+      formattedString = formattedString.replace('A', ampm);
+    }
+
+    return formattedString;
+
+  } catch (error) {
+    console.error(`[formatDateTimeString] 날짜 포맷팅 중 에러 발생: ${isoString}`, error);
+    return '';
+  }
 };

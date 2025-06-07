@@ -3,6 +3,8 @@ interface SurveyMstProps {
     title: string;
     description: string;
     hasResponded: boolean;
+    startDate: string;
+    endDate: string;
     questions: SurveyQuestionDtlResponse[];
 }
 

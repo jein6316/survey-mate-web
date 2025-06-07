@@ -10,6 +10,7 @@ import {useTranslation} from "react-i18next";
 import {useRouter} from "next/navigation";
 import {Card, CardContent} from "@/app/component/common/list/Card";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/app/component/common/list/Table";
+import {formatDateTimeString} from "@/app/utils/formatter";
 
 export interface SurveyResponse {
     rowNumber: number;
@@ -19,6 +20,7 @@ export interface SurveyResponse {
     surveyUrl: string;
     completed: boolean;
     srMstId: number;
+    createDate: string;
 }
 
 
@@ -57,18 +59,20 @@ export const SurveyResponseList = () => {
                             <TableRow>
                                 <TableHead className="w-[40%]">{t("SUBJECT")}</TableHead>
                                 <TableHead>{t("DESCRIPTION")}</TableHead>
-                                <TableHead>{t("STATUS")}</TableHead>
+                                <TableHead style={{textAlign: "center"}}>{t("CREATE_DATE")}</TableHead>
+                                <TableHead style={{textAlign: "center"}}>{t("STATUS")}</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {responses.map((response) => (
                                 <TableRow key={response.sqMstId}>
-                                    <TableCell className="list-clickable px-4 py-2"
+                                    <TableCell className="list-clickable"
                                     ><span onClick={() => handleRowClick(response.surveyUrl, response.srMstId)}>{response.title}</span>
                                     </TableCell>
                                     <TableCell style={{textAlign: "left"}}> {response.description}</TableCell>
+                                    <TableCell style={{textAlign: "center"}}> {formatDateTimeString(response.createDate)}</TableCell>
                                     <TableCell className="list-hidden-column">{response.surveyUrl}</TableCell>
-                                    <TableCell>{response.completed ? t("COMPLETED") : t("NOT_COMPLETED")}</TableCell>
+                                    <TableCell style={{textAlign: "center"}}>{response.completed ? t("COMPLETED") : t("NOT_COMPLETED")}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
