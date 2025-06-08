@@ -6,8 +6,10 @@
   "SURVEY_SUBMIT_SUCCESS": "Survey response completed.",
   "SUBJECT": "Subject",
   "DESCRIPTION": "Description",
-  "CREATE_DATE": "Created At",
+  "CREATE_DATE": "Responded At",
+  "RESPONSE_DEADLINE": "Response Deadline",
   "STATUS": "Status",
   "COMPLETED": "Completed",
-  "NOT_COMPLETED": "Not Completed"
+  "NOT_COMPLETED": "Not Completed",
+  "SURVEY_EXPIRED": "The response deadline for this survey has passed."
 }
