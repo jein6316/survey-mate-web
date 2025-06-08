@@ -71,7 +71,7 @@ export const GroupUserList = () => {
                         <TableBody>
                             {users.map((user) => (
                                 <TableRow key={user.userId}>
-                                    <TableCell>{user.userId}</TableCell>
+                                    <TableCell className="px-4 py-2">{user.userId}</TableCell>
                                     <TableCell>{user.userName}</TableCell>
                                     <TableCell>{tCommon(user.memRole)}</TableCell>
                                 </TableRow>

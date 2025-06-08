@@ -21,6 +21,7 @@ export interface SurveyResponse {
     completed: boolean;
     srMstId: number;
     createDate: string;
+    endDate: string;
 }
 
 
@@ -59,6 +60,7 @@ export const SurveyResponseList = () => {
                             <TableRow>
                                 <TableHead className="w-[40%]">{t("SUBJECT")}</TableHead>
                                 <TableHead>{t("DESCRIPTION")}</TableHead>
+                                <TableHead style={{textAlign: "center"}}>{t("RESPONSE_DEADLINE")}</TableHead>
                                 <TableHead style={{textAlign: "center"}}>{t("CREATE_DATE")}</TableHead>
                                 <TableHead style={{textAlign: "center"}}>{t("STATUS")}</TableHead>
                             </TableRow>
@@ -70,6 +72,7 @@ export const SurveyResponseList = () => {
                                     ><span onClick={() => handleRowClick(response.surveyUrl, response.srMstId)}>{response.title}</span>
                                     </TableCell>
                                     <TableCell style={{textAlign: "left"}}> {response.description}</TableCell>
+                                    <TableCell style={{textAlign: "center"}}> {formatDateTimeString(response.endDate, "yyyy-MM-dd")}</TableCell>
                                     <TableCell style={{textAlign: "center"}}> {formatDateTimeString(response.createDate)}</TableCell>
                                     <TableCell className="list-hidden-column">{response.surveyUrl}</TableCell>
                                     <TableCell style={{textAlign: "center"}}>{response.completed ? t("COMPLETED") : t("NOT_COMPLETED")}</TableCell>
