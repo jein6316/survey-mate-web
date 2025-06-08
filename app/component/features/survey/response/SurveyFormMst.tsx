@@ -47,35 +47,49 @@ export const SurveyFormMst = () => {
 
     useEffect(() => {
         if (queryData?.data) {
-            const newResponses = queryData.data.questions.map((question: SurveyQuestionDtlResponse) => ({
-                questionId: question.questionDtlOrder,
-                answer: !question.respondedValue ? [] : question.respondedValue
-            }));
-            setSurveyData(queryData.data);
-            setResponses(newResponses);
+
+            const processedData = getProcessedSurveyData(queryData?.data);
+            if (!processedData) return;
+            setSurveyData(processedData);
+
+            if (responses.length === 0) {
+                const newResponses = processedData.questions.map((q) => ({
+                    questionId: q.questionDtlOrder,
+                    answer: q.respondedValue || [],
+                }));
+                setResponses(newResponses);
+            }
+
+            const now = new Date();
+            const endDate = new Date(processedData.endDate);
+            const isExpired = now > endDate && !queryData.data.hasResponded;
             const prevPage = searchParams.get("prevPage");
-            if (!prevPage && queryData.data.hasResponded) {
+
+            if (isExpired) {
+                openAlert(tSurveyResponse("SURVEY_EXPIRED"),"warning");
+            }
+            else if (!prevPage && queryData.data.hasResponded) {
                 openAlert(tSurveyResponse("SURVEY_ALREADY_RESPONDED"), "info");
             }
         }
     }, [queryData]);
 
-    if (surveyData) {
-        const now = new Date();
-        const endDate = new Date(surveyData.endDate);
+    const getProcessedSurveyData = (originalData: SurveyMstProps | undefined) => {
+        if (!originalData) return null;
 
-        // 현재 시간이 종료 시간보다 이후인지 확인합니다.
-        if (now > endDate) {
-            return (
-                <div style={{ padding: '20px', textAlign: 'center' }}>
-                    <h1>{surveyData.title}</h1>
-                    <p style={{ color: 'red', fontWeight: 'bold' }}>
-                        설문 기간이 종료된 설문조사 입니다.
-                    </p>
-                </div>
-            );
+        // 원본을 수정하지 않기 위해 복사본 생성
+        const processedData = { ...originalData };
+        const now = new Date();
+        const endDate = new Date(processedData.endDate);
+
+        // 기간이 만료되었고, 아직 응답하지 않은 설문이라면
+        if (now > endDate && !processedData.hasResponded) {
+            // 복사본의 hasResponded 값을 true로 변경
+            processedData.hasResponded = true;
         }
-    }
+
+        return processedData;
+    };
 
 
     const handleResponseChange = (questionId: number, value: string, type: string, checked: boolean | null) => {
