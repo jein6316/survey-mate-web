@@ -11,5 +11,6 @@
   "STATUS": "Status",
   "COMPLETED": "Completed",
   "NOT_COMPLETED": "Not Completed",
-  "SURVEY_EXPIRED": "The response deadline for this survey has passed."
+  "SURVEY_EXPIRED": "The response deadline for this survey has passed.",
+  "SURVEY_NOT_STARTED": "The survey has not started yet."
 }

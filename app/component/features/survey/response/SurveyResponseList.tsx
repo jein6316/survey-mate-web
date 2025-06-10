@@ -11,6 +11,7 @@ import {useRouter} from "next/navigation";
 import {Card, CardContent} from "@/app/component/common/list/Card";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/app/component/common/list/Table";
 import {formatDateTimeString} from "@/app/utils/formatter";
+import {format} from "date-fns";
 
 export interface SurveyResponse {
     rowNumber: number;
@@ -29,11 +30,13 @@ export const SurveyResponseList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const {t} = useTranslation("surveyResponse");
     const router = useRouter();
+    const today = new Date();
 
     const {data, isLoading, error} = useQuery({
         queryKey: ["responseList", currentPage], // Query key
         queryFn: () => {
-            return getSurveyResponseList(currentPage)
+            const formattedDate = format(today, 'yyyy-MM-dd HH:mm:ss');
+            return getSurveyResponseList(currentPage, formattedDate)
         }
     });
 

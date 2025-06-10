@@ -48,6 +48,12 @@ export const SurveyFormMst = () => {
     useEffect(() => {
         if (queryData?.data) {
 
+            if(isFutureDateTime(queryData?.data.startDate)){
+                openAlert(tSurveyResponse("SURVEY_NOT_STARTED"),"warning");
+                router.push(urlConstants.SURVEY_RESPONSE.LIST);
+                return;
+            }
+
             const processedData = getProcessedSurveyData(queryData?.data);
             if (!processedData) return;
             setSurveyData(processedData);
@@ -73,6 +79,12 @@ export const SurveyFormMst = () => {
             }
         }
     }, [queryData]);
+
+    const isFutureDateTime = (dateTimeString: string): boolean => {
+        const now = new Date();
+        const targetDateTime = new Date(dateTimeString);
+        return targetDateTime > now;
+    };
 
     const getProcessedSurveyData = (originalData: SurveyMstProps | undefined) => {
         if (!originalData) return null;
@@ -157,7 +169,7 @@ export const SurveyFormMst = () => {
             ) : (
                 <div>No response available.</div> // 질문이 없을 경우 처리
             )}
-            {surveyData && surveyData.hasResponded ? null : (
+            {!surveyData || surveyData.questions.length == 0 || surveyData.hasResponded ? null : (
                 <div className="flex justify-center">
                     <SurveySubmitButton onClick={handleSave}/>
                 </div>
