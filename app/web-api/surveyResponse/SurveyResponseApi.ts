@@ -19,9 +19,10 @@ export const saveSurveyResponse = async ({sqMstId, surveyResponse}: {
     return response.data;
 };
 
-export const getSurveyResponseList = async (currentPage: number) => {
+export const getSurveyResponseList = async (currentPage: number, clientCurrentDate: string) => {
     const response = await api.get(`/api/survey/response/list`, {
-        params: {page: currentPage - 1}
+
+        params: {page: currentPage - 1, clientDate: clientCurrentDate}
     });
     return response.data;
 };
