@@ -4,7 +4,10 @@
   "USER_NAME": "사용자 이름",
   "USER_EMAIL": "사용자 이메일",
   "JOIN_DATE": "가입일",
+  "USER_GROUP": "그룹 정보",
   "MODIFY_USER_INFO": "사용자 정보 수정",
   "MODIFY_USER_PASSWORD": "비밀번호 수정",
-  "LOGOUT": "로그아웃"
+  "LOGOUT": "로그아웃",
+  "JOIN_GROUP": "그룹 가입",
+  "CREATE_GROUP": "그룹 만들기"
 }

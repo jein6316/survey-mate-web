@@ -8,8 +8,13 @@ export const getGroupInfo = async (groupId: string) => {
 
 
 export const saveOrupdateGroupData = async (formData: GroupData) => {
-    const response = await api.put("/api/group", formData);
-    return response.data.data;
+    if(formData.groupCode){
+        const response = await api.put("/api/group", formData);
+        return response.data.data;
+    }else{
+        const response = await api.post("/api/group", formData);
+        return response.data.data;
+    }
 };
 
 export const getGroupMembers = async (groupId: string, currentPage: number) => {
