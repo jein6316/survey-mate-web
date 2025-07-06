@@ -8,6 +8,7 @@ type UrlConstantsType = {
     FINDIDBYEMAIL: string;
     CHANGEPASSWORD: string;
     RESETPASSWORD: string;
+    GROUPCREATE: string;
   };
 };
 
@@ -22,6 +23,7 @@ export const urlConstants: UrlConstantsType = {
     USERDASHBOARD: "/dashboard/user",
     MODIFYUSER: "/dashboard/user/modifyUserInfo",
     CHANGEPASSWORD: "/dashboard/user/changePassword",
+    GROUPCREATE:"/group/edit",
   },
 };
 
