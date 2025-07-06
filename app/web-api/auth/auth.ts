@@ -84,7 +84,7 @@ export const restPasswordAPI = async (email: string) => {
 //구글 로그인
 export const loginGoogleAPI = async (token: string) => {
   const response = await axios.post(
-    "http://localhost:8080/api/auth/oauth/google",
+    `${process.env.NEXT_PUBLIC_API_URL}/api/auth/oauth/google`,
     {},
     {
       headers: {
