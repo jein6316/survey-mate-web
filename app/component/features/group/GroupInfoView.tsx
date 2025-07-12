@@ -30,6 +30,7 @@ export const GroupInfoView = ({children}: { children: React.ReactNode }) => {
         groupCode: "",
         groupName: "",
         groupAuthCode: "",
+        groupJoining: false
     });
 
     const {data, isLoading, error} = useQuery({
@@ -60,6 +61,7 @@ export const GroupInfoView = ({children}: { children: React.ReactNode }) => {
                 groupCode: result.groupCode || "",
                 groupName: result.groupName || "",
                 groupAuthCode: result.groupAuthCode || "",
+                groupJoining: false
             });
         }
     }, [data]);

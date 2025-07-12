@@ -7,8 +7,11 @@ export const getGroupInfo = async (groupId: string) => {
 };
 
 
-export const saveOrupdateGroupData = async (formData: GroupData) => {
-    if(formData.groupCode){
+export const saveGroupdateGroupData = async (formData: GroupData) => {
+    if(formData.groupJoining){
+        const response = await api.post("/api/group/join", formData);
+        return response.data.data;
+    }else if(formData.groupCode){
         const response = await api.put("/api/group", formData);
         return response.data.data;
     }else{

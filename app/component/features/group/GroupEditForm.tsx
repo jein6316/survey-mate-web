@@ -8,7 +8,7 @@ import "@/app/styles/common/Form.css";
 import {useTranslation} from "react-i18next";
 import {useMutation, useQuery} from "@tanstack/react-query";
 import {APIResponse, GroupData, ResponseError} from "@/app/types/apiTypes";
-import {getGroupInfo, saveOrupdateGroupData} from "@/app/web-api/group/group";
+import {getGroupInfo, saveGroupdateGroupData} from "@/app/web-api/group/group";
 import useAlert from "@/app/recoil/hooks/useAlert";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {userAtom} from "@/app/recoil/atoms/userAtom";
@@ -43,6 +43,16 @@ export const GroupEditForm = ({children}: { children: React.ReactNode }) => {
                 groupCode: searchParams.get("groupCode") || "",
                 groupName: searchParams.get("groupName") || "",
                 groupAuthCode: searchParams.get("groupAuthCode") || "",
+                groupJoining: false
+            };
+        }else if(searchParams.has("groupJoining")){
+            setTitle(tGroup("GROUP_JOIN_SUBJECT"));
+            return {
+                groupId: "",
+                groupCode: "",
+                groupName: "",
+                groupAuthCode: "",
+                groupJoining: true
             };
         }
         return {
@@ -50,6 +60,7 @@ export const GroupEditForm = ({children}: { children: React.ReactNode }) => {
             groupCode: "",
             groupName: "",
             groupAuthCode: "",
+            groupJoining: false
         };
     });
 
@@ -76,14 +87,24 @@ export const GroupEditForm = ({children}: { children: React.ReactNode }) => {
     };
 
     const handleSave = () => {
-        if (!groupData.groupName.trim() ) {
-            openAlert(tGroup("GROUP_NAME_REQUIRED"),"error");
-            return;
-        }
         if (!groupData.groupAuthCode.trim()) {
             openAlert(tGroup("GROUP_AUTH_CODE_REQUIRED"),"error");
             return;
         }
+
+        if(groupData.groupJoining){
+            if (!groupData.groupCode.trim()) {
+                openAlert(tGroup("GROUP_CODE_REQUIRED"),"error");
+                return;
+            }
+        }else{
+            if (!groupData.groupName.trim()) {
+                openAlert(tGroup("GROUP_NAME_REQUIRED"),"error");
+                return;
+            }
+        }
+
+
         mutate(groupData);
     };
 
@@ -100,11 +121,13 @@ export const GroupEditForm = ({children}: { children: React.ReactNode }) => {
         ResponseError,
         GroupData
     >({
-        mutationFn: saveOrupdateGroupData,
+        mutationFn: saveGroupdateGroupData,
         onSuccess: (data: any) => {
             setUser(prev => ({ ...prev, groupId: data.groupId }));
             openAlert(tCommon("SAVED"))
             router.push(urlConstants.GROUP.INFO);
+
+
         },
         onError: (error: ResponseError) => {
             let errorMsg = error.message;
@@ -121,7 +144,7 @@ export const GroupEditForm = ({children}: { children: React.ReactNode }) => {
                 {title}
             </h2>
 
-            {groupData.groupCode &&
+            {groupData.groupCode && !groupData.groupJoining &&
                 <div>
                     <label htmlFor="groupCode" className="form-label">
                         {tGroup("GROUP_CODE")}
@@ -133,21 +156,42 @@ export const GroupEditForm = ({children}: { children: React.ReactNode }) => {
                     </div>
                 </div>
             }
-            <div>
-                <label htmlFor="groupName" className="form-label">
-                    {tGroup("GROUP_NAME")}
-                </label>
-                <input
-                    id="groupName"
-                    name="groupName"
-                    type="text"
-                    placeholder="Enter group name"
-                    onChange={handleChange}
-                    value={groupData.groupName}
-                    required
-                    className="form-input-full"
-                />
-            </div>
+
+            {groupData.groupJoining &&
+                <div>
+                    <label htmlFor="groupCode" className="form-label">
+                        {tGroup("GROUP_CODE")}
+                    </label>
+                    <input
+                        id="groupCode"
+                        name="groupCode"
+                        type="text"
+                        placeholder="Enter group code"
+                        onChange={handleChange}
+                        value={groupData.groupCode}
+                        required
+                        className="form-input-full"
+                    />
+                </div>
+            }
+
+            {!groupData.groupJoining &&
+                <div>
+                    <label htmlFor="groupName" className="form-label">
+                        {tGroup("GROUP_NAME")}
+                    </label>
+                    <input
+                        id="groupName"
+                        name="groupName"
+                        type="text"
+                        placeholder="Enter group name"
+                        onChange={handleChange}
+                        value={groupData.groupName}
+                        required
+                        className="form-input-full"
+                    />
+                </div>
+            }
 
             <div>
                 <label htmlFor="groupAuthCode" className="form-label">
