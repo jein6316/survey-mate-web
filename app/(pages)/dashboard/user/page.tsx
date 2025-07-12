@@ -57,7 +57,7 @@ export default function User() {
     };
 
     const handleJoinGroupClick = () => {
-        router.push(urlConstants.pages.MODIFYUSER);
+        router.push(`${urlConstants.pages.GROUPCREATE}?groupJoining=true`);
     };
     const handleCreateGroupClick = () => {
         router.push(urlConstants.pages.GROUPCREATE);

@@ -90,6 +90,7 @@ export interface GroupData {
   groupCode: string;
   groupName: string;
   groupAuthCode: string;
+  groupJoining: boolean;
 }
 
 //설문
