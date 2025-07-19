@@ -1,13 +1,11 @@
-"use client"
+"use client";
 
-import Link from "next/link";
 import { RegisterForm } from "@/app/component/features/auth/RegisterForm";
 import { SubmitButton } from "@/app/component/button/SubmitButton";
 import "@/app/styles/common/Page.css";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 export default function Register() {
-
   const { t } = useTranslation("auth");
 
   return (

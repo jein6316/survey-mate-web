@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { modifyMemberAPI } from "@/app/web-api/auth/member";
 import { modifyMemberPayload } from "@/app/types/apiTypes";
@@ -10,17 +9,15 @@ import { WithdrawalButton } from "@/app/component/button/WithdrawalButton";
 import useAlert from "@/app/recoil/hooks/useAlert";
 
 export default function ModifyUser({ params }: { params: { id: string } }) {
-  const router = useRouter();
   const [userName, setUserName] = useState("");
   const [profileImageUuid, setProfileImageUuid] = useState<File | null>(null);
   const openAlert = useAlert();
 
-  const {
-    mutate: mutateModifyMember,
-    isPending,
-    isError,
-    error,
-  } = useMutation<APIResponse, Error, modifyMemberPayload>({
+  const { mutate: mutateModifyMember } = useMutation<
+    APIResponse,
+    Error,
+    modifyMemberPayload
+  >({
     mutationFn: modifyMemberAPI,
     onSuccess: (data) => {
       openAlert("회원정보가 성공적으로 수정되었습니다.", "info");

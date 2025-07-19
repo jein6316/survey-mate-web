@@ -22,7 +22,7 @@ import {
   SurveyQuestionMstResponse,
 } from "@/app/types/apiTypes";
 import { getCreatedSurveyList } from "@/app/web-api/survey/surveyApi";
-import {formatDateTimeString} from "@/app/utils/formatter";
+import { formatDateTimeString } from "@/app/utils/formatter";
 import { useRouter } from "next/navigation";
 import { formatDateStartEndDate } from "@/app/utils/formatter";
 import { userAtom } from "@/app/recoil/atoms/userAtom";
@@ -136,11 +136,23 @@ export default function SurveyListPage() {
 
       <Card>
         <CardContent className="pt-6">
-          <Table colWidths={["200px", "120px", "150px", "100px", "100px"]}>
+          <Table
+            colWidths={[
+              "200px",
+              "50px",
+              "50px",
+              "50px",
+              "150px",
+              "100px",
+              "100px",
+            ]}
+          >
             <TableHeader>
               <TableRow>
                 <TableHead>제목</TableHead>
                 <TableHead>그룹설문여부</TableHead>
+                <TableHead>시작일시</TableHead>
+                <TableHead>종료일시</TableHead>
                 <TableHead>생성자</TableHead>
                 <TableHead>생성일시</TableHead>
                 <TableHead>수정일시</TableHead>
@@ -159,6 +171,8 @@ export default function SurveyListPage() {
                     <TableCell>
                       {survey.groupId != null ? "그룹설문" : "일반설문"}
                     </TableCell>
+                    <TableCell>{survey.startDate?.substring(0, 10)}</TableCell>
+                    <TableCell>{survey.endDate?.substring(0, 10)}</TableCell>
                     <TableCell>{survey.createMemNum}</TableCell>
                     <TableCell>
                       {formatDateTimeString(survey.createDate)}
