@@ -78,7 +78,7 @@ export default function CreateSurvey() {
     const newQuestion: QuestionType = {
       id: `q${questions.length + 1}`,
       typeId,
-      question: `질문 ${questions.length + 1}`,
+      question: "",
       options:
         typeId === "RADIO" || typeId === "CHECKBOX"
           ? ["옵션 1"]
@@ -198,6 +198,15 @@ export default function CreateSurvey() {
           openAlert(
             "범위값이 올바르지 않습니다.",
             `"${question.question}" 질문에서 최소값은 최대값보다 작아야 합니다.`,
+            "warning"
+          );
+          return false;
+        }
+
+        if (startDate && endDate && startDate > endDate) {
+          openAlert(
+            "범위값이 올바르지 않습니다.",
+            `"${question.question}" 질문에서 시작일은 종료일보다 작거나 같아야 합니다.`,
             "warning"
           );
           return false;

@@ -112,6 +112,8 @@ export interface SurveyQuestionMstResponse {
   groupId?: string; // 그룹아이디
   size?: number;
   page?: number;
+  startDate?: string; // 시작일자
+  endDate?: string; // 종료일자
   createDate?: string; // 생성일자
   updateDate?: string; // 수정일자
   createMemNum?: string; // 생성자
